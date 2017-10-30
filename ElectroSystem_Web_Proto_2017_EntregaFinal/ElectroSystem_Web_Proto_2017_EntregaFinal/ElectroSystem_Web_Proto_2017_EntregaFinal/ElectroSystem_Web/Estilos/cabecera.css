@@ -1,0 +1,39 @@
+	.cabecera {
+		position:relative;
+		background-color: #aaa;
+		top: 0;
+		width: 100%;
+		color: white;
+		height: 45px;
+		box-shadow:0px 35px 30px 10px black inset;
+	}
+	
+	.cabecera #logo{
+		position:absolute;
+		float:left;
+		padding-top: 4px;
+		padding-left: 20px;
+		top:0px; 
+		left:0px;
+	}
+	
+	.cabecera #nombreEmpresa{
+		position:absolute;
+		float:left;
+		padding-top: 7px;
+		padding-left: 70px;
+		top:0px; 
+		left:0px;
+		font-family: "Times New Roman", Times, serif;
+		font-weight: bold;
+		font-variant: small-caps;
+		font-size: 20px;
+		text-shadow: 2px 2px 4px #000000;
+	}
+	
+	.cabecera #usuario{
+		float:right;
+		padding-right: 20px;
+		padding-top: 10px;
+		color: #FFF;
+	}

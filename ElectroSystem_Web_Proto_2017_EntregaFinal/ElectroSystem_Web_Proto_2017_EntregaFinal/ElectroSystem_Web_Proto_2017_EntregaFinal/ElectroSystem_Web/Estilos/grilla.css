@@ -1,0 +1,24 @@
+﻿.table {
+    border-collapse: collapse;
+    width: 100%;
+    overflow-x: scroll;
+    overflow-y: scroll;
+    grid-column: auto;
+
+}
+
+.th, .td {
+    text-align: left;
+    padding: 8px;
+overflow-x: scroll;
+    overflow-y: scroll;
+}
+
+.td {
+    text-align: left;
+    padding: 8px;
+        overflow-x: scroll;
+    overflow-y: scroll;
+}
+
+.tr:nth-child(even){background-color: #f2f2f2}

@@ -1,0 +1,18 @@
+ .contenedor {
+	width:100%; 
+	background:#E6E6E6;
+	position: fixed; 
+	top:45px; 
+	bottom:0px;
+	left: 300px;
+	padding-top: 7px;
+	padding-left: 25px;
+    overflow-x: scroll;
+    overflow-y: scroll;
+}
+
+.lbl_idioma {
+background-color:red;}
+
+
+

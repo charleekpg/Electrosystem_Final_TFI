@@ -1,0 +1,104 @@
+﻿<%@ Master Language="VB" AutoEventWireup="false" CodeBehind="General_Electrosystem.master.vb" Inherits="ElectroSystem_Web.General_Electrosystem" %>
+<!doctype html>
+<html lang=''>
+<form id="form1" runat="server">
+<head>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" type="text/css" href="Estilos/cuerpo.css">
+	<link rel="stylesheet" type="text/css" href="Estilos/cabecera.css">
+	<link rel="stylesheet" type="text/css" href="Estilos/menuVertical.css">
+	<link rel="stylesheet" type="text/css" href="Estilos/contenedor.css">
+	<link rel="stylesheet" type="text/css" href="Estilos/pie.css">
+    <link rel="stylesheet" type="text/css" href="Estilos/grilla.css">
+</head>
+
+    <script>
+function eliminar_modal() {
+    var elem = document.getElementById('modal-box');
+    elem.parentNode.removeChild(elem);
+    document.getElementById('modal-box').parentNode.removeChild(elem);
+    return false;
+}
+</script>
+
+<body>
+	<div id="header" class='cabecera'>
+		<div id="logo">
+			<img src="Imagenes/logo_empresa.png" alt="Imagen logo ElectroSystem" style="height:35px;">
+		</div>
+		<div id="nombreEmpresa">ElectroSystem</div>
+		<div id="usuario"><asp:Label ID="lbl_nobuscar_nombreusuario" runat="server" Text="Label"></asp:Label></div>
+	</div>
+
+	<div id="menu" class='menu'>
+		<nav class="navigation">
+		  <ul class="mainmenu">
+            <li><a href="web_inicio.aspx">
+    <asp:Label ID="men_inicio" runat="server" Text="Inicio"></asp:Label></a></li>
+              <li><a href="">
+<asp:Label ID="men_gestadm" runat="server" Text="Administración"></asp:Label></a>
+			  <ul class="submenu">
+					<li><a href="web_gestion_Clientes.aspx">
+        <asp:Label ID="men_cli" runat="server" Text="Gestión de Clientes"></asp:Label></a></li>
+                  <li><a href="web_gestmat_trab.aspx" id="menus_gestmattrab" runat="server">
+                                <asp:Label ID="menu_gestmattrab" runat="server" Text="Gestión de Materiales y Trabajos"></asp:Label></a></li>
+				<li><a href="web_gestartefactos.aspx" id="menus_gestartefactos" runat="server">
+                    <asp:Label ID="menu_gestartefactos" runat="server" Text="Gestión de Artefactos Electricos"></asp:Label></a></li>
+				<li><a href="web_gestbocamer.aspx" id="menus_gestbocamer" runat="server">
+                                    <asp:Label ID="menu_gestbocamer" runat="server" Text="Gestión de Boca Mercado"></asp:Label></a></li>
+				<li><a href="web_evaluplano.aspx" id="menus_evaluacionplano" runat="server">
+                                        <asp:Label ID="menu_evaluacionplano" runat="server" Text="Evaluación plano eléctrico"></asp:Label></a></li>
+			  </ul>
+			</li>
+            <li><a href="">
+            <asp:Label ID="men_pre" runat="server" Text="Presupuesto"></asp:Label></a>
+			<ul class="submenu">
+				<li><a href="web_creacionatcte.aspx" id="menus_gest_dom" runat="server" >
+                <asp:Label ID="menu_gest_dom" runat="server" Text="Atención al Cliente"></asp:Label></a></li>
+				<li><a href="web_gestiontecnica.aspx" id="menus_gest_pres_tec" runat="server">
+                    <asp:Label ID="menu_gest_pres_tec" runat="server" Text="Gestión Técnica"></asp:Label></a></li>
+				<li><a href="" id="menus_presucomercial" runat="server">
+                        <asp:Label ID="menu_presucomercial" runat="server" Text="Gestión comercial"></asp:Label></a></li>
+			  </ul>
+			</li>
+              
+			<li><a href="" id="menus_gestproyectos" runat="server">
+                                            <asp:Label ID="menu_gestproyectos" runat="server" Text="Gestión de Proyectos"></asp:Label></a></li>
+            <li><a href="" id="menus_reportes" runat="server">
+                                                <asp:Label ID="menu_reportes" runat="server" Text="Reporting"></asp:Label></a></li>
+		    <li><a href="Web_inicio.aspx">
+<asp:Label ID="men_webmaster" runat="server" Text="Webmaster" ></asp:Label></a>
+			  <ul class="submenu">
+				<li><a href="web_bitacora.aspx" id="menus_bita" runat="server">
+<asp:Label ID="menu_bita" runat="server" Text="Bitácora" ></asp:Label></a></li>
+				<li><a href="web_backup.aspx" id="menus_backyrest" runat="server">
+<asp:Label ID="menu_backyrest" runat="server" Text="Backup y Restore"></asp:Label></a></li>
+				<li><a href="web_usuario.aspx" id="menus_opcion_usuarios" runat="server">
+<asp:Label ID="menu_opcion_usuarios" runat="server" Text="ABM de Usuarios"></asp:Label></a></li>
+				<li><a href="web_permisos.aspx" id="menus_opcion_permisos" runat="server">
+<asp:Label ID="menu_opcion_permisos" runat="server" Text="Gestión de Perfiles"></asp:Label></a></li>
+				<li><a href="Web_Idioma.aspx" id="menus_gestidioma" runat="server">
+<asp:Label ID="menu_gestidioma" runat="server" Text="Gestión de idiomas"></asp:Label></a></li>
+             </ul>
+			</li>
+              <li><a href="web_cambiaridioma.aspx" id="menus_seleccionaridioma" runat="server">
+<asp:Label ID="menu_seleccionaridioma" runat="server" Text="Seleccionar Idioma"></asp:Label></a></li>
+              <li><a href="web_cambiar_pass.aspx" id="menus_cambiar_Pass" runat="server">
+<asp:Label ID="menu_cambiar_Pass" runat="server" Text="Cambiar Contraseña"></asp:Label></a></li>
+			  <li>
+    <asp:LinkButton ID="men_cerrarsesion" runat="server" Text="Cerrar Sesión"></asp:LinkButton></li>			
+          </ul>
+		</nav>
+	</div>
+	
+	<div id="container" class="contenedor">
+<p>
+    <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server"></asp:ContentPlaceHolder>
+</p>
+	</div>
+<div id="footer" class='pie'>
+<div>ElectroSystem Web 1.0</div>
+</div>
+</body>
+    </form>
+<html>

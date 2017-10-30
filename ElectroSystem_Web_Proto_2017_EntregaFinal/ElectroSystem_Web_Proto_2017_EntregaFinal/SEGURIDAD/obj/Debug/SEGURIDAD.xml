@@ -1,0 +1,74 @@
+﻿<?xml version="1.0"?>
+<doc>
+<assembly>
+<name>
+SEGURIDAD
+</name>
+</assembly>
+<members>
+<member name="M:SEGURIDAD.Digito_Verificador.buscarfilaconerror(System.String)">
+	<param name="tabla"></param>
+</member><member name="M:SEGURIDAD.Digito_Verificador.calculardigitoverificador(System.String)">
+	<param name="algo"></param>
+</member><member name="M:SEGURIDAD.Digito_Verificador.calculardigitoverificadorvertical(System.String)">
+	<param name="tabla"></param>
+</member><member name="M:SEGURIDAD.Digito_Verificador.comparardigitoverificadorvertical(System.String)">
+	<param name="tabla"></param>
+</member><member name="M:SEGURIDAD.Digito_Verificador.recalcular_digitos(System.String)">
+	<param name="tabla"></param>
+</member><member name="F:SEGURIDAD.SQLHelper.sqlconexionmaster">
+	<summary>
+ Private sqlconnexion As New SqlConnection("Data Source=NOTENGO\SQLEXPRESS;
+ Initial Catalog=ElectroSystem_DB;Integrated Security=True") Private
+ sqlconexionmaster As New SqlConnection("Data Source=NOTENGO\SQLEXPRESS;Initial
+ Catalog=Master;Integrated Security=True")
+ </summary>
+</member><member name="M:SEGURIDAD.SQLHelper.BuildParameter(System.String,System.Nullable{System.Int32})">
+	<param name="Name"></param>
+	<param name="value"></param>
+</member><member name="M:SEGURIDAD.SQLHelper.BuildParameter(System.String,System.Int32)">
+	<param name="Name"></param>
+	<param name="value"></param>
+</member><member name="M:SEGURIDAD.SQLHelper.BuildParameter(System.String,System.String)">
+	<param name="Name"></param>
+	<param name="value"></param>
+</member><member name="M:SEGURIDAD.SQLHelper.BuildParameter(System.String,System.DBNull)">
+	<param name="Name"></param>
+	<param name="value"></param>
+</member><member name="M:SEGURIDAD.SQLHelper.BuildParameter(System.String,System.Decimal)">
+	<param name="Name"></param>
+	<param name="value"></param>
+</member><member name="M:SEGURIDAD.SQLHelper.BuildParameter(System.String,System.Single)">
+	<param name="Name"></param>
+	<param name="value"></param>
+</member><member name="M:SEGURIDAD.SQLHelper.BuildParameter(System.String,System.Boolean)">
+	<param name="Name"></param>
+	<param name="value"></param>
+</member><member name="M:SEGURIDAD.SQLHelper.BuildParameter(System.String,System.Nullable{System.DateTime})">
+	<param name="Name"></param>
+	<param name="value"></param>
+</member><member name="M:SEGURIDAD.SQLHelper.BuildParameter(System.String,System.DateTime)">
+	<param name="Name"></param>
+	<param name="value"></param>
+</member><member name="M:SEGURIDAD.MD5CryptoServiceProvider.ComputeHash(System.Byte)">
+	<param name="tmpSource"></param>
+</member><member name="M:SEGURIDAD.Criptografia.cifrar(System.String)">
+	<param name="algo"></param>
+</member><member name="M:SEGURIDAD.Criptografia.descifrar(System.String)">
+	<param name="algo"></param>
+</member><member name="P:SEGURIDAD.My.Resources.Resources.ResourceManager">
+	<summary>
+  Returns the cached ResourceManager instance used by this class.
+</summary>
+</member><member name="P:SEGURIDAD.My.Resources.Resources.Culture">
+	<summary>
+  Overrides the current thread's CurrentUICulture property for all
+  resource lookups using this strongly typed resource class.
+</summary>
+</member><member name="T:SEGURIDAD.My.Resources.Resources">
+	<summary>
+  A strongly-typed resource class, for looking up localized strings, etc.
+</summary>
+</member>
+</members>
+</doc>

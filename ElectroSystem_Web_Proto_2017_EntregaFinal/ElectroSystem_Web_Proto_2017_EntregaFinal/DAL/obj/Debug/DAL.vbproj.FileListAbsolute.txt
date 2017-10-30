@@ -1,0 +1,15 @@
+C:\Users\charl\OneDrive\Documentos\Visual Studio 2013\Projects\ElectroSystem_Web_Proto_2017_EntregaFinal\DAL\obj\Debug\DAL.vbprojResolveAssemblyReference.cache
+C:\Users\charl\OneDrive\Documentos\Visual Studio 2013\Projects\ElectroSystem_Web_Proto_2017_EntregaFinal\DAL\obj\Debug\DAL.Resources.resources
+C:\Users\charl\OneDrive\Documentos\Visual Studio 2013\Projects\ElectroSystem_Web_Proto_2017_EntregaFinal\DAL\obj\Debug\DAL.vbproj.GenerateResource.Cache
+C:\Users\charl\OneDrive\Documentos\Visual Studio 2013\Projects\ElectroSystem_Web_Proto_2017_EntregaFinal\DAL\bin\Debug\DAL.dll
+C:\Users\charl\OneDrive\Documentos\Visual Studio 2013\Projects\ElectroSystem_Web_Proto_2017_EntregaFinal\DAL\bin\Debug\DAL.pdb
+C:\Users\charl\OneDrive\Documentos\Visual Studio 2013\Projects\ElectroSystem_Web_Proto_2017_EntregaFinal\DAL\bin\Debug\DAL.xml
+C:\Users\charl\OneDrive\Documentos\Visual Studio 2013\Projects\ElectroSystem_Web_Proto_2017_EntregaFinal\DAL\bin\Debug\BE.dll
+C:\Users\charl\OneDrive\Documentos\Visual Studio 2013\Projects\ElectroSystem_Web_Proto_2017_EntregaFinal\DAL\bin\Debug\SEGURIDAD.dll
+C:\Users\charl\OneDrive\Documentos\Visual Studio 2013\Projects\ElectroSystem_Web_Proto_2017_EntregaFinal\DAL\bin\Debug\BE.pdb
+C:\Users\charl\OneDrive\Documentos\Visual Studio 2013\Projects\ElectroSystem_Web_Proto_2017_EntregaFinal\DAL\bin\Debug\BE.xml
+C:\Users\charl\OneDrive\Documentos\Visual Studio 2013\Projects\ElectroSystem_Web_Proto_2017_EntregaFinal\DAL\bin\Debug\SEGURIDAD.pdb
+C:\Users\charl\OneDrive\Documentos\Visual Studio 2013\Projects\ElectroSystem_Web_Proto_2017_EntregaFinal\DAL\bin\Debug\SEGURIDAD.xml
+C:\Users\charl\OneDrive\Documentos\Visual Studio 2013\Projects\ElectroSystem_Web_Proto_2017_EntregaFinal\DAL\obj\Debug\DAL.dll
+C:\Users\charl\OneDrive\Documentos\Visual Studio 2013\Projects\ElectroSystem_Web_Proto_2017_EntregaFinal\DAL\obj\Debug\DAL.xml
+C:\Users\charl\OneDrive\Documentos\Visual Studio 2013\Projects\ElectroSystem_Web_Proto_2017_EntregaFinal\DAL\obj\Debug\DAL.pdb

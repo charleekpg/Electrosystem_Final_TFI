@@ -1,0 +1,31 @@
+﻿<%@ Master Language="VB" AutoEventWireup="false" CodeBehind="General_Inicio.master.vb" Inherits="ElectroSystem_Web.General_Inicio" %>
+
+<!doctype html>
+<html lang=''>
+<head>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" type="text/css" href="Estilos/cuerpo.css">
+	<link rel="stylesheet" type="text/css" href="Estilos/cabecera.css">
+	<link rel="stylesheet" type="text/css" href="Estilos/menuVertical.css">
+	<link rel="stylesheet" type="text/css" href="Estilos/contenedor.css">
+	<link rel="stylesheet" type="text/css" href="Estilos/pie.css">
+</head>
+<body>
+
+	<div id="header" class='cabecera'>
+		<div id="logo">
+			<img src="Imagenes/logo_empresa.png" alt="Imagen logo ElectroSystem" style="height:35px;">
+		</div>
+		<div id="nombreEmpresa">ElectroSystem</div>
+	</div>
+	<div id="container" class="contenedor" style="height:auto; position: absolute; left: auto;">
+<p>
+    <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server"></asp:ContentPlaceHolder>
+</p>
+	</div>
+<div id="footer" class='pie'>
+<div>ElectroSystem Web 1.0</div>
+</div>
+	
+</body>
+<html>
