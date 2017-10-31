@@ -95,13 +95,103 @@ Partial Public Class web_gestiontecnica
     Protected WithEvents CHK_Depusodomigranesca As Global.System.Web.UI.WebControls.CheckBox
 
     '''<summary>
-    '''Control dtg_trabajo.
+    '''Control grp_trabajos.
     '''</summary>
     '''<remarks>
     '''Campo generado automáticamente.
     '''Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
     '''</remarks>
-    Protected WithEvents dtg_trabajo As Global.System.Web.UI.WebControls.GridView
+    Protected WithEvents grp_trabajos As Global.System.Web.UI.WebControls.Panel
+
+    '''<summary>
+    '''Control Losa.
+    '''</summary>
+    '''<remarks>
+    '''Campo generado automáticamente.
+    '''Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+    '''</remarks>
+    Protected WithEvents Losa As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
+    '''Control txt_losa.
+    '''</summary>
+    '''<remarks>
+    '''Campo generado automáticamente.
+    '''Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+    '''</remarks>
+    Protected WithEvents txt_losa As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
+    '''Control Caneria_y_Cableado.
+    '''</summary>
+    '''<remarks>
+    '''Campo generado automáticamente.
+    '''Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+    '''</remarks>
+    Protected WithEvents Caneria_y_Cableado As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
+    '''Control txt_caneria.
+    '''</summary>
+    '''<remarks>
+    '''Campo generado automáticamente.
+    '''Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+    '''</remarks>
+    Protected WithEvents txt_caneria As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
+    '''Control Tableros.
+    '''</summary>
+    '''<remarks>
+    '''Campo generado automáticamente.
+    '''Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+    '''</remarks>
+    Protected WithEvents Tableros As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
+    '''Control txt_tableros.
+    '''</summary>
+    '''<remarks>
+    '''Campo generado automáticamente.
+    '''Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+    '''</remarks>
+    Protected WithEvents txt_tableros As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
+    '''Control Llaves_y_Tomas_de_Corriente.
+    '''</summary>
+    '''<remarks>
+    '''Campo generado automáticamente.
+    '''Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+    '''</remarks>
+    Protected WithEvents Llaves_y_Tomas_de_Corriente As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
+    '''Control txt_llaves.
+    '''</summary>
+    '''<remarks>
+    '''Campo generado automáticamente.
+    '''Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+    '''</remarks>
+    Protected WithEvents txt_llaves As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
+    '''Control Terminaciones.
+    '''</summary>
+    '''<remarks>
+    '''Campo generado automáticamente.
+    '''Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+    '''</remarks>
+    Protected WithEvents Terminaciones As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
+    '''Control txt_terminaciones.
+    '''</summary>
+    '''<remarks>
+    '''Campo generado automáticamente.
+    '''Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+    '''</remarks>
+    Protected WithEvents txt_terminaciones As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
     '''Control GRPBOX_Arteelec.
@@ -273,6 +363,15 @@ Partial Public Class web_gestiontecnica
     '''Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
     '''</remarks>
     Protected WithEvents dtg_armattrabprtec As Global.System.Web.UI.WebControls.GridView
+
+    '''<summary>
+    '''Control btn_evaluarcontradibujo.
+    '''</summary>
+    '''<remarks>
+    '''Campo generado automáticamente.
+    '''Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+    '''</remarks>
+    Protected WithEvents btn_evaluarcontradibujo As Global.System.Web.UI.WebControls.Button
 
     '''<summary>
     '''Control btn_guardarprte.

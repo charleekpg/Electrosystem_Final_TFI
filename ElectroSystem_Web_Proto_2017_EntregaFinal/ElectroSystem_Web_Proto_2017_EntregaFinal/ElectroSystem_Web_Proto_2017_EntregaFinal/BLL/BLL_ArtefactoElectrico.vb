@@ -39,9 +39,14 @@ Public Class BLL_ArtefactoElectrico
 
     ''' 
     ''' <param name="unbe"></param>
-    Public Sub calcular_precio_cantidad(ByVal unbe As BE.BE_ArtefactoElectrico)
-
-    End Sub
+    Public Function calcular_precio_cantidad(ByVal unbe As BE.BE_ArtefactoElectrico) As BE.BE_ArtefactoElectrico
+        Dim bll_boca As New BLL.BLL_BocaMercado
+        Dim be_boca As New BE.BE_BocaMercado
+        be_boca = bll_boca.consultartodos().Item(0)
+        unbe.precio = unbe.relacion_bocamercado * be_boca.precio_bocamercado
+        unbe.preciocantidad = unbe.cantidad * unbe.precio
+        Return unbe
+    End Function
 
     ''' 
     ''' <param name="unbe"></param>

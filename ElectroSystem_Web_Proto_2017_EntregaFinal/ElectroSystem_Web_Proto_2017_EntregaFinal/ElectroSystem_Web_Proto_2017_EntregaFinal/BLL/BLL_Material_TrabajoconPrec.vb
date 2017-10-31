@@ -37,9 +37,10 @@
 
 		''' 
 		''' <param name="unbe"></param>
-		Public Sub calcular_precio_cantidad(ByVal unbe As BE.BE_Material_TrabajoconPrec)
-
-		End Sub
+    Public Function calcular_precio_cantidad(ByVal unbe As BE.BE_Material_TrabajoconPrec) As BE.BE_Material_TrabajoconPrec
+        unbe.precio_cantidad = unbe.cantidad * unbe.Precio
+        Return unbe
+    End Function
 
 		''' 
 		''' <param name="unbe"></param>
