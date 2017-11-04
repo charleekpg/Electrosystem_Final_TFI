@@ -13,7 +13,16 @@ Public Class bll_dibujotecnico
 
     End Function
 
-    ''' 
+
+    Friend Function contar_bocas_dibujo(unbe As BE.BE_DibujoTecnico) As Integer
+        Dim contador As Integer = 0
+        For Each ambiente As BE.Be_Ambiente In unbe.ambiente
+            For Each circuito As BE.BE_Circuito In ambiente.circuitos
+                contador = circuito.cantidad_bocas + contador
+            Next
+        Next
+        Return contador
+    End Function
     ''' <param name="unbe"></param>
     Public Function baja(ByVal unbe As BE.BE_DibujoTecnico) As Boolean
         baja = False
@@ -462,4 +471,4 @@ Public Class bll_dibujotecnico
             Return 1
         End If
     End Function
-End Class 
+End Class

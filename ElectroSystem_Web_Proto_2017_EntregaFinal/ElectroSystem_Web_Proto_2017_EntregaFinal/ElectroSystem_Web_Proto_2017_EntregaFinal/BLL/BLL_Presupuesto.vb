@@ -8,28 +8,61 @@
 		Public m_DAL_Presupuesto As DAL.DAL_Presupuesto
     Public m_BE_Presupuesto As BE.BE_Presupuesto
 
-		''' 
-		''' <param name="unbe"></param>
-		Public Function actualizacion_responsabletecnico(ByVal unbe As BE.BE_Presupuesto) As Integer
-        Dim contador_bocas As Integer = 0
-        Dim cantidad_artefactos As Integer = 0
 
-        For Each ambiente As BE.Be_Ambiente In unbe.dibujotecnico.ambiente
-            For Each circui As BE.BE_Circuito In ambiente.circuitos
-                contador_bocas = circui.cantidad_bocas + contador_bocas
-            Next
-        Next
-        For Each artefacto As BE.BE_ArtefactoElectrico In unbe.Artefacto_electrico
-            cantidad_artefactos = cantidad_artefactos + artefacto.cantidad
-        Next
-        If contador_bocas < cantidad_artefactos Then
-            Return contador_bocas * -1
+    Public Function evaluar_presupuestovsdibujo(unbe As BE.BE_Presupuesto) As BE.BE_Presupuesto
+        Dim cantidad_dispositivos_presupuesto As Integer = 0
+        cantidad_dispositivos_presupuesto = Me.contar_cantidaddispositivos(unbe)
+        If Not unbe.dibujotecnico Is Nothing Then
+            Dim bll_dibujo_tecnico As New BLL.bll_dibujotecnico
+            Dim cantidad_bocas_dibujo As Integer = 0
+            cantidad_bocas_dibujo = bll_dibujo_tecnico.contar_bocas_dibujo(unbe.dibujotecnico)
+            If cantidad_bocas_dibujo > cantidad_dispositivos_presupuesto Then
+                unbe.observacion = "-" & (cantidad_bocas_dibujo - cantidad_dispositivos_presupuesto).ToString
+            ElseIf cantidad_dispositivos_presupuesto > cantidad_bocas_dibujo Then
+                unbe.observacion = cantidad_dispositivos_presupuesto - cantidad_bocas_dibujo
+            Else
+                unbe.observacion = "Cantidad_Artefactos_OK"
+            End If
         Else
-            Me.administrar_estado(unbe)
-            Dim dal_presupuesto As New DAL.DAL_Presupuesto
-            Return dal_presupuesto.actualizacion_responsabletecnico(unbe)
-
+            unbe.observacion = "Cantidad_Artefactos_OK"
         End If
+        Return unbe
+    End Function
+
+    Private Function contar_cantidaddispositivos(unbe As BE.BE_Presupuesto) As Integer
+        Dim contador As Integer = 0
+        If Not unbe.Artefacto_electrico Is Nothing Then
+            For Each artefacto As BE.BE_ArtefactoElectrico In unbe.Artefacto_electrico
+                contador = artefacto.cantidad + contador
+            Next
+            Return contador
+        End If
+    End Function
+
+
+    Public Function actualizacion_responsabletecnico(ByVal unbe As BE.BE_Presupuesto) As Integer
+        Me.administrar_estado(unbe)
+        Dim cifrado As New SEGURIDAD.Criptografia
+        Dim dal_presupuesto As New DAL.DAL_Presupuesto
+        Try
+            Select Case Me.calculo_trabajo_tareas(unbe)
+                Case 10147
+                    Return 10147
+                Case 10146
+                    Return 10146
+                Case Else
+                    unbe.estado_presupuesto = cifrado.cifrar(unbe.estado_presupuesto)
+                    unbe.fecha_modificacion = Now
+                    Select Case dal_presupuesto.actualizacion_responsabletecnico(unbe)
+                        Case 10150
+                            Return 10150
+                        Case 10149
+                            Return 10149
+                    End Select
+            End Select
+        Catch ex As Exception
+            Return 10149
+        End Try
     End Function
 
     ''' 
@@ -152,21 +185,36 @@
         Me.guardar_estado_cliente(unbe)
     End Sub
 
-		''' 
-		''' <param name="unbe"></param>
-		Public Function calculo_trabajo_tareas(ByVal unbe As BE.BE_Presupuesto) As Integer
+    ''' 
+    ''' <param name="unbe"></param>
+    Private Function calculo_trabajo_tareas(ByVal unbe As BE.BE_Presupuesto) As Integer
+        Try
+            Dim TOTAL As Integer = 0.0
+            TOTAL = unbe.porcentaje_losa + unbe.porcentaje_caneriaycableado + unbe.porcentaje_llaveytoma + unbe.porcentaje_tablero + unbe.porcentaje_terminacion
+            If TOTAL > 100 Then
+                Return 10146
+            Else
+                If TOTAL < 100 Then
+                    Return 10147
+                Else
+                    Return 10148
+                End If
+            End If
+        Catch ex As Exception
+            Return 10149
 
+        End Try
     End Function
 
-		''' 
-		''' <param name="unbe"></param>
-		Public Sub calculo_valordinamico(ByVal unbe As BE.BE_Presupuesto)
+    ''' 
+    ''' <param name="unbe"></param>
+    Public Sub calculo_valordinamico(ByVal unbe As BE.BE_Presupuesto)
         unbe.valor_total = unbe.valor_manodeobra + unbe.valor_material + unbe.valor_otros + unbe.valor_seguro_vida + unbe.valor_trabajoconprecio
 
     End Sub
 
-		''' 
-		''' <param name="artefactos"></param>
+    ''' 
+    ''' <param name="artefactos"></param>
     Private Function cantidad_bocas(ByVal artefactos As List(Of BE.BE_ArtefactoElectrico)) As Integer
         Dim cantidad As Decimal = 0
         For Each artefacto As BE.BE_ArtefactoElectrico In artefactos
@@ -194,11 +242,11 @@
         Catch ex As Exception
 
         End Try
-       
-		End Function
 
-		''' 
-		''' <param name="unbe"></param>
+    End Function
+
+    ''' 
+    ''' <param name="unbe"></param>
     Public Function consultar(ByVal unbe As BE.BE_Presupuesto) As BE.BE_Presupuesto
         Dim dal_consultar As New DAL.DAL_Presupuesto
         Return dal_consultar.consultar(unbe)
@@ -211,17 +259,17 @@
     ''' 
     ''' <param name="unbe"></param>
     Public Function consultar_trabajo(ByVal unbe As BE.BE_Presupuesto) As BE.BE_Presupuesto
-			consultar_trabajo = Nothing
-		End Function
+        consultar_trabajo = Nothing
+    End Function
 
-		''' 
-		''' <param name="unbe"></param>
-		Public Function consultar_valortotal(ByVal unbe As BE.BE_Presupuesto) As Integer
-			consultar_valortotal = 0
-		End Function
+    ''' 
+    ''' <param name="unbe"></param>
+    Public Function consultar_valortotal(ByVal unbe As BE.BE_Presupuesto) As Integer
+        consultar_valortotal = 0
+    End Function
 
-		''' 
-		''' <param name="unbe"></param>
+    ''' 
+    ''' <param name="unbe"></param>
     Public Function consultar_varios(ByVal unbe As BE.BE_Presupuesto) As List(Of BE.BE_Presupuesto)
         Dim dal_presupuesto As New DAL.DAL_Presupuesto
         Dim seguridad As New SEGURIDAD.Criptografia

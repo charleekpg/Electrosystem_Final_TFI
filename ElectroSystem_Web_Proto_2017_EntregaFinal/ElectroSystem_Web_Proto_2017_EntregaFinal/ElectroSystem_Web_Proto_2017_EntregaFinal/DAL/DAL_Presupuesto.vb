@@ -7,18 +7,66 @@
 Imports System.Data.SqlClient
 
 Public Class DAL_Presupuesto
-    Shared presupuestos As New List(Of BE.BE_Presupuesto)
-    Shared presupuesto_responsabletecnico As New List(Of BE.BE_Presupuesto)
-    Shared presupuestoterminado As New List(Of BE.BE_Presupuesto)
-    Public m_SQLHelper As SEGURIDAD.SQLHelper
-    Public m_Criptografia As Seguridad.Criptografia
-    Public m_BE_Presupuesto As BE.BE_Presupuesto
-
-    ''' 
-    ''' <param name="unbe"></param>
-    Public Function actualizacion_responsabletecnico(ByVal unbe As BE.BE_Presupuesto) As Integer
-        presupuesto_responsabletecnico.Add(unbe)
-        Return 1
+    Function actualizacion_responsabletecnico(unbe As BE.BE_Presupuesto) As Integer
+        Dim sqlhelper As New SEGURIDAD.SQLHelper
+        Dim mapper_stores As New SEGURIDAD.Mapper_Stored
+        Dim lista_parametros As New List(Of SqlParameter)
+        Dim stringconcatenado As String = ""
+        Try
+            Dim P(0) As SqlParameter
+            P(0) = sqlhelper.BuildParameter("@P1", unbe.id)
+            lista_parametros.AddRange(P)
+            mapper_stores.insertar_eliminar_modificar("baja_para_alta_artefactos_materiales_trabajos", lista_parametros)
+            If Not unbe.Artefacto_electrico Is Nothing Then
+                For Each ARTEFACTO As BE.BE_ArtefactoElectrico In unbe.Artefacto_electrico
+                    Dim A(3) As SqlParameter
+                    A(0) = sqlhelper.BuildParameter("@P2", unbe.id)
+                    A(1) = sqlhelper.BuildParameter("@P1", ARTEFACTO.id)
+                    A(2) = sqlhelper.BuildParameter("@P3", ARTEFACTO.precio)
+                    A(3) = sqlhelper.BuildParameter("@P4", ARTEFACTO.cantidad)
+                    lista_parametros.Clear()
+                    lista_parametros.AddRange(A)
+                    mapper_stores.insertar_eliminar_modificar("alta_artefacto_presupuesto", lista_parametros)
+                Next
+            End If
+            If Not unbe.Materiales_trabajo Is Nothing Then
+                For Each MAT_TRABAJO As BE.BE_Material_TrabajoconPrec In unbe.Materiales_trabajo
+                    Dim A(3) As SqlParameter
+                    A(0) = sqlhelper.BuildParameter("@P2", unbe.id)
+                    A(1) = sqlhelper.BuildParameter("@P1", MAT_TRABAJO.id)
+                    A(2) = sqlhelper.BuildParameter("@P3", MAT_TRABAJO.Precio)
+                    A(3) = sqlhelper.BuildParameter("@P4", MAT_TRABAJO.cantidad)
+                    lista_parametros.Clear()
+                    lista_parametros.AddRange(A)
+                    If MAT_TRABAJO.Material = True Then
+                        mapper_stores.insertar_eliminar_modificar("alta_material_presupuesto", lista_parametros)
+                    Else
+                        mapper_stores.insertar_eliminar_modificar("alta_trabajo_presupuesto", lista_parametros)
+                    End If
+                Next
+            End If
+            ReDim P(13)
+            P(0) = sqlhelper.BuildParameter("@P1", unbe.porcentaje_caneriaycableado)
+            P(1) = sqlhelper.BuildParameter("@P2", unbe.Instalacion_compleja)
+            P(2) = sqlhelper.BuildParameter("@P3", unbe.departamento_granescala)
+            P(3) = sqlhelper.BuildParameter("@P4", unbe.porcentaje_losa)
+            P(4) = sqlhelper.BuildParameter("@P5", unbe.porcentaje_tablero)
+            P(5) = sqlhelper.BuildParameter("@P6", unbe.porcentaje_llaveytoma)
+            P(6) = sqlhelper.BuildParameter("@P7", unbe.porcentaje_terminacion)
+            P(7) = sqlhelper.BuildParameter("@P8", 0)
+            P(8) = sqlhelper.BuildParameter("@P9", 0)
+            P(9) = sqlhelper.BuildParameter("@P10", 0)
+            P(10) = sqlhelper.BuildParameter("@P11", unbe.estado_presupuesto)
+            P(11) = sqlhelper.BuildParameter("@P12", 0)
+            P(12) = sqlhelper.BuildParameter("@P14", unbe.fecha_modificacion)
+            P(13) = sqlhelper.BuildParameter("@P15", unbe.id)
+            lista_parametros.Clear()
+            lista_parametros.AddRange(P)
+            mapper_stores.insertar_eliminar_modificar("actualizar_presupuesto_resptecnico", lista_parametros)
+            Return 10150
+        Catch ex As Exception
+            Return 10149
+        End Try
     End Function
 
     ''' 
@@ -131,13 +179,11 @@ Public Class DAL_Presupuesto
 
     ''' <param name="unbe"></param>
     Public Function consultar(ByVal unbe As BE.BE_Presupuesto) As BE.BE_Presupuesto
-        unbe = presupuestos.Item(presupuestos.Count - 1)
         Return unbe
     End Function
     'esta función no va a estar!! ya que se va a consultar en base la selección del usuario.
 
     Function consultar_ultimo_comercial(ByVal unbe As BE.BE_Presupuesto) As BE.BE_Presupuesto
-        unbe = presupuesto_responsabletecnico.Item(presupuesto_responsabletecnico.Count - 1)
         Return unbe
     End Function
     ''' 
@@ -166,9 +212,12 @@ Public Class DAL_Presupuesto
             Dim P(0) As SqlParameter
             P(0) = sqlhelper.BuildParameter("@estado_presupuesto", unbe.estado_presupuesto)
             lista_parametros.AddRange(P)
-            If SEGURIDAD.descifrar(unbe.estado_presupuesto) = "Pendiente de llenado por Parte del Responsable Técnico" Then
-                datatable = mapper_stores.consultar("consultar_presupuestos_estado_tecnico", lista_parametros)
-            End If
+            Select seguridad.descifrar(unbe.estado_presupuesto)
+                Case "Pendiente de llenado por Parte del Responsable Técnico"
+                    datatable = mapper_stores.consultar("consultar_presupuestos_estado_tecnico", lista_parametros)
+                Case "Pendiente de llenado por parte del Responsable Comercial"
+                    datatable = mapper_stores.consultar("consultar_presupuestos_estado_comercial", lista_parametros)
+            End Select
             For Each fila As DataRow In datatable.Rows
                 Dim tmppresupuesto As New BE.BE_Presupuesto
                 Dim tmpcliente As BE.BE_CLIENTE
@@ -239,23 +288,12 @@ Public Class DAL_Presupuesto
     ''' 
     ''' <param name="unbe"></param>
     Public Function generar_solicitudpresupuesto(ByVal unbe As BE.BE_Presupuesto) As Integer
-        If unbe.estado_presupuesto = "Pendiente de llenado por Parte del Responsable Técnico" Then
-            If presupuestos.Count > 0 Then
-                unbe.id = presupuestos.Count + 1
-                presupuestos.Add(unbe)
-                Return unbe.id
-            Else
-                unbe.id = 0
-                presupuestos.Add(unbe)
-                Return unbe.id
-            End If
-        End If
+   
     End Function
 
     ''' 
     ''' <param name="unbe"></param>
     Public Function guardar_estado_cliente(ByVal unbe As BE.BE_Presupuesto) As Integer
-        presupuestoterminado.Add(unbe)
     End Function
 
 		''' 

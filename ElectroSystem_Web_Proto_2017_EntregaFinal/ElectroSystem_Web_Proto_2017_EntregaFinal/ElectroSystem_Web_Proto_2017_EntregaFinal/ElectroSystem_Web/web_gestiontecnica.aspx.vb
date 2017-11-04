@@ -15,6 +15,9 @@
                         DirectCast(Me.Master, General_Electrosystem).traductora_controles(Me.Controls)
                         DirectCast(Me.Master, General_Electrosystem).Deshabilitar_Controles(Me.Controls)
                         Session.Add("Entero_Flag", entero_flag)
+                        DirectCast(Me.Master, General_Electrosystem).traducir_grilla(dtg_armattrabprtec)
+                        DirectCast(Me.Master, General_Electrosystem).traducir_grilla(dtg_ambientes)
+                        btn_cancelarprtec_Click(Nothing, Nothing)
                     Else
                         Response.Redirect("web_login.aspx", False)
                     End If
@@ -31,9 +34,19 @@
         Try
             Dim bll_presupuesto As New BLL.BLL_Presupuesto
             Dim presupuesto As New BE.BE_Presupuesto
+            Dim LISTA_PRESUPUESTO As List(Of BE.BE_Presupuesto)
+            Dim lista_presupuestos_final As List(Of BE.BE_Presupuesto)
             Session("Lista_Presupuestos_1") = Nothing
             presupuesto.estado_presupuesto = "Pendiente de llenado por Parte del Responsable Técnico"
             Session("Lista_Presupuestos_1") = bll_presupuesto.consultar_varios(presupuesto)
+            presupuesto.estado_presupuesto = "Pendiente de llenado por parte del Responsable Comercial"
+            LISTA_PRESUPUESTO = bll_presupuesto.consultar_varios(presupuesto)
+            If LISTA_PRESUPUESTO.Count > 0 Then
+                lista_presupuestos_final = Session("Lista_Presupuestos_1")
+                For Each elemento As BE.BE_Presupuesto In LISTA_PRESUPUESTO
+                    lista_presupuestos_final.Add(elemento)
+                Next
+            End If
             cmb_presupuesto.Enabled = True
             cmb_presupuesto.DataSource = Session("Lista_Presupuestos_1")
             cmb_presupuesto.DataValueField = "id"
@@ -47,6 +60,7 @@
             Response.Redirect("web_error_inicio.aspx", False)
         End Try
     End Sub
+
     Sub cargar_artefacto()
         Try
             Dim bll_artefacto As New BLL.BLL_ArtefactoElectrico
@@ -99,6 +113,8 @@
 
     Protected Sub btn_cargar_presupuesto_Click(sender As Object, e As EventArgs) Handles btn_cargar_presupuesto.Click
         Try
+            btn_cargar_presupuesto.Enabled = False
+            cmb_presupuesto.Enabled = False
             Dim presupuesto As BE.BE_Presupuesto
             btn_cargar_presupuesto.Enabled = False
             presupuesto = CType(Session("Lista_Presupuestos_1"), List(Of BE.BE_Presupuesto)).Find(Function(x) x.id = cmb_presupuesto.SelectedItem.Text)
@@ -135,6 +151,9 @@
                 btn_evaluarcontradibujo.Enabled = True
                 btn_guardarprte.Enabled = False
                 btn_cancelarprtec.Enabled = True
+                btn_addarteleprtec.Enabled = True
+                btn_addmatprtec.Enabled = True
+                btn_addtrabprtec.Enabled = True
             Else
                 Session("Entero_Flag") = 2
                 txt_caneria.Text = presupuesto.porcentaje_caneriaycableado
@@ -177,11 +196,6 @@
         End Try
 
     End Sub
-
-    Private Sub dtg_trabajo_RowUpdated(sender As Object, e As GridViewUpdatedEventArgs) Handles dtg_trabajo.RowUpdated
-
-    End Sub
-
     Protected Sub btn_addarteleprtec_Click(sender As Object, e As EventArgs) Handles btn_addarteleprtec.Click
         Dim lista_grilla As List(Of grilla) = Session("Grilla")
         Try
@@ -204,7 +218,10 @@
                     End If
                 Next
             End If
+            be_artefacto.cantidad = num_arteprtec.Text
             be_artefacto = bll_artefacto.calcular_precio_cantidad(be_artefacto)
+            btn_guardarprte.Enabled = False
+
             If cambio = False Then
                 Dim tmp_grilla As New grilla
                 tmp_grilla.col_id = be_artefacto.id
@@ -216,6 +233,7 @@
                 num_arteprtec.Text = String.Empty
                 dtg_armattrabprtec.DataSource = lista_grilla
                 dtg_armattrabprtec.DataBind()
+                btn_evaluarcontradibujo.Enabled = True
             Else
                 For Each elemento As grilla In CType(Session("Grilla"), List(Of grilla))
                     If elemento.col_id = be_artefacto.id AndAlso elemento.col_descripcion = be_artefacto.descripcion AndAlso elemento.col_tipo = "Artefacto" Then
@@ -223,10 +241,13 @@
                         elemento.col_cantidad = be_artefacto.cantidad
                         dtg_armattrabprtec.DataSource = lista_grilla
                         dtg_armattrabprtec.DataBind()
-                        num_arteprtec.Text = String.Empty
+                        num_arteprtec.Text = 1
+                        btn_evaluarcontradibujo.Enabled = True
                     End If
                 Next
             End If
+            Session("Evaluado") = 0
+            num_arteprtec.Text = 1
         Catch ex As Exception
             Response.Redirect("web_error_inicio.aspx", False)
         End Try
@@ -323,9 +344,19 @@
         btn_guardarprte.Enabled = False
         btn_evaluarcontradibujo.Enabled = False
         Session("Entero_Flag") = 0
-
+        Session("Evaluado") = 0
+        CHK_Depusodomigranesca.Enabled = False
+        CHK_Instaeleccomple.Enabled = False
+        CHK_Depusodomigranesca.Checked = False
+        CHK_Instaeleccomple.Checked = False
+        txt_dibujotecnico.ReadOnly = True
+        btn_verdibujo.Enabled = False
+        btn_cancelarprtec.Enabled = True
+        dtg_ambientes.DataSource = Nothing
+        dtg_ambientes.DataBind()
+        dtg_armattrabprtec.DataSource = Nothing
+        dtg_armattrabprtec.DataBind()
     End Sub
-
     Private Sub btn_addmatprtec_Click(sender As Object, e As EventArgs) Handles btn_addmatprtec.Click
         Dim lista_grilla As List(Of grilla) = Session("Grilla")
         Try
@@ -348,7 +379,10 @@
                     End If
                 Next
             End If
+            be_material.cantidad = num_matprtec.Text
             be_material = bll_material.calcular_precio_cantidad(be_material)
+            btn_guardarprte.Enabled = False
+
             If cambio = False Then
                 Dim tmp_grilla As New grilla
                 tmp_grilla.col_id = be_material.id
@@ -367,10 +401,14 @@
                         elemento.col_cantidad = be_material.cantidad
                         dtg_armattrabprtec.DataSource = lista_grilla
                         dtg_armattrabprtec.DataBind()
-                        num_matprtec.Text = String.Empty
+                        num_matprtec.Text = 1
+                        btn_evaluarcontradibujo.Enabled = True
+
                     End If
                 Next
             End If
+            Session("Evaluado") = 0
+            num_matprtec.Text = 1
         Catch ex As Exception
             Response.Redirect("web_error_inicio.aspx", False)
         End Try
@@ -400,7 +438,10 @@
                     End If
                 Next
             End If
+            be_trabajo.cantidad = num_trabprtec.Text
             be_trabajo = bll_trabajo.calcular_precio_cantidad(be_trabajo)
+            btn_guardarprte.Enabled = False
+
             If cambio = False Then
                 Dim tmp_grilla As New grilla
                 tmp_grilla.col_id = be_trabajo.id
@@ -419,63 +460,236 @@
                         elemento.col_cantidad = be_trabajo.cantidad
                         dtg_armattrabprtec.DataSource = lista_grilla
                         dtg_armattrabprtec.DataBind()
-                        num_trabprtec.Text = String.Empty
+                        num_trabprtec.Text = 1
+                        btn_evaluarcontradibujo.Enabled = True
+
                     End If
                 Next
             End If
+            Session("Evaluado") = 0
+            num_trabprtec.Text = 1
         Catch ex As Exception
             Response.Redirect("web_error_inicio.aspx", False)
         End Try
     End Sub
 
     Protected Sub btn_evaluarcontradibujo_Click(sender As Object, e As EventArgs) Handles btn_evaluarcontradibujo.Click
-        If Session("Entero_Flag") = 1 Then
-            Dim presupuesto As BE.BE_Presupuesto
-            presupuesto = CType(Session("Lista_Presupuestos_1"), List(Of BE.BE_Presupuesto)).Find(Function(x) x.id = cmb_presupuesto.SelectedItem.Text)
-            presupuesto.Instalacion_compleja = CHK_Instaeleccomple.Checked
-            presupuesto.departamento_granescala = CHK_Depusodomigranesca.Checked
-            presupuesto.Instalacion_compleja = CHK_Instaeleccomple.Checked
-            presupuesto.porcentaje_caneriaycableado = txt_caneria.Text
-            presupuesto.porcentaje_llaveytoma = txt_llaves.Text
-            presupuesto.porcentaje_losa = txt_losa.Text
-            presupuesto.porcentaje_tablero = txt_tableros.Text
-            presupuesto.porcentaje_terminacion = txt_terminaciones.Text
-            Dim lista_materiales_trabajos As New List(Of BE.BE_Material_TrabajoconPrec)
-            Dim lista_artefactos As New List(Of BE.BE_ArtefactoElectrico)
-            For Each elemento In CType(Session("Grilla"), List(Of grilla))
-                Select Case elemento.col_tipo
-                    Case "Material"
-                        Dim datos As BE.BE_Material_TrabajoconPrec = CType(Session("Lista_Materiales"), List(Of BE.BE_Material_TrabajoconPrec)).Find(Function(x) x.id = elemento.col_id AndAlso x.Descripcion = elemento.col_descripcion AndAlso x.Material = True)
-                        Dim material As New BE.BE_Material_TrabajoconPrec
-                        material.cantidad = elemento.col_cantidad
-                        material.Precio = elemento.col_precio
-                        material.id = datos.id
-                        material.precio_cantidad = datos.precio_cantidad
-                        material.Material = True
-                        material.Trabajoconprecio = False
-                        lista_materiales_trabajos.Add(material)
-                    Case "Trabajo"
-                        Dim datos As BE.BE_Material_TrabajoconPrec = CType(Session("Lista_Trabajos"), List(Of BE.BE_Material_TrabajoconPrec)).Find(Function(x) x.id = elemento.col_id AndAlso x.Descripcion = elemento.col_descripcion AndAlso x.Trabajoconprecio = True)
-                        Dim trabajo As New BE.BE_Material_TrabajoconPrec
-                        trabajo.cantidad = elemento.col_cantidad
-                        trabajo.Precio = elemento.col_precio
-                        trabajo.id = datos.id
-                        trabajo.precio_cantidad = datos.precio_cantidad
-                        trabajo.Material = False
-                        trabajo.Trabajoconprecio = True
-                        lista_materiales_trabajos.Add(trabajo)
-                    Case "Artefacto"
-                        Dim datos As BE.BE_ArtefactoElectrico = CType(Session("Lista_Artefactos"), List(Of BE.BE_ArtefactoElectrico)).Find(Function(x) x.id = elemento.col_id AndAlso x.descripcion = elemento.col_descripcion AndAlso elemento.col_tipo = "Material")
-                        Dim artefacto As New BE.BE_ArtefactoElectrico
-                        artefacto.cantidad = elemento.col_cantidad
-                        artefacto.precio = elemento.col_precio
-                        artefacto.id = datos.id
-                        artefacto.preciocantidad = datos.preciocantidad
-                        lista_artefactos.Add(artefacto)
+        Try
+            Dim bll_presupuesto As New BLL.BLL_Presupuesto
+            If String.IsNullOrWhiteSpace(txt_caneria.Text) Then
+                txt_caneria.Text = 0
+            End If
+            If String.IsNullOrWhiteSpace(txt_llaves.Text) Then
+                txt_llaves.Text = 0
+            End If
+            If String.IsNullOrWhiteSpace(txt_losa.Text) Then
+                txt_losa.Text = 0
+            End If
+            If String.IsNullOrWhiteSpace(txt_tableros.Text) Then
+                txt_tableros.Text = 0
+            End If
+            If String.IsNullOrWhiteSpace(txt_terminaciones.Text) Then
+                txt_terminaciones.Text = 0
+            End If
+            If Session("Entero_Flag") = 1 Or Session("Entero_Flag") = 2 Then
+                Dim presupuesto As BE.BE_Presupuesto
+                presupuesto = CType(Session("Lista_Presupuestos_1"), List(Of BE.BE_Presupuesto)).Find(Function(x) x.id = cmb_presupuesto.SelectedItem.Text)
+                presupuesto.Instalacion_compleja = CHK_Instaeleccomple.Checked
+                presupuesto.departamento_granescala = CHK_Depusodomigranesca.Checked
+                presupuesto.Instalacion_compleja = CHK_Instaeleccomple.Checked
+                presupuesto.porcentaje_caneriaycableado = txt_caneria.Text
+                presupuesto.porcentaje_llaveytoma = txt_llaves.Text
+                presupuesto.porcentaje_losa = txt_losa.Text
+                presupuesto.porcentaje_tablero = txt_tableros.Text
+                presupuesto.porcentaje_terminacion = txt_terminaciones.Text
+                Dim lista_materiales_trabajos As New List(Of BE.BE_Material_TrabajoconPrec)
+                Dim lista_artefactos As New List(Of BE.BE_ArtefactoElectrico)
+                For Each elemento In CType(Session("Grilla"), List(Of grilla))
+                    Select Case elemento.col_tipo
+                        Case "Material"
+                            Dim datos As BE.BE_Material_TrabajoconPrec = CType(Session("Lista_Materiales"), List(Of BE.BE_Material_TrabajoconPrec)).Find(Function(x) x.id = elemento.col_id AndAlso x.Descripcion = elemento.col_descripcion AndAlso x.Material = True)
+                            Dim material As New BE.BE_Material_TrabajoconPrec
+                            material.cantidad = elemento.col_cantidad
+                            material.Precio = elemento.col_precio
+                            material.id = datos.id
+                            material.precio_cantidad = datos.precio_cantidad
+                            material.Material = True
+                            material.Trabajoconprecio = False
+                            lista_materiales_trabajos.Add(material)
+                        Case "Trabajo"
+                            Dim datos As BE.BE_Material_TrabajoconPrec = CType(Session("Lista_Trabajos"), List(Of BE.BE_Material_TrabajoconPrec)).Find(Function(x) x.id = elemento.col_id AndAlso x.Descripcion = elemento.col_descripcion AndAlso x.Trabajoconprecio = True)
+                            Dim trabajo As New BE.BE_Material_TrabajoconPrec
+                            trabajo.cantidad = elemento.col_cantidad
+                            trabajo.Precio = elemento.col_precio
+                            trabajo.id = datos.id
+                            trabajo.precio_cantidad = datos.precio_cantidad
+                            trabajo.Material = False
+                            trabajo.Trabajoconprecio = True
+                            lista_materiales_trabajos.Add(trabajo)
+                        Case "Artefacto"
+                            Dim datos As BE.BE_ArtefactoElectrico = CType(Session("Lista_Artefactos"), List(Of BE.BE_ArtefactoElectrico)).Find(Function(x) x.id = elemento.col_id AndAlso x.descripcion = elemento.col_descripcion AndAlso elemento.col_tipo = "Artefacto")
+                            Dim artefacto As New BE.BE_ArtefactoElectrico
+                            artefacto.cantidad = elemento.col_cantidad
+                            artefacto.precio = elemento.col_precio
+                            artefacto.id = datos.id
+                            artefacto.preciocantidad = datos.preciocantidad
+                            lista_artefactos.Add(artefacto)
+                    End Select
+                Next
+                presupuesto.Materiales_trabajo = lista_materiales_trabajos
+                presupuesto.Artefacto_electrico = lista_artefactos
+                presupuesto = bll_presupuesto.evaluar_presupuestovsdibujo(presupuesto)
+                Select Case presupuesto.observacion.Substring(0, 1)
+                    Case "C"
+                        Response.Write(DirectCast(Me.Master, General_Electrosystem).Traductora("Cantidad_Artefactos_OK"))
+                        Session("Evaluado") = 1
+                        btn_guardarprte.Enabled = True
+                    Case "-"
+                        Response.Write(DirectCast(Me.Master, General_Electrosystem).Traductora("Cantidad_BocasDibujoMayor") & " " & presupuesto.observacion.Substring(1, presupuesto.observacion.Length - 1).ToString)
+                        Session("Evaluado") = 1
+                        btn_guardarprte.Enabled = True
+                    Case Else
+                        Response.Write(DirectCast(Me.Master, General_Electrosystem).Traductora("Cantidad_BocasDibujoMayor") & " " & presupuesto.observacion.ToString)
+                        Session("Evaluado") = 1
+                        btn_guardarprte.Enabled = True
                 End Select
-            Next
-            presupuesto.Materiales_trabajo = lista_materiales_trabajos
-            presupuesto.Artefacto_electrico = lista_artefactos
+            End If
+
+
+        Catch ex As Exception
+            Response.Redirect("web_error_inicio.aspx", False)
+
+        End Try
+     
+
+
+    End Sub
+
+    Private Sub btn_guardarprte_Click(sender As Object, e As EventArgs) Handles btn_guardarprte.Click
+        If String.IsNullOrWhiteSpace(txt_caneria.Text) Then
+            txt_caneria.Text = 0
         End If
+        If String.IsNullOrWhiteSpace(txt_llaves.Text) Then
+            txt_llaves.Text = 0
+        End If
+        If String.IsNullOrWhiteSpace(txt_losa.Text) Then
+            txt_losa.Text = 0
+        End If
+        If String.IsNullOrWhiteSpace(txt_tableros.Text) Then
+            txt_tableros.Text = 0
+        End If
+        If String.IsNullOrWhiteSpace(txt_terminaciones.Text) Then
+            txt_terminaciones.Text = 0
+        End If
+        If Session("Entero_Flag") = 1 Then
+            Dim be_presupuesto As BE.BE_Presupuesto
+            Dim bll_presupuesto As New BLL.BLL_Presupuesto
+            be_presupuesto = CType(Session("Lista_Presupuestos_1"), List(Of BE.BE_Presupuesto)).Find(Function(x) x.id = cmb_presupuesto.SelectedItem.Text)
+            be_presupuesto.Instalacion_compleja = CHK_Instaeleccomple.Checked
+            be_presupuesto.departamento_granescala = CHK_Depusodomigranesca.Checked
+            be_presupuesto.Instalacion_compleja = CHK_Instaeleccomple.Checked
+            be_presupuesto.porcentaje_caneriaycableado = txt_caneria.Text
+            be_presupuesto.porcentaje_llaveytoma = txt_llaves.Text
+            be_presupuesto.porcentaje_losa = txt_losa.Text
+            be_presupuesto.porcentaje_tablero = txt_tableros.Text
+            be_presupuesto.porcentaje_terminacion = txt_terminaciones.Text
+            Select Case bll_presupuesto.actualizacion_responsabletecnico(be_presupuesto)
+                Case 10147
+                    Response.Write(DirectCast(Me.Master, General_Electrosystem).Traductora("msg_total<100"))
+                Case 10146
+                    Response.Write(DirectCast(Me.Master, General_Electrosystem).Traductora("msg_total<100"))
+                Case 10149
+                    Response.Redirect("web_error_inicio.aspx", False)
+                Case 10150
+                    Response.Write(DirectCast(Me.Master, General_Electrosystem).Traductora("msg_actuaok"))
+                    btn_cancelarprtec_Click(Nothing, Nothing)
+                Case Else
+                    Response.Redirect("web_error_inicio.aspx", False)
+            End Select
+        End If
+    End Sub
+
+    Private Sub btn_verdibujo_Click(sender As Object, e As EventArgs) Handles btn_verdibujo.Click
+        Dim lista_grillaevaluar As New List(Of grilla_evaluarplano)
+        Dim be_presupuesto As BE.BE_Presupuesto
+        be_presupuesto = CType(Session("Lista_Presupuestos_1"), List(Of BE.BE_Presupuesto)).Find(Function(x) x.id = cmb_presupuesto.SelectedItem.Text)
+        For Each ambiente As BE.Be_Ambiente In be_presupuesto.dibujotecnico.ambiente
+            For Each circuito As BE.BE_Circuito In ambiente.circuitos
+                Dim grillaevaluar As New grilla_evaluarplano
+                grillaevaluar.ambiente = ambiente.tipo
+                grillaevaluar.tipo = circuito.tipo
+                grillaevaluar.sigla = circuito.sigla
+                grillaevaluar.cantidad_bocas = circuito.cantidad_bocas
+                lista_grillaevaluar.Add(grillaevaluar)
+            Next
+        Next
+        dtg_ambientes.DataSource = Nothing
+        dtg_ambientes.DataBind()
+        dtg_ambientes.DataSource = lista_grillaevaluar
+        dtg_ambientes.DataBind()
+    End Sub
+
+
+    Private Class grilla_evaluarplano
+        Private _ambiente As String
+        Public Property ambiente() As String
+            Get
+                Return _ambiente
+            End Get
+            Set(ByVal value As String)
+                _ambiente = value
+            End Set
+        End Property
+
+        Private _sigla As String
+        Public Property sigla() As String
+            Get
+                Return _sigla
+            End Get
+            Set(ByVal value As String)
+                _sigla = value
+            End Set
+        End Property
+
+        Private _tipo As String
+        Public Property tipo() As String
+            Get
+                Return _tipo
+            End Get
+            Set(ByVal value As String)
+                _tipo = value
+            End Set
+        End Property
+
+        Private _cantidad_bocas As Integer
+        Public Property cantidad_bocas() As Integer
+            Get
+                Return _cantidad_bocas
+            End Get
+            Set(ByVal value As Integer)
+                _cantidad_bocas = value
+            End Set
+        End Property
+
+    End Class
+
+    Private Sub dtg_armattrabprtec_RowDeleting(sender As Object, e As GridViewDeleteEventArgs) Handles dtg_armattrabprtec.RowDeleting
+        Try
+            Dim elemento As grilla
+            elemento = CType(Session("Grilla"), List(Of grilla)).Item(e.RowIndex)
+            CType(Session("Grilla"), List(Of grilla)).Remove(elemento)
+            If CType(Session("Grilla"), List(Of grilla)).Count = 0 Then
+                dtg_armattrabprtec.DataSource = Nothing
+                btn_evaluarcontradibujo.Enabled = False
+            End If
+            dtg_armattrabprtec.DataSource = Session("Grilla")
+            dtg_armattrabprtec.DataBind()
+            btn_guardarprte.Enabled = False
+
+        Catch ex As Exception
+            Response.Redirect("web_error_inicio.aspx", False)
+
+        End Try
+        
     End Sub
 End Class
