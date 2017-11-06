@@ -1,9 +1,3 @@
-
-
-
-
-
-
 Imports System.Data.SqlClient
 
 Public Class DAL_Presupuesto
@@ -69,8 +63,6 @@ Public Class DAL_Presupuesto
         End Try
     End Function
 
-    ''' 
-    ''' <param name="unbe"></param>
     Public Function alta(ByVal unbe As BE.BE_Presupuesto) As Integer
         Dim sqlhelper As New SEGURIDAD.SQLHelper
         Dim dal_domicilio As New DAL.DAL_Domicilio
@@ -120,14 +112,38 @@ Public Class DAL_Presupuesto
         baja = False
     End Function
 
-    ''' 
-    ''' <param name="unbe"></param>
-    Private Function consulta_artefactos_presupuesto(ByVal unbe As BE.BE_Presupuesto) As Integer
-        consulta_artefactos_presupuesto = 0
+    Public Function consulta_artefactos_presupuesto(ByVal unbe As BE.BE_Presupuesto) As Integer
+        Dim lista_artefactos As New List(Of BE.BE_ArtefactoElectrico)
+        Dim sqlhelper As New SEGURIDAD.SQLHelper
+        Dim dal_artefacto As New DAL.DAL_ArtefactoElectrico
+        Try
+            Dim datatable As New DataTable
+            Dim mapper_stores As New SEGURIDAD.Mapper_Stored
+            Dim lista_parametros As New List(Of SqlParameter)
+            Dim P(0) As SqlParameter
+            P(0) = sqlhelper.BuildParameter("@p1", unbe.id)
+            lista_parametros.AddRange(P)
+            datatable = mapper_stores.consultar("consulta_artefactos_presupuesto", lista_parametros)
+            If datatable.Rows.Count > 0 Then
+                For Each row As DataRow In datatable.Rows
+                    Dim tmp_artefacto As New BE.BE_ArtefactoElectrico
+                    tmp_artefacto.id = row(0)
+                    tmp_artefacto.precio = row(2)
+                    dal_artefacto.consultar(tmp_artefacto)
+                    tmp_artefacto.cantidad = row(3)
+                    lista_artefactos.Add(tmp_artefacto)
+                Next
+                unbe.Artefacto_electrico = lista_artefactos
+            Else
+                unbe.Artefacto_electrico = New List(Of BE.BE_ArtefactoElectrico)
+            End If
+
+            Return True
+        Catch ex As Exception
+            Return 10141
+        End Try
     End Function
 
-    ''' 
-    ''' <param name="unbe"></param>
     Public Function consulta_dom_plano(ByVal unbe As BE.BE_Presupuesto) As BE.BE_Presupuesto
         Dim sqlhelper As New SEGURIDAD.SQLHelper
         Try
@@ -158,8 +174,43 @@ Public Class DAL_Presupuesto
 
     ''' 
     ''' <param name="unbe"></param>
-    Private Function consulta_material_presupuesto(ByVal unbe As BE.BE_Presupuesto) As Integer
-        consulta_material_presupuesto = 0
+    Public Function consulta_material_presupuesto(ByVal unbe As BE.BE_Presupuesto) As Integer
+        Dim lista_material As New List(Of BE.BE_Material_TrabajoconPrec)
+        Dim sqlhelper As New SEGURIDAD.SQLHelper
+        Dim dal_material As New DAL.DAL_Material_TrabajoconPrec
+        Try
+            Dim datatable As New DataTable
+            Dim mapper_stores As New SEGURIDAD.Mapper_Stored
+            Dim lista_parametros As New List(Of SqlParameter)
+            Dim P(0) As SqlParameter
+            P(0) = sqlhelper.BuildParameter("@p1", unbe.id)
+            lista_parametros.AddRange(P)
+            datatable = mapper_stores.consultar("consulta_material_presupuesto", lista_parametros)
+            If datatable.Rows.Count > 0 Then
+                For Each row As DataRow In datatable.Rows
+                    Dim tmp_material As New BE.BE_Material_TrabajoconPrec
+                    tmp_material.id = row(0)
+                    tmp_material.Trabajoconprecio = False
+                    tmp_material.Material = True
+                    tmp_material.Precio = row(2)
+                    dal_material.consultar(tmp_material)
+                    tmp_material.cantidad = row(3)
+                    lista_material.Add(tmp_material)
+                Next
+                If unbe.Materiales_trabajo Is Nothing Then
+                    unbe.Materiales_trabajo = lista_material
+                Else
+                    For Each material As BE.BE_Material_TrabajoconPrec In lista_material
+                        unbe.Materiales_trabajo.Add(material)
+                    Next
+                End If
+            Else
+                unbe.Materiales_trabajo = New List(Of BE.BE_Material_TrabajoconPrec)
+            End If
+            Return True
+        Catch ex As Exception
+            Return 10142
+        End Try
     End Function
 
     ''' 
@@ -170,8 +221,45 @@ Public Class DAL_Presupuesto
 
     ''' 
     ''' <param name="unbe"></param>
-    Private Function consulta_trabajo_presupuesto(ByVal unbe As BE.BE_Presupuesto) As Integer
-        consulta_trabajo_presupuesto = 0
+    Public Function consulta_trabajo_presupuesto(ByVal unbe As BE.BE_Presupuesto) As Integer
+        Dim lista_trabajo As New List(Of BE.BE_Material_TrabajoconPrec)
+        Dim sqlhelper As New SEGURIDAD.SQLHelper
+        Dim dal_trabajo As New DAL.DAL_Material_TrabajoconPrec
+        Try
+            Dim datatable As New DataTable
+            Dim mapper_stores As New SEGURIDAD.Mapper_Stored
+            Dim lista_parametros As New List(Of SqlParameter)
+            Dim P(0) As SqlParameter
+            P(0) = sqlhelper.BuildParameter("@p1", unbe.id)
+            lista_parametros.AddRange(P)
+            datatable = mapper_stores.consultar("consulta_trabajo_presupuesto", lista_parametros)
+            If datatable.Rows.Count > 0 Then
+                For Each row As DataRow In datatable.Rows
+                    Dim tmp_trabajo As New BE.BE_Material_TrabajoconPrec
+                    tmp_trabajo.id = row(0)
+                    tmp_trabajo.Precio = row(2)
+                    tmp_trabajo.Trabajoconprecio = True
+                    tmp_trabajo.Material = False
+
+                    dal_trabajo.consultar(tmp_trabajo)
+                    tmp_trabajo.cantidad = row(3)
+                    lista_trabajo.Add(tmp_trabajo)
+                Next
+                If unbe.Materiales_trabajo Is Nothing Then
+                    unbe.Materiales_trabajo = lista_trabajo
+                Else
+                    For Each trabajo As BE.BE_Material_TrabajoconPrec In lista_trabajo
+                        unbe.Materiales_trabajo.Add(trabajo)
+                    Next
+                End If
+            Else
+                unbe.Materiales_trabajo = New List(Of BE.BE_Material_TrabajoconPrec)
+            End If
+            Return True
+        Catch ex As Exception
+            Return 10143
+        End Try
+
     End Function
 
     ''' 
@@ -192,14 +280,14 @@ Public Class DAL_Presupuesto
         consultar_trabajo = Nothing
     End Function
 
-		''' 
-		''' <param name="unbe"></param>
-		Public Function consultar_valortotal(ByVal unbe As BE.BE_Presupuesto) As Integer
-			consultar_valortotal = 0
-		End Function
+    ''' 
+    ''' <param name="unbe"></param>
+    Public Function consultar_valortotal(ByVal unbe As BE.BE_Presupuesto) As Integer
+        consultar_valortotal = 0
+    End Function
 
-		''' 
-		''' <param name="unbe"></param>
+    ''' 
+    ''' <param name="unbe"></param>
     Public Function consultar_varios(ByVal unbe As BE.BE_Presupuesto) As List(Of BE.BE_Presupuesto)
         Dim lista_presupuestos As New List(Of BE.BE_Presupuesto)
         Dim sqlhelper As New SEGURIDAD.SQLHelper
@@ -212,7 +300,7 @@ Public Class DAL_Presupuesto
             Dim P(0) As SqlParameter
             P(0) = sqlhelper.BuildParameter("@estado_presupuesto", unbe.estado_presupuesto)
             lista_parametros.AddRange(P)
-            Select seguridad.descifrar(unbe.estado_presupuesto)
+            Select Case seguridad.descifrar(unbe.estado_presupuesto)
                 Case "Pendiente de llenado por Parte del Responsable Técnico"
                     datatable = mapper_stores.consultar("consultar_presupuestos_estado_tecnico", lista_parametros)
                 Case "Pendiente de llenado por parte del Responsable Comercial"
@@ -272,6 +360,18 @@ Public Class DAL_Presupuesto
                     tmp_domicilio.partido.id = fila(17)
                     tmp_domicilio.partido.partido = fila(18)
                     tmppresupuesto.Domicilio = tmp_domicilio
+                    If seguridad.descifrar(unbe.estado_presupuesto) = "Pendiente de llenado por parte del Responsable Comercial" Then
+                        tmppresupuesto.porcentaje_caneriaycableado = fila(19)
+                        tmppresupuesto.porcentaje_llaveytoma = fila(20)
+                        tmppresupuesto.porcentaje_losa = fila(21)
+                        tmppresupuesto.porcentaje_tablero = fila(22)
+                        tmppresupuesto.porcentaje_terminacion = fila(23)
+                        tmppresupuesto.departamento_granescala = fila(24)
+                        tmppresupuesto.Instalacion_compleja = fila(25)
+                    End If
+                    
+
+
                 End If
                 lista_presupuestos.Add(tmppresupuesto)
             Next
@@ -288,7 +388,7 @@ Public Class DAL_Presupuesto
     ''' 
     ''' <param name="unbe"></param>
     Public Function generar_solicitudpresupuesto(ByVal unbe As BE.BE_Presupuesto) As Integer
-   
+
     End Function
 
     ''' 
@@ -296,8 +396,8 @@ Public Class DAL_Presupuesto
     Public Function guardar_estado_cliente(ByVal unbe As BE.BE_Presupuesto) As Integer
     End Function
 
-		''' 
-		''' <param name="unbe"></param>
+    ''' 
+    ''' <param name="unbe"></param>
     Public Function modificar(ByVal unbe As BE.BE_Presupuesto) As Integer
         Dim sqlhelper As New SEGURIDAD.SQLHelper
         Dim dal_domicilio As New DAL.DAL_Domicilio
@@ -338,6 +438,6 @@ Public Class DAL_Presupuesto
     End Function
 
 
-	End Class ' DAL_Presupuesto
+End Class ' DAL_Presupuesto
 
 

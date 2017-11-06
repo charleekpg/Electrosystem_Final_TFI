@@ -282,6 +282,11 @@
             For Each presu As BE.BE_Presupuesto In listadepresupuesto
                 presu.estado_presupuesto = seguridad.descifrar(presu.estado_presupuesto)
                 consulta_dom_plano(presu)
+                If presu.estado_presupuesto = "Pendiente de llenado por parte del Responsable Comercial" Then
+                    dal_presupuesto.consulta_artefactos_presupuesto(presu)
+                    dal_presupuesto.consulta_material_presupuesto(presu)
+                    dal_presupuesto.consulta_trabajo_presupuesto(presu)
+                End If
             Next
         End If
         Return listadepresupuesto

@@ -41,11 +41,13 @@
             Session("Lista_Presupuestos_1") = bll_presupuesto.consultar_varios(presupuesto)
             presupuesto.estado_presupuesto = "Pendiente de llenado por parte del Responsable Comercial"
             LISTA_PRESUPUESTO = bll_presupuesto.consultar_varios(presupuesto)
+
             If LISTA_PRESUPUESTO.Count > 0 Then
                 lista_presupuestos_final = Session("Lista_Presupuestos_1")
                 For Each elemento As BE.BE_Presupuesto In LISTA_PRESUPUESTO
                     lista_presupuestos_final.Add(elemento)
                 Next
+                lista_presupuestos_final.Sort(Function(x, y) x.id.CompareTo(y.id))
             End If
             cmb_presupuesto.Enabled = True
             cmb_presupuesto.DataSource = Session("Lista_Presupuestos_1")
@@ -157,10 +159,16 @@
             Else
                 Session("Entero_Flag") = 2
                 txt_caneria.Text = presupuesto.porcentaje_caneriaycableado
+                txt_caneria.Enabled = True
                 txt_llaves.Text = presupuesto.porcentaje_llaveytoma
+                txt_llaves.Enabled = True
                 txt_losa.Text = presupuesto.porcentaje_losa
+                txt_losa.Enabled = True
                 txt_tableros.Text = presupuesto.porcentaje_tablero
+                txt_tableros.Enabled = True
                 txt_terminaciones.Text = presupuesto.porcentaje_terminacion
+                txt_terminaciones.Enabled = True
+                btn_evaluarcontradibujo.Enabled = True
                 Dim lista_grilla As New List(Of grilla)
                 Dim tmp_grilla As grilla
                 For Each elemento In presupuesto.Artefacto_electrico
@@ -186,8 +194,34 @@
                     lista_grilla.Add(tmp_grilla)
                 Next
                 Session("Grilla") = lista_grilla
+                cargar_artefacto()
+                cbx_arteprtec.Enabled = True
+                num_arteprtec.Enabled = True
+                num_arteprtec.Text = "1"
+                cargar_materiales()
+                cbx_matprtec.Enabled = True
+                num_matprtec.Enabled = True
+                num_matprtec.Text = "1"
+                cbx_trabprtec.Enabled = True
+                num_trabprtec.Enabled = True
+                num_trabprtec.Text = "1"
+                CHK_Depusodomigranesca.Checked = False
+                CHK_Instaeleccomple.Checked = False
+
                 CHK_Depusodomigranesca.Checked = presupuesto.departamento_granescala
+                CHK_Depusodomigranesca.Enabled = True
                 CHK_Instaeleccomple.Checked = presupuesto.Instalacion_compleja
+                CHK_Instaeleccomple.Enabled = True
+                cbx_arteprtec.Enabled = True
+                num_arteprtec.Enabled = True
+                btn_addarteleprtec.Enabled = True
+
+                cbx_matprtec.Enabled = True
+                num_matprtec.Enabled = True
+                btn_addmatprtec.Enabled = True
+                cbx_trabprtec.Enabled = True
+                num_trabprtec.Enabled = True
+                btn_addtrabprtec.Enabled = True
                 dtg_armattrabprtec.DataSource = lista_grilla
                 dtg_armattrabprtec.DataBind()
             End If
@@ -221,7 +255,6 @@
             be_artefacto.cantidad = num_arteprtec.Text
             be_artefacto = bll_artefacto.calcular_precio_cantidad(be_artefacto)
             btn_guardarprte.Enabled = False
-
             If cambio = False Then
                 Dim tmp_grilla As New grilla
                 tmp_grilla.col_id = be_artefacto.id
@@ -581,7 +614,7 @@
         If String.IsNullOrWhiteSpace(txt_terminaciones.Text) Then
             txt_terminaciones.Text = 0
         End If
-        If Session("Entero_Flag") = 1 Then
+        If Session("Entero_Flag") = 1 Or Session("Entero_Flag") = 2 Then
             Dim be_presupuesto As BE.BE_Presupuesto
             Dim bll_presupuesto As New BLL.BLL_Presupuesto
             be_presupuesto = CType(Session("Lista_Presupuestos_1"), List(Of BE.BE_Presupuesto)).Find(Function(x) x.id = cmb_presupuesto.SelectedItem.Text)

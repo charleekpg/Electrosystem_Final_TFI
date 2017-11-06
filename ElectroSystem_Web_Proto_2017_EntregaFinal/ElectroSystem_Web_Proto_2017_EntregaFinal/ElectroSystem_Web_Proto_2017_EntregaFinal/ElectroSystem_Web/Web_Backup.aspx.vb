@@ -15,7 +15,6 @@
                         usu = Session("Usuario")
                         DirectCast(Me.Master, General_Electrosystem).traductora_controles(Me.Controls)
                         DirectCast(Me.Master, General_Electrosystem).Deshabilitar_Controles(Me.Controls)
-
                         Me.cargar_backup()
                         Me.entro = True
                     Else
@@ -35,6 +34,15 @@
         drp_backups.Items.Clear()
         drp_backups.DataSource = Nothing
         Dim listar_backups As List(Of BE.BE_Backup)
+        Dim backups As List(Of BE.BE_Backup)
+        Dim backup As New BLL.BLL_Backup
+
+        backups = backup.listar_restore()
+        If backups.Count = 0 Then
+
+        Else
+            Application("Backups") = backups
+        End If
         listar_backups = Application("Backups")
         drp_backups.DataSource = listar_backups
         drp_backups.DataTextField = "nombre_backup"

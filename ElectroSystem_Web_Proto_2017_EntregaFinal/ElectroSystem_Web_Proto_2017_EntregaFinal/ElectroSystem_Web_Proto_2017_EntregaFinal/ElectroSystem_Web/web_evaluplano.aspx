@@ -18,8 +18,8 @@
          return true;
      }
 </script>
-    <asp:Label ID="lbl_numeroambiente" runat="server" Text="Label"></asp:Label>
-    <asp:TextBox ID="txt_numeroambiente" runat="server" ReadOnly="true"></asp:TextBox>
+    <asp:Label ID="lbl_numeroambiente" runat="server" Text="Label" Visible="False"></asp:Label>
+    <asp:TextBox ID="txt_numeroambiente" runat="server" ReadOnly="true" Visible="False"></asp:TextBox>
     <br>
         <asp:Label ID="lbl_tipoambiente" runat="server" Text="Label"></asp:Label>
     <asp:DropDownList ID="drp_ambiente" runat="server"></asp:DropDownList>

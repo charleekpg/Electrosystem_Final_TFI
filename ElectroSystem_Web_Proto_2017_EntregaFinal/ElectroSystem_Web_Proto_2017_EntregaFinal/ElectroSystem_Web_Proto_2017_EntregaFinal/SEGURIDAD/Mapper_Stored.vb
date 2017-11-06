@@ -29,7 +29,6 @@ Public Class Mapper_Stored
     End Function
 
     Function consultar(nombre As String, lista_sql As List(Of SqlParameter)) As DataTable
-
         Try
             Dim tabla As New DataTable
             Dim sqlcomando As New SqlCommand

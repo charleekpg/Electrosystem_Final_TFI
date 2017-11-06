@@ -26,8 +26,8 @@
             <asp:BoundField FooterText="ID" HeaderText="ID" Visible="False" DataField="id" ReadOnly="True" />
             <asp:BoundField FooterText="Descripcion" HeaderText="Descripcion" DataField="descripcion" />
             <asp:BoundField FooterText="Precio" HeaderText="Precio" DataField="precio" />
-            <asp:BoundField FooterText="Material" HeaderText="Material" DataField="material"/>
-            <asp:BoundField FooterText="Trabajoconprecio" HeaderText="Trabajoconprecio" DataField="Trabajoconprecio"/>
+            <asp:BoundField FooterText="Material" HeaderText="Material" DataField="material" Visible="False"/>
+            <asp:BoundField FooterText="Trabajoconprecio" HeaderText="Trabajoconprecio" DataField="Trabajoconprecio" Visible="False"/>
             <asp:BoundField FooterText="Cambiodetipo" HeaderText="Cambiodetipo" Visible="False" DataField="Cambiodetipo" />
             <asp:CommandField ShowCancelButton="False" ShowSelectButton="True" />
         </Columns>

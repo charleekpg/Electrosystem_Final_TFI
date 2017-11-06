@@ -37,7 +37,23 @@ Public Class DAL_ArtefactoElectrico
     ''' 
     ''' <param name="unbe"></param>
     Public Function consultar(ByVal unbe As BE.BE_ArtefactoElectrico) As BE.BE_ArtefactoElectrico
-        consultar = Nothing
+        Dim sqlhelper As New SEGURIDAD.SQLHelper
+        Dim datatable As New DataTable
+        Dim lista_parametros As New List(Of SqlParameter)
+        Dim mapper_stores As New SEGURIDAD.Mapper_Stored
+        Try
+            Dim P(0) As SqlParameter
+            P(0) = sqlhelper.BuildParameter("@P1", unbe.id)
+            lista_parametros.AddRange(P)
+            datatable = mapper_stores.consultar("consulta_artefacto", lista_parametros)
+            For Each row As DataRow In datatable.Rows
+                unbe.descripcion = row(1)
+                unbe.relacion_bocamercado = row(2)
+            Next
+            Return unbe
+        Catch ex As Exception
+            Return Nothing
+        End Try
     End Function
 
     Public Function consultartodos() As List(Of BE.BE_ArtefactoElectrico)

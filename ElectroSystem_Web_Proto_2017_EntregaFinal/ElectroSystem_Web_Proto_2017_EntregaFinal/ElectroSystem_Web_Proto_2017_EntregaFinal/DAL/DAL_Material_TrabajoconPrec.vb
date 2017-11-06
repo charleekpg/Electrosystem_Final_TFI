@@ -39,7 +39,27 @@ Public Class DAL_Material_TrabajoconPrec
 		''' 
 		''' <param name="unbe"></param>
     Public Function consultar(ByVal unbe As BE.BE_Material_TrabajoconPrec) As BE.BE_Material_TrabajoconPrec
-        consultar = Nothing
+        Dim sqlhelper As New SEGURIDAD.SQLHelper
+        Dim datatable As New DataTable
+        Dim lista_parametros As New List(Of SqlParameter)
+        Dim mapper_stores As New SEGURIDAD.Mapper_Stored
+        Try
+            Dim P(0) As SqlParameter
+            P(0) = sqlhelper.BuildParameter("@P1", unbe.id)
+            lista_parametros.AddRange(P)
+            If unbe.Material = True Then
+                datatable = mapper_stores.consultar("consulta_material", lista_parametros)
+            Else
+                datatable = mapper_stores.consultar("consulta_trabajo", lista_parametros)
+            End If
+            For Each row As DataRow In datatable.Rows
+                unbe.Descripcion = row(1)
+                unbe.Precio = row(2)
+            Next
+            Return unbe
+        Catch ex As Exception
+            Return Nothing
+        End Try
     End Function
 
     Public Function consultartodos() As List(Of BE.BE_Material_TrabajoconPrec)
