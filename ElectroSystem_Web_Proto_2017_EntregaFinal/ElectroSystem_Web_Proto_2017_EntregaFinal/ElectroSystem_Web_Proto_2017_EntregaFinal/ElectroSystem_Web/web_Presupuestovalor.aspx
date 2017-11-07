@@ -1,6 +1,6 @@
 ﻿<%@ Page Title="" Language="vb" AutoEventWireup="false" MasterPageFile="~/General_Electrosystem.Master" CodeBehind="web_Presupuestovalor.aspx.vb" Inherits="ElectroSystem_Web.web_Presupuestovalor" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
-    <asp:Label ID="Label1" runat="server" Text="Label"></asp:Label>
+    <asp:Label ID="lbl_codpresupuesto" runat="server" Text="Label"></asp:Label>
     <asp:DropDownList ID="cmb_presupuesto" runat="server"></asp:DropDownList>
     <asp:Button ID="btn_cargar_presupuesto" runat="server" Text="Button" />
 <br>
@@ -42,7 +42,11 @@
             <asp:BoundField DataField="valor_manoobra" FooterText="col_valormanoobra" HeaderText="col_valormanoobra" />
             <asp:BoundField DataField="valor_material" FooterText="col_valormaterial" HeaderText="col_valormaterial" />
             <asp:BoundField DataField="valor_trabajoconprecio" FooterText="col_valortrabajoconprecio" HeaderText="col_valortrabajoconprecio" />
+                        <asp:BoundField DataField="valor_segurovida" FooterText="col_valorsegurovida" HeaderText="col_valorsegurovida" />
+
             <asp:BoundField DataField="valor_otros" FooterText="col_valorotros" HeaderText="col_valorotros" />
+                        <asp:BoundField DataField="valor_total" FooterText="col_valortotal" HeaderText="col_valortotal" />
+
         </Columns>
         <EditRowStyle BackColor="#999999" />
         <FooterStyle BackColor="#5D7B9D" Font-Bold="True" ForeColor="White" />

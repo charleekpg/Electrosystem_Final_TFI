@@ -16,8 +16,9 @@
                         DirectCast(Me.Master, General_Electrosystem).traductora_controles(Me.Controls)
                         DirectCast(Me.Master, General_Electrosystem).Deshabilitar_Controles(Me.Controls)
                         Session.Add("Entero_Flag", entero_flag)
+                        DirectCast(Me.Master, General_Electrosystem).traducir_grilla(grd_presupuesto_final)
                         cargar_partidos()
-
+                        btn_cancelarpres_Click(Nothing, Nothing)
                     Else
                         Response.Redirect("web_login.aspx", False)
                     End If
@@ -63,6 +64,88 @@
 
     End Sub
 
+    Class grilla
+        Private _cod_presupuesto As Integer
+        Public Property cod_presupuesto() As Integer
+            Get
+                Return _cod_presupuesto
+            End Get
+            Set(ByVal value As Integer)
+                _cod_presupuesto = value
+            End Set
+        End Property
+
+        Private _valor_segurovida As Decimal
+        Public Property valor_segurovida() As Decimal
+            Get
+                Return _valor_segurovida
+            End Get
+            Set(ByVal value As Decimal)
+                _valor_segurovida = value
+            End Set
+        End Property
+
+        Private _valor_total As Decimal
+        Public Property valor_total() As Decimal
+            Get
+                Return _valor_total
+            End Get
+            Set(ByVal value As Decimal)
+                _valor_total = value
+            End Set
+        End Property
+
+        Private _nomb_ape_rs As String
+        Public Property nomb_ape_rs() As String
+            Get
+                Return _nomb_ape_rs
+            End Get
+            Set(ByVal value As String)
+                _nomb_ape_rs = value
+            End Set
+        End Property
+
+        Private _valor_manoobra As Decimal
+        Public Property valor_manoobra() As Decimal
+            Get
+                Return _valor_manoobra
+            End Get
+            Set(ByVal value As Decimal)
+                _valor_manoobra = value
+            End Set
+        End Property
+
+        Private _valor_material As Decimal
+        Public Property valor_material() As Decimal
+            Get
+                Return _valor_material
+            End Get
+            Set(ByVal value As Decimal)
+                _valor_material = value
+            End Set
+        End Property
+
+        Private _valor_trabajoconprecio As Decimal
+        Public Property valor_trabajoconprecio() As Decimal
+            Get
+                Return _valor_trabajoconprecio
+            End Get
+            Set(ByVal value As Decimal)
+                _valor_trabajoconprecio = value
+            End Set
+        End Property
+
+        Private _valor_otros As Decimal
+        Public Property valor_otros() As Decimal
+            Get
+                Return _valor_otros
+            End Get
+            Set(ByVal value As Decimal)
+                _valor_otros = value
+            End Set
+        End Property
+    End Class
+
     Protected Sub btn_cancelarpres_Click(sender As Object, e As EventArgs) Handles btn_cancelarprtec.Click
         Session("Grilla") = Nothing
         Session("Grilla") = New List(Of grilla)
@@ -90,7 +173,7 @@
         btn_guardarpresucom.Enabled = False
         cbx_localidad.Enabled = False
         cbx_parti.Enabled = False
-
+        Session("Calculado") = 0
     End Sub
 
     Sub cargar_presupuestos_estado()
@@ -98,12 +181,18 @@
             Dim bll_presupuesto As New BLL.BLL_Presupuesto
             Dim presupuesto As New BE.BE_Presupuesto
             Dim LISTA_PRESUPUESTO As List(Of BE.BE_Presupuesto)
+            Dim lista_presupuestos_final As List(Of BE.BE_Presupuesto)
             Session("Lista_Presupuestos_1") = Nothing
             presupuesto.estado_presupuesto = "Pendiente de llenado por parte del Responsable Comercial"
+            Session("Lista_Presupuestos_1") = bll_presupuesto.consultar_varios(presupuesto)
+            presupuesto.estado_presupuesto = "Cerrado"
             LISTA_PRESUPUESTO = bll_presupuesto.consultar_varios(presupuesto)
             If LISTA_PRESUPUESTO.Count > 0 Then
-                Session("Lista_Presupuestos_1") = LISTA_PRESUPUESTO
-                LISTA_PRESUPUESTO.Sort(Function(x, y) x.id.CompareTo(y.id))
+                lista_presupuestos_final = Session("Lista_Presupuestos_1")
+                For Each elemento As BE.BE_Presupuesto In LISTA_PRESUPUESTO
+                    lista_presupuestos_final.Add(elemento)
+                Next
+                lista_presupuestos_final.Sort(Function(x, y) x.id.CompareTo(y.id))
             End If
             cmb_presupuesto.Enabled = True
             cmb_presupuesto.DataSource = Session("Lista_Presupuestos_1")
@@ -126,87 +215,52 @@
             Dim presupuesto As BE.BE_Presupuesto
             btn_cargar_presupuesto.Enabled = False
             presupuesto = CType(Session("Lista_Presupuestos_1"), List(Of BE.BE_Presupuesto)).Find(Function(x) x.id = cmb_presupuesto.SelectedItem.Text)
+            chk_actuaindice.Enabled = True
+            chk_cobroadel.Enabled = True
+            chk_preciosegvida.Enabled = True
+            chk_viatico.Enabled = True
+            cmb_presupuesto.Enabled = False
+            btn_cargar_presupuesto.Enabled = False
+            btn_cancelarprtec.Enabled = True
+            btn_calcvaltot.Enabled = True
+            btn_guardarpresucom.Enabled = False
+            cbx_parti.Enabled = True
+            cbx_localidad.Enabled = True
             If presupuesto.estado_presupuesto = "Pendiente de llenado por Parte del Responsable Comercial" Then
                 Session("Entero_Flag") = 1
-                chk_actuaindice.Enabled = True
-                chk_cobroadel.Enabled = True
-                chk_preciosegvida.Enabled = True
-                chk_viatico.Enabled = True
-                cmb_presupuesto.Enabled = False
-                btn_cargar_presupuesto.Enabled = False
-                btn_cancelarprtec.Enabled = True
-                btn_calcvaltot.Enabled = True
-                btn_guardarpresucom.Enabled = False
-                cbx_parti.Enabled = True
-                cbx_localidad.Enabled = True
             Else
                 Session("Entero_Flag") = 2
-                txt_caneria.Text = presupuesto.porcentaje_caneriaycableado
-                txt_caneria.Enabled = True
-                txt_llaves.Text = presupuesto.porcentaje_llaveytoma
-                txt_llaves.Enabled = True
-                txt_losa.Text = presupuesto.porcentaje_losa
-                txt_losa.Enabled = True
-                txt_tableros.Text = presupuesto.porcentaje_tablero
-                txt_tableros.Enabled = True
-                txt_terminaciones.Text = presupuesto.porcentaje_terminacion
-                txt_terminaciones.Enabled = True
-                btn_evaluarcontradibujo.Enabled = True
-                Dim lista_grilla As New List(Of grilla)
-                Dim tmp_grilla As grilla
-                For Each elemento In presupuesto.Artefacto_electrico
-                    tmp_grilla = New grilla
-                    tmp_grilla.col_id = elemento.id
-                    tmp_grilla.col_precio = elemento.precio
-                    tmp_grilla.col_descripcion = elemento.descripcion
-                    tmp_grilla.col_cantidad = elemento.cantidad
-                    tmp_grilla.col_tipo = "Artefacto"
-                    lista_grilla.Add(tmp_grilla)
-                Next
-                For Each elemento In presupuesto.Materiales_trabajo
-                    tmp_grilla = New grilla
-                    tmp_grilla.col_id = elemento.id
-                    tmp_grilla.col_precio = elemento.Precio
-                    tmp_grilla.col_descripcion = elemento.Descripcion
-                    tmp_grilla.col_cantidad = elemento.cantidad
-                    If elemento.Material = True Then
-                        tmp_grilla.col_tipo = "Material"
-                    Else
-                        tmp_grilla.col_tipo = "Trabajo"
-                    End If
-                    lista_grilla.Add(tmp_grilla)
-                Next
-                Session("Grilla") = lista_grilla
-                cargar_artefacto()
-                cbx_arteprtec.Enabled = True
-                num_arteprtec.Enabled = True
-                num_arteprtec.Text = "1"
-                cargar_materiales()
-                cbx_matprtec.Enabled = True
-                num_matprtec.Enabled = True
-                num_matprtec.Text = "1"
-                cbx_trabprtec.Enabled = True
-                num_trabprtec.Enabled = True
-                num_trabprtec.Text = "1"
-                CHK_Depusodomigranesca.Checked = False
-                CHK_Instaeleccomple.Checked = False
+                chk_actuaindice.Checked = presupuesto.actualizaicac
+                If presupuesto.porcentaje_aldarluz > 0 Then
+                    chk_cobroadel.Checked = True
+                    txt_poradelanto.Text = presupuesto.porcentaje_aldarluz
+                End If
+                chk_actuaindice.Checked = presupuesto.actualizaicac
+                If presupuesto.valor_seguro_vida > 0 Then
+                    chk_preciosegvida.Checked = True
+                    txt_valorseg.Text = presupuesto.valor_seguro_vida
+                End If
+                If presupuesto.valor_otros > 0 Then
+                    chk_viatico.Checked = True
+                    txt_valorvia.Text = presupuesto.valor_otros
+                End If
 
-                CHK_Depusodomigranesca.Checked = presupuesto.departamento_granescala
-                CHK_Depusodomigranesca.Enabled = True
-                CHK_Instaeleccomple.Checked = presupuesto.Instalacion_compleja
-                CHK_Instaeleccomple.Enabled = True
-                cbx_arteprtec.Enabled = True
-                num_arteprtec.Enabled = True
-                btn_addarteleprtec.Enabled = True
-
-                cbx_matprtec.Enabled = True
-                num_matprtec.Enabled = True
-                btn_addmatprtec.Enabled = True
-                cbx_trabprtec.Enabled = True
-                num_trabprtec.Enabled = True
-                btn_addtrabprtec.Enabled = True
-                dtg_armattrabprtec.DataSource = lista_grilla
-                dtg_armattrabprtec.DataBind()
+                Dim grilla As New grilla
+                Dim lista_grilla As List(Of grilla) = Session("Grilla")
+                grilla.cod_presupuesto = presupuesto.id
+                If presupuesto.Cliente_Persona.identificador.Length = 11 Then
+                    grilla.nomb_ape_rs = CType(presupuesto.Cliente_Persona, BE.BE_Personajuridica).Razonsocial
+                Else
+                    grilla.nomb_ape_rs = CType(presupuesto.Cliente_Persona, BE.BE_Personafisica).Nombre & " " & CType(presupuesto.Cliente_Persona, BE.BE_Personafisica).Apellido
+                End If
+                grilla.valor_segurovida = presupuesto.valor_seguro_vida
+                grilla.valor_manoobra = presupuesto.valor_manodeobra
+                grilla.valor_material = presupuesto.valor_material
+                grilla.valor_otros = presupuesto.valor_otros
+                grilla.valor_trabajoconprecio = presupuesto.valor_trabajoconprecio
+                lista_grilla.Add(grilla)
+                grd_presupuesto_final.DataSource = lista_grilla
+                grd_presupuesto_final.DataBind()
             End If
         Catch ex As Exception
             Response.Redirect("web_error_inicio.aspx", False)
@@ -254,27 +308,38 @@
 
     Protected Sub btn_calcvaltot_Click(sender As Object, e As EventArgs) Handles btn_calcvaltot.Click
         Try
+            Session("Grilla") = New List(Of grilla)
             Dim bll_presupuesto As New BLL.BLL_Presupuesto
+            Dim presupuesto As BE.BE_Presupuesto = CType(Session("Lista_Presupuestos_1"), List(Of BE.BE_Presupuesto)).Find(Function(x) x.id = cmb_presupuesto.SelectedItem.Text)
             Dim bll_calculardistancia As New BLL.BLL_Domicilio
             Dim be_domicilio As New BE.BE_Domicilio
-            be_domicilio.localidad = cbx_localidad.SelectedItem()
+            be_domicilio.localidad = CType(Application("Partidos"), List(Of BE.BE_Partido)).Find(Function(x) x.partido = cbx_parti.SelectedItem.Text).localidades.Find(Function(y) y.localidad = cbx_localidad.SelectedItem.Text)
             If bll_calculardistancia.calcular_distancia(presupuesto.Domicilio, be_domicilio) > 20 Then
                 presupuesto.masde20km = True
             Else
                 presupuesto.masde20km = False
             End If
             bll_presupuesto.calcularvalores(presupuesto)
-            txt_valmano.Text = presupuesto.valor_manodeobra
-            txt_valormat.Text = presupuesto.valor_material
-            txt_valorseg.Text = presupuesto.valor_seguro_vida
-            txt_valorprecest.Text = presupuesto.valor_trabajoconprecio
-            txt_valorvia.Text = presupuesto.valor_otros
-            habilitar_controles()
+            Dim grilla As New grilla
+            Dim lista_grilla As List(Of grilla) = Session("Grilla")
+            grilla.cod_presupuesto = presupuesto.id
+            If presupuesto.Cliente_Persona.identificador.Length = 11 Then
+                grilla.nomb_ape_rs = CType(presupuesto.Cliente_Persona, BE.BE_Personajuridica).Razonsocial
+            Else
+                grilla.nomb_ape_rs = CType(presupuesto.Cliente_Persona, BE.BE_Personafisica).Nombre & " " & CType(presupuesto.Cliente_Persona, BE.BE_Personafisica).Apellido
+            End If
+            grilla.valor_segurovida = presupuesto.valor_seguro_vida
+            grilla.valor_manoobra = presupuesto.valor_manodeobra
+            grilla.valor_material = presupuesto.valor_material
+            grilla.valor_otros = presupuesto.valor_otros
+            grilla.valor_trabajoconprecio = presupuesto.valor_trabajoconprecio
+            lista_grilla.Add(grilla)
+            grd_presupuesto_final.DataSource = lista_grilla
+            grd_presupuesto_final.DataBind()
+            Session("Calculado") = 1
+            btn_guardarpresucom.Enabled = True
         Catch ex As Exception
-            MsgBox(traductor.traducir_msgbox("msg_error"), , "Electrosystem")
-            Me.Close()
+            Response.Redirect("web_error_inicio.aspx", False)
         End Try
-
-
     End Sub
 End Class

@@ -12,22 +12,6 @@ Public Class BLL_Domicilio
     ''' <param name="unbe"></param>
     ''' <param name="domicilio"></param>
     Public Function calcular_distancia(ByVal unbe As BE.BE_Domicilio, ByVal domicilio As BE.BE_Domicilio) As Decimal
-        'cabe señalar que a los fines del prototipo se realiza nuevamente la busqueda...esto no será de esta forma ya que se tendrá el objeto correspondiente.
-        LISTA.Clear()
-        'If DAL.DAL_Partido.partidos.Count = 0 Then
-        '    DAL.DAL_Partido.cargar_partidoscompartido()
-        'End If
-
-        For Each partido As BE.BE_Partido In DAL.DAL_Partido.partidos
-                For Each localidad As BE.be_localidad In partido.localidades
-                    LISTA.Add(localidad)
-                Next
-            Next
-
-
-            unbe.localidad = LISTA.Find(Function(x) x.localidad = unbe.localidad.localidad)
-        domicilio.localidad = LISTA.Find(Function(x) x.localidad = domicilio.localidad.localidad)
-        '''''''''''' HASTA ACA NO VA A IR
 
         Dim latitud1 As Double = 0
         Dim latitud2 As Double = 0
