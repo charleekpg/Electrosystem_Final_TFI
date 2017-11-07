@@ -723,6 +723,10 @@
             Response.Redirect("web_error_inicio.aspx", False)
 
         End Try
-        
+
+    End Sub
+
+    Protected Sub dtg_ambientes_SelectedIndexChanged(sender As Object, e As EventArgs) Handles dtg_ambientes.SelectedIndexChanged
+
     End Sub
 End Class

@@ -500,6 +500,10 @@
 
     End Sub
 
+    Private Sub cbx_localidad_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cbx_localidad.SelectedIndexChanged
+
+    End Sub
+
     Private Class grilla_evaluarplano
         Private _ambiente As String
         Public Property ambiente() As String

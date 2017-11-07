@@ -133,6 +133,7 @@
     <Content Include="Web_Idioma.aspx" />
     <Content Include="Web_Inicio.aspx" />
     <Content Include="web_permisos.aspx" />
+    <Content Include="web_Presupuestovalor.aspx" />
     <Content Include="web_usuario.aspx" />
   </ItemGroup>
   <ItemGroup>
@@ -352,6 +353,13 @@
     </Compile>
     <Compile Include="web_permisos.aspx.vb">
       <DependentUpon>web_permisos.aspx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
+    </Compile>
+    <Compile Include="web_Presupuestovalor.aspx.designer.vb">
+      <DependentUpon>web_Presupuestovalor.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="web_Presupuestovalor.aspx.vb">
+      <DependentUpon>web_Presupuestovalor.aspx</DependentUpon>
       <SubType>ASPXCodebehind</SubType>
     </Compile>
     <Compile Include="web_usuario.aspx.designer.vb">
