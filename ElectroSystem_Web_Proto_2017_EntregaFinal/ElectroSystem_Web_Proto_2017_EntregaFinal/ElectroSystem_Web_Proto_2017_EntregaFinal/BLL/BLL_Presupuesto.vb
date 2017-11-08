@@ -127,9 +127,6 @@
         Return valor
     End Function
 
-
-    ''' 
-    ''' <param name="unbe"></param>
     Public Sub calcularvalores(ByVal unbe As BE.BE_Presupuesto)
         Dim bll_bocamercado As New BLL_BocaMercado
         Dim be_bocamercado As BE.BE_BocaMercado
@@ -153,28 +150,24 @@
         End If
         Select Case cantidad_bocas
             Case Is > 400
-                ' be_bocamercado = bocas.FindLast(Function(x) x.tipo = "Boca Mercado")
-                unbe.valor_manodeobra = Me.calcular_precios_artefactos(unbe.Artefacto_electrico, be_bocamercado)
+                unbe.valor_manodeobra = Me.calcular_precios_artefactos(unbe.Artefacto_electrico, (bocas.Item(0)))
             Case Is < 400
                 If unbe.departamento_granescala = True Then
-                    '     be_bocamercado = bocas.FindLast(Function(x) x.tipo = "Boca Mercado")
                     If Not unbe.Artefacto_electrico Is Nothing Then
-                        unbe.valor_manodeobra = Me.calcular_precios_artefactos(unbe.Artefacto_electrico, be_bocamercado)
+                        unbe.valor_manodeobra = Me.calcular_precios_artefactos(unbe.Artefacto_electrico, (bocas.Item(0)))
                     End If
                 Else
                     If unbe.Instalacion_compleja = True Then
                         If Not unbe.Cliente_Persona Is Nothing Then
                             If unbe.Cliente_Persona.TratamientoEspecial = True Or unbe.Domicilio.country = True Or unbe.masde20km = True Then
-                                '            be_bocamercado = bocas.FindLast(Function(x) x.tipo = "Boca Extraordinaria")
                                 If Not unbe.Artefacto_electrico Is Nothing Then
-                                    unbe.valor_manodeobra = Me.calcular_precios_artefactos(unbe.Artefacto_electrico, be_bocamercado)
+                                    unbe.valor_manodeobra = Me.calcular_precios_artefactos(unbe.Artefacto_electrico, bll_bocamercado.calcularbocaextraordinaria((bocas.Item(0))))
                                 End If
                             End If
                         End If
                     Else
-                        '  be_bocamercado = bocas.FindLast(Function(x) x.tipo = "Boca Empresa")
                         If Not unbe.Artefacto_electrico Is Nothing Then
-                            unbe.valor_manodeobra = Me.calcular_precios_artefactos(unbe.Artefacto_electrico, be_bocamercado)
+                            unbe.valor_manodeobra = Me.calcular_precios_artefactos(unbe.Artefacto_electrico, bll_bocamercado.calcularbocaempresa(bocas.Item(0)))
                         End If
                     End If
                 End If
@@ -208,9 +201,8 @@
 
     ''' 
     ''' <param name="unbe"></param>
-    Public Sub calculo_valordinamico(ByVal unbe As BE.BE_Presupuesto)
+    Private Sub calculo_valordinamico(ByVal unbe As BE.BE_Presupuesto)
         unbe.valor_total = unbe.valor_manodeobra + unbe.valor_material + unbe.valor_otros + unbe.valor_seguro_vida + unbe.valor_trabajoconprecio
-
     End Sub
 
     ''' 
@@ -315,11 +307,22 @@
     ''' 
     ''' <param name="unbe"></param>
     Public Function guardar_estado_cliente(ByVal unbe As BE.BE_Presupuesto) As Integer
-        unbe.estado_presupuesto = "Enviado a Cliente"
-        unbe.fecha_modificacion = Now
         Dim dal_presupuesto As New DAL.DAL_Presupuesto
-        dal_presupuesto.guardar_estado_cliente(unbe)
-
+        Dim cifrado As New SEGURIDAD.Criptografia
+        Try
+            unbe.estado_presupuesto = "Cerrado"
+            unbe.estado_presupuesto = cifrado.cifrar(unbe.estado_presupuesto)
+            unbe.fecha_modificacion = Now
+            Select Case dal_presupuesto.guardar_estado_cliente(unbe)
+                Case 10153
+                    Return 10153
+                Case 10154
+                    Return 10154
+            End Select
+        Catch ex As Exception
+            Return 10154
+        End Try
+        
     End Function
 
     ''' 

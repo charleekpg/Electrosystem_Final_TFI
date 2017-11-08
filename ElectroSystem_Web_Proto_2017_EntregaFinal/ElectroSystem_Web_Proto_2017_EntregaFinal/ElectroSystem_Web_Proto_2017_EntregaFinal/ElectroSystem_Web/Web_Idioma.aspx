@@ -2,15 +2,6 @@
 
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     <script lang="javascript">
-function confirmar()
-{
-    if (document.getElementById('rdb_elimina').checked) {
-        if (confirm('¿Desea eliminar el idioma?'))
-            return true;
-        else
-            return false;
-}
-}
 function soloLetras(e) {
 
        key = e.keyCode || e.which;

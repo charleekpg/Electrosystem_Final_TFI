@@ -308,9 +308,54 @@
 
     Protected Sub btn_calcvaltot_Click(sender As Object, e As EventArgs) Handles btn_calcvaltot.Click
         Try
+
             Session("Grilla") = New List(Of grilla)
             Dim bll_presupuesto As New BLL.BLL_Presupuesto
             Dim presupuesto As BE.BE_Presupuesto = CType(Session("Lista_Presupuestos_1"), List(Of BE.BE_Presupuesto)).Find(Function(x) x.id = cmb_presupuesto.SelectedItem.Text)
+            If chk_cobroadel.Checked = True Then
+                If Not String.IsNullOrEmpty(txt_poradelanto.Text) Then
+                    If txt_poradelanto.Text > 100 Then
+                        Response.Write(DirectCast(Me.Master, General_Electrosystem).Traductora("msg_porcentajeinvalido"))
+                        Exit Sub
+                    Else
+                        If txt_poradelanto.Text > 0 Then
+                            presupuesto.porcentaje_aldarluz = txt_poradelanto.Text
+                        End If
+                    End If
+                Else
+                    presupuesto.porcentaje_aldarluz = txt_poradelanto.Text
+                End If
+            Else
+                presupuesto.porcentaje_aldarluz = 0
+            End If
+            If chk_preciosegvida.Checked = True Then
+                If Not String.IsNullOrEmpty(txt_valorseg.Text) Then
+                    If txt_valorseg.Text > 0 Then
+                        presupuesto.valor_seguro_vida = txt_valorseg.Text
+                    Else
+                        presupuesto.valor_seguro_vida = 0
+                    End If
+                Else
+                    presupuesto.valor_seguro_vida = 0
+                End If
+            Else
+                presupuesto.valor_seguro_vida = 0
+            End If
+
+            If chk_viatico.Checked = True Then
+                If Not String.IsNullOrEmpty(txt_valorvia.Text) Then
+                    If txt_valorvia.Text > 0 Then
+                        presupuesto.valor_otros = txt_valorvia.Text
+                    Else
+                        presupuesto.valor_otros = 0
+                    End If
+                Else
+                    presupuesto.valor_otros = 0
+                End If
+            Else
+                presupuesto.valor_otros = 0
+            End If
+            presupuesto.actualizaicac = chk_actuaindice.Checked
             Dim bll_calculardistancia As New BLL.BLL_Domicilio
             Dim be_domicilio As New BE.BE_Domicilio
             be_domicilio.localidad = CType(Application("Partidos"), List(Of BE.BE_Partido)).Find(Function(x) x.partido = cbx_parti.SelectedItem.Text).localidades.Find(Function(y) y.localidad = cbx_localidad.SelectedItem.Text)
@@ -338,8 +383,45 @@
             grd_presupuesto_final.DataBind()
             Session("Calculado") = 1
             btn_guardarpresucom.Enabled = True
+            btn_calcvaltot.Enabled = False
+            chk_actuaindice.Enabled = False
+            chk_cobroadel.Enabled = False
+            chk_preciosegvida.Enabled = False
+            chk_viatico.Enabled = False
+            txt_poradelanto.Enabled = False
+            txt_valorseg.Enabled = False
+            txt_valorvia.Enabled = False
+
         Catch ex As Exception
             Response.Redirect("web_error_inicio.aspx", False)
         End Try
+    End Sub
+
+    Protected Sub btn_guardarpresucom_Click(sender As Object, e As EventArgs) Handles btn_guardarpresucom.Click
+        Try
+            Dim be_bitacora As New BE.BE_Bitacora
+            Dim bll_bitacora As New BLL.BLL_Bitacora
+
+            If Session("Calculado") = 1 Then
+                Dim presupuesto As BE.BE_Presupuesto = CType(Session("Lista_Presupuestos_1"), List(Of BE.BE_Presupuesto)).Find(Function(x) x.id = cmb_presupuesto.SelectedItem.Text)
+                Dim bll_presupuesto As New BLL.BLL_Presupuesto
+                Select Case bll_presupuesto.guardar_estado_cliente(presupuesto)
+                    Case 10153
+                        be_bitacora.codigo_evento = 10153
+                        be_bitacora.usuario = Session("Usuario")
+                        bll_bitacora.alta(be_bitacora)
+                        Response.Write(DirectCast(Me.Master, General_Electrosystem).Traductora("msg_actrcome"))
+                        btn_cancelarpres_Click(Nothing, Nothing)
+                    Case 10154
+                        be_bitacora.codigo_evento = 10154
+                        be_bitacora.usuario = Session("Usuario")
+                        bll_bitacora.alta(be_bitacora)
+                        Response.Redirect("web_error_inicio.aspx", False)
+                End Select
+            End If
+        Catch ex As Exception
+            Response.Redirect("web_error_inicio.aspx", False)
+        End Try
+
     End Sub
 End Class

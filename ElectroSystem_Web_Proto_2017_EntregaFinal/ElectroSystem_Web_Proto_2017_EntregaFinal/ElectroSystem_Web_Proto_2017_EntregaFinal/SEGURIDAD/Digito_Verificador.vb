@@ -23,10 +23,10 @@ Public Class Digito_Verificador
                     datatable = mapper_stores.consultar("buscarfilaerror_bitacora", lista_parametros)
                     For Each row As DataRow In datatable.Rows
                         Dim stringconcatenado As String = ""
-                        If row.Item(5) = "0" Then
+                        If IsDBNull(row.Item(5)) Then
                             stringconcatenado = "0" & row.Item(1).ToString & row.Item(3).ToString & row.Item(6).ToString
                         Else
-                            stringconcatenado = "1" & row.Item(1).ToString & row.Item(3).ToString & row.Item(6).ToString
+                            stringconcatenado = "0" & row.Item(1).ToString & row.Item(3).ToString & row.Item(6).ToString & row.Item(4).ToString
                         End If
                         If Not calculardigitoverificador(stringconcatenado) = row.Item(2).ToString Then
                             error_integridad = True

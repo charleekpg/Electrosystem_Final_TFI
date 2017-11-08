@@ -305,6 +305,8 @@ Public Class DAL_Presupuesto
                     datatable = mapper_stores.consultar("consultar_presupuestos_estado_tecnico", lista_parametros)
                 Case "Pendiente de llenado por parte del Responsable Comercial"
                     datatable = mapper_stores.consultar("consultar_presupuestos_estado_comercial", lista_parametros)
+                Case "Cerrado"
+                    datatable = mapper_stores.consultar("consultar_presupuesto_estado_cerrado", lista_parametros)
             End Select
             For Each fila As DataRow In datatable.Rows
                 Dim tmppresupuesto As New BE.BE_Presupuesto
@@ -369,11 +371,28 @@ Public Class DAL_Presupuesto
                         tmppresupuesto.departamento_granescala = fila(24)
                         tmppresupuesto.Instalacion_compleja = fila(25)
                     End If
-                    
+                    If seguridad.descifrar(unbe.estado_presupuesto) = "Cerrado" Then
+                        tmppresupuesto.porcentaje_caneriaycableado = fila(19)
+                        tmppresupuesto.porcentaje_llaveytoma = fila(20)
+                        tmppresupuesto.porcentaje_losa = fila(21)
+                        tmppresupuesto.porcentaje_tablero = fila(22)
+                        tmppresupuesto.porcentaje_terminacion = fila(23)
+                        tmppresupuesto.departamento_granescala = fila(24)
+                        tmppresupuesto.Instalacion_compleja = fila(25)
+                        tmppresupuesto.masde400bocas = fila(26)
+                        tmppresupuesto.masde20km = fila(27)
+                        tmppresupuesto.valor_manodeobra = fila(28)
+                        tmppresupuesto.valor_seguro_vida = fila(29)
+                        tmppresupuesto.valor_otros = fila(30)
+                        tmppresupuesto.actualizaicac = fila(31)
+                        tmppresupuesto.valor_material = fila(32)
+                        tmppresupuesto.valor_trabajoconprecio = fila(33)
+                        tmppresupuesto.porcentaje_aldarluz = fila(34)
+                        tmppresupuesto.valor_total = fila(35)
+                    End If
 
-
-                End If
-                lista_presupuestos.Add(tmppresupuesto)
+                    End If
+                    lista_presupuestos.Add(tmppresupuesto)
             Next
             Return lista_presupuestos
         Catch ex As Exception
@@ -394,6 +413,59 @@ Public Class DAL_Presupuesto
     ''' 
     ''' <param name="unbe"></param>
     Public Function guardar_estado_cliente(ByVal unbe As BE.BE_Presupuesto) As Integer
+        Dim sqlhelper As New SEGURIDAD.SQLHelper
+        Dim mapper_stores As New SEGURIDAD.Mapper_Stored
+        Dim lista_parametros As New List(Of SqlParameter)
+        Dim actualizacion_presupuesto As New SqlCommand
+        Dim stringconcatenado As String = ""
+        Try
+            Dim P(12) As SqlParameter
+            P(0) = sqlhelper.BuildParameter("@P1", unbe.masde400bocas)
+            P(1) = sqlhelper.BuildParameter("@P2", unbe.masde20km)
+            P(2) = sqlhelper.BuildParameter("@P3", unbe.valor_manodeobra)
+            P(3) = sqlhelper.BuildParameter("@P4", unbe.valor_seguro_vida)
+            P(4) = sqlhelper.BuildParameter("@P5", unbe.valor_otros)
+            P(5) = sqlhelper.BuildParameter("@P6", unbe.actualizaicac)
+            P(6) = sqlhelper.BuildParameter("@P7", unbe.valor_material)
+            P(7) = sqlhelper.BuildParameter("@P8", unbe.valor_trabajoconprecio)
+            P(8) = sqlhelper.BuildParameter("@P9", unbe.porcentaje_aldarluz)
+            P(9) = sqlhelper.BuildParameter("@P10", unbe.estado_presupuesto)
+            P(10) = sqlhelper.BuildParameter("@P11", unbe.valor_total)
+            P(11) = sqlhelper.BuildParameter("@P12", unbe.fecha_modificacion)
+            P(12) = sqlhelper.BuildParameter("@P13", unbe.id)
+            lista_parametros.AddRange(P)
+            mapper_stores.insertar_eliminar_modificar("actualizacion_presupuesto_cliente", lista_parametros)
+            If Not unbe.Artefacto_electrico Is Nothing Then
+                For Each artefacto As BE.BE_ArtefactoElectrico In unbe.Artefacto_electrico
+                    lista_parametros.Clear()
+                    Dim A(2) As SqlParameter
+                    A(0) = sqlhelper.BuildParameter("@P2", artefacto.id)
+                    A(1) = sqlhelper.BuildParameter("@P1", artefacto.precio)
+                    A(2) = sqlhelper.BuildParameter("@P3", unbe.id)
+                    lista_parametros.AddRange(A)
+                    mapper_stores.insertar_eliminar_modificar("actualizacion_presupuesto_artefactoselectricos", lista_parametros)
+                Next
+            End If
+            If Not unbe.Materiales_trabajo Is Nothing Then
+                For Each MAT_TRABAJO As BE.BE_Material_TrabajoconPrec In unbe.Materiales_trabajo
+                    lista_parametros.Clear()
+                    Dim A(2) As SqlParameter
+                    A(0) = sqlhelper.BuildParameter("@P1", MAT_TRABAJO.precio_cantidad)
+                    A(1) = sqlhelper.BuildParameter("@P2", MAT_TRABAJO.id)
+                    A(2) = sqlhelper.BuildParameter("@P3", unbe.id)
+                    lista_parametros.AddRange(A)
+
+                    If MAT_TRABAJO.Material = True Then
+                        mapper_stores.insertar_eliminar_modificar("actualizacion_presupuesto_material", lista_parametros)
+                    Else
+                        mapper_stores.insertar_eliminar_modificar("actualizacion_presupuesto_trabajoconprecioestip", lista_parametros)
+                    End If
+                Next
+            End If
+            Return 10153
+        Catch ex As Exception
+            Return 10154
+        End Try
     End Function
 
     ''' 
@@ -438,6 +510,6 @@ Public Class DAL_Presupuesto
     End Function
 
 
-End Class ' DAL_Presupuesto
+End Class
 
 

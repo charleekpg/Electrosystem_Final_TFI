@@ -23,6 +23,10 @@
         Try
             Dim usu As New BE.BE_Usuario
             Dim usu_bll As New BLL.BLL_Usuario
+            If String.IsNullOrEmpty(txt_usuario.Text) = True Or String.IsNullOrEmpty(txt_contraseña.Text) = True Then
+                Response.Write(DirectCast(Me.Master, General_Inicio).Traductora("msg_compruebecampos", idioma))
+                Exit Sub
+            End If
             usu.Nombre_Usuario = txt_usuario.Text
             usu.Clave = txt_contraseña.Text
             If Request.ServerVariables("REMOTE_ADDR") = "::1" Then

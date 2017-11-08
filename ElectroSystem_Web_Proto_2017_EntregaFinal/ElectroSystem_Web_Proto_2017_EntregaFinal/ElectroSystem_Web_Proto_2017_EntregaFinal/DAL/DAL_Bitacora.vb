@@ -21,6 +21,8 @@ Public Class DAL_Bitacora
             Dim DDVVH As Integer
             If unbe.usuario Is Nothing OrElse unbe.usuario.id_usuario Is Nothing Then
                 ReDim P(3)
+                stringconcatenado = "0" & unbe.fecha_hora.ToString & unbe.codigo_evento.ToString & unbe.informacion_adicional.ToString '& unbe.usuario.id_usuario.ToString
+                DDVVH = SEGURIDAD.Digito_Verificador.calculardigitoverificador(stringconcatenado)
                 P(0) = sqlhelper.BuildParameter("@fecha_hora", unbe.fecha_hora)
                 P(1) = sqlhelper.BuildParameter("@ddvvh", DDVVH)
                 P(2) = sqlhelper.BuildParameter("@codigo_evento", unbe.codigo_evento)
@@ -29,7 +31,7 @@ Public Class DAL_Bitacora
                 mapper_stores.insertar_eliminar_modificar("alta_bitacora_sinidusuario", lista_parametros)
                 SEGURIDAD.Digito_Verificador.calculardigitoverificadorvertical("Bitacora")
             Else
-                stringconcatenado = "0" & unbe.fecha_hora.ToString & unbe.codigo_evento.ToString & unbe.informacion_adicional.ToString '& unbe.usuario.id_usuario.ToString
+                stringconcatenado = "0" & unbe.fecha_hora.ToString & unbe.codigo_evento.ToString & unbe.informacion_adicional.ToString & unbe.usuario.id_usuario.ToString
                 DDVVH = SEGURIDAD.Digito_Verificador.calculardigitoverificador(stringconcatenado)
                 ReDim P(5)
                 P(0) = sqlhelper.BuildParameter("@fecha_hora", unbe.fecha_hora)
