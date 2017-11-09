@@ -2,10 +2,33 @@
 
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     <script lang="JavaScript">
-     function isNumberKey(evt) {
-         var charCode = (evt.which) ? evt.which : evt.keyCode;
-         if (charCode < 48 || charCode > 57)
+        function isNumberint(evt) {
+            var charCode = (evt.which) ? evt.which : evt.keyCode;
+            if (charCode < 48 || charCode > 57)
+                return false;
+            if (charCode == 45) return false;
+            return true;
+        }
+     function soloLetras(e) {
+
+         key = e.keyCode || e.which;
+         tecla = String.fromCharCode(key).toLowerCase();
+         letras = " áéíóúabcdefghijklmnñopqrstuvwxyz";
+         especiales = "8-37-39-46-32";
+         tecla_especial = false
+         for (var i in especiales) {
+             if (key == especiales[i]) {
+                 tecla_especial = true;
+                 break;
+             }
+         }
+         if (letras.indexOf(tecla) == -1 && !tecla_especial) {
              return false;
+         }
+     }
+     function isespacio(evt) {
+         var charCode = (evt.which) ? evt.which : evt.keyCode;
+         if (charCode == 32) return false;
          return true;
      }
 </script>
@@ -14,26 +37,26 @@
     <asp:RadioButton ID="rdb_personaJuridica" runat="server" AutoPostBack="True" />
     <br>
      <asp:Label ID="lbl_razon" runat="server" Text="Label"></asp:Label>
-    <asp:TextBox ID="txt_razon" runat="server" Enabled="False"></asp:TextBox>
+    <asp:TextBox ID="txt_razon" runat="server" Enabled="False" MaxLength="40" onkeypress="return soloLetras(event)"></asp:TextBox>
     <br>
     <asp:HiddenField ID="id_hiddenfield" runat="server" Visible="False" />
             <asp:Label ID="lbl_nombre" runat="server" Text="Label"></asp:Label>
-        <asp:TextBox ID="txt_nombre" runat="server" Enabled="False" MaxLength="20"></asp:TextBox>
+        <asp:TextBox ID="txt_nombre" runat="server" Enabled="False" MaxLength="20" onkeypress="return soloLetras(event)"></asp:TextBox>
         <br>
                 <asp:Label ID="lbl_apellido" runat="server" Text="Label"></asp:Label>
-            <asp:TextBox ID="txt_apellido" runat="server" Enabled="False" MaxLength="20" ></asp:TextBox>
+            <asp:TextBox ID="txt_apellido" runat="server" Enabled="False" MaxLength="20" onkeypress="return soloLetras(event)"></asp:TextBox>
             <br>
                     <asp:Label ID="lbl_cuit" runat="server" Text="Label"></asp:Label>
-                <asp:TextBox ID="txt_cuit" runat="server" Enabled="False" onkeypress="return isNumberKey(event)" MaxLength="11"></asp:TextBox>
+                <asp:TextBox ID="txt_cuit" runat="server" Enabled="False" onkeypress="return isNumberint(event)" MaxLength="11"></asp:TextBox>
                 <br>
                         <asp:Label ID="lbl_dni" runat="server" Text="Label"></asp:Label>
-                    <asp:TextBox ID="txt_dni" runat="server" onkeypress="return isNumberKey(event)" MaxLength="8"></asp:TextBox>
+                    <asp:TextBox ID="txt_dni" runat="server" onkeypress="return isNumberint(event)" MaxLength="8"></asp:TextBox>
                     <br>
                             <asp:Label ID="lbl_correo" runat="server" Text="Label"></asp:Label>
-                        <asp:TextBox ID="txt_correoelectronico" runat="server" Enabled="False" MaxLength="40"></asp:TextBox>
+                        <asp:TextBox ID="txt_correoelectronico" runat="server" Enabled="False" MaxLength="40" onkeypress="return isespacio(event)" ></asp:TextBox>
                         <br>
                                 <asp:Label ID="lbl_telefono" runat="server" Text="Label"></asp:Label>
-                            <asp:TextBox ID="txt_telefono" runat="server" Enabled="False" onkeypress="return isNumberKey(event)" MaxLength="12"></asp:TextBox>
+                            <asp:TextBox ID="txt_telefono" runat="server" Enabled="False" onkeypress="return isNumberint(event)" MaxLength="12"></asp:TextBox>
     <asp:Button ID="btn_agregartel" runat="server" Text="+" Enabled="False" Height="24px" Width="24px" />
     <asp:ListBox ID="dtg_telefonos" runat="server" AutoPostBack="True"></asp:ListBox>
         <asp:Button ID="btn_deseleccionar" runat="server" Enabled="False" />

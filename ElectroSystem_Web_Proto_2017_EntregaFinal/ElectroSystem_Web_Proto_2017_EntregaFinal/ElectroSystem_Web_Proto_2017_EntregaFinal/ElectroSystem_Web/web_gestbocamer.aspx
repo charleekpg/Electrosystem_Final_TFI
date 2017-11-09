@@ -8,7 +8,7 @@
          if (charCode != 44 && charCode > 31
            && (charCode < 48 || charCode > 57))
              return false;
-
+         if (charCode == 45) return false;
          return true;
      }
 </script>

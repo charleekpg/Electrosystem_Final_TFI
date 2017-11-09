@@ -68,7 +68,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Cuentas\" />
-    <Folder Include="Scripts\" />
   </ItemGroup>
   <ItemGroup>
     <Import Include="Microsoft.VisualBasic" />
@@ -109,8 +108,6 @@
     <Content Include="Funcional\Especificar_Fecha.aspx" />
     <Content Include="Funcional\Evaluar Distancia.aspx" />
     <Content Include="Funcional\Evaluar Plano.aspx" />
-    <Content Include="Home.aspx" />
-    <Content Include="Idioma.aspx" />
     <Content Include="Imagenes\htaccesserrors_error500_mini.jpg" />
     <Content Include="Imagenes\images.jpg" />
     <Content Include="Imagenes\logo_empresa.png" />
@@ -125,7 +122,6 @@
     <Content Include="web_gestbocamer.aspx" />
     <Content Include="web_gestion_Clientes.aspx" />
     <Content Include="Web_Login.aspx" />
-    <Content Include="Pagina_Error.aspx" />
     <Content Include="Web.config" />
     <Content Include="Web_Backup.aspx" />
     <Content Include="web_bitacora.aspx" />
@@ -201,20 +197,6 @@
     </Compile>
     <Compile Include="Funcional\Evaluar Plano.aspx.vb">
       <DependentUpon>Evaluar Plano.aspx</DependentUpon>
-      <SubType>ASPXCodebehind</SubType>
-    </Compile>
-    <Compile Include="Home.aspx.designer.vb">
-      <DependentUpon>Home.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="Home.aspx.vb">
-      <DependentUpon>Home.aspx</DependentUpon>
-      <SubType>ASPXCodebehind</SubType>
-    </Compile>
-    <Compile Include="Idioma.aspx.designer.vb">
-      <DependentUpon>Idioma.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="Idioma.aspx.vb">
-      <DependentUpon>Idioma.aspx</DependentUpon>
       <SubType>ASPXCodebehind</SubType>
     </Compile>
     <Compile Include="web_cambiaridioma.aspx.designer.vb">
@@ -305,13 +287,6 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
-    </Compile>
-    <Compile Include="Pagina_Error.aspx.designer.vb">
-      <DependentUpon>Pagina_Error.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="Pagina_Error.aspx.vb">
-      <DependentUpon>Pagina_Error.aspx</DependentUpon>
-      <SubType>ASPXCodebehind</SubType>
     </Compile>
     <Compile Include="Web_Backup.aspx.designer.vb">
       <DependentUpon>Web_Backup.aspx</DependentUpon>

@@ -8,7 +8,8 @@ function soloLetras(e) {
        tecla = String.fromCharCode(key).toLowerCase();
        letras = " áéíóúabcdefghijklmnñopqrstuvwxyz";
        especiales = "8-37-39-46-32";
-       tecla_especial = false
+       tecla_especial = false;
+       if (e.keyCode == 32) return false;
        for(var i in especiales){
             if(key == especiales[i]){
                 tecla_especial = true;

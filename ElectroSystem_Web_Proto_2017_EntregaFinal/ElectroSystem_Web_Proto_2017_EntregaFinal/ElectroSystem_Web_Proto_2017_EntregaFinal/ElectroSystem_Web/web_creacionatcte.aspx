@@ -1,19 +1,40 @@
 ﻿<%@ Page Title="" Language="vb" AutoEventWireup="false" MasterPageFile="~/General_Electrosystem.Master" CodeBehind="web_creacionatcte.aspx.vb" Inherits="ElectroSystem_Web.web_creacionatcte" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
      <script lang="JavaScript">
-     function isNumberKey(evt) {
-         var charCode = (evt.which) ? evt.which : evt.keyCode;
-         if (charCode < 48 || charCode > 57)
-             return false;
-         return true;
-     }
+         function isNumberint(evt) {
+             var charCode = (evt.which) ? evt.which : evt.keyCode;
+             if (charCode < 48 || charCode > 57)
+                 return false;
+             if (charCode == 45) return false;
+             return true;
+         }
+         function soloLetras(e) {
+
+             key = e.keyCode || e.which;
+             tecla = String.fromCharCode(key).toLowerCase();
+             letras = " áéíóúabcdefghijklmnñopqrstuvwxyz";
+             especiales = "8-37-39-46-32";
+             tecla_especial = false;
+             if (charCode == 32) return false;
+
+             for (var i in especiales) {
+                 if (key == especiales[i]) {
+                     tecla_especial = true;
+                     break;
+                 }
+             }
+             if (letras.indexOf(tecla) == -1 && !tecla_especial) {
+                 return false;
+             }
+         }
+
 </script>
     <asp:Label ID="lbl_codpresupuesto" runat="server" Text="lbl_budgetcode"></asp:Label>
     <asp:DropDownList ID="cmb_presupuesto" runat="server"></asp:DropDownList>
                 <asp:Button ID="btn_cargar_presupuesto" runat="server" style="height: 26px" />
     <br>
     <asp:Label ID="lbl_dnicuit" runat="server"></asp:Label>
-    <asp:TextBox ID="txt_dnicuit" runat="server" TextMode="Search" onkeypress="return isNumberKey(event)" MaxLength="11"></asp:TextBox>
+    <asp:TextBox ID="txt_dnicuit" runat="server" TextMode="Search" onkeypress="return isNumberint(event)" MaxLength="11"></asp:TextBox>
                 <asp:Button ID="btn_buscar" runat="server" style="height: 26px" />
     <asp:HiddenField ID="id" runat="server" />
     <br>
@@ -30,13 +51,13 @@
             <asp:TextBox ID="txt_calle" runat="server" ></asp:TextBox>
              <br>
                    <asp:Label ID="LBL_Altura" runat="server"></asp:Label>
-                <asp:TextBox ID="txt_altura" runat="server" onkeypress="return isNumberKey(event)" MaxLength="7"></asp:TextBox>
+                <asp:TextBox ID="txt_altura" runat="server" onkeypress="return isNumberint(event)" MaxLength="7"></asp:TextBox>
                  <br>
                    <asp:Label ID="lbl_piso" runat="server"></asp:Label>
-                <asp:TextBox ID="txt_piso" runat="server" onkeypress="return isNumberKey(event)" MaxLength="2" ></asp:TextBox>
+                <asp:TextBox ID="txt_piso" runat="server" onkeypress="return isNumberint(event)" MaxLength="2" ></asp:TextBox>
                 <br>
                    <asp:Label ID="lbl_depto" runat="server" Text="LBL_Parti"></asp:Label>
-                <asp:TextBox ID="txt_depto" runat="server" MaxLength="2" ></asp:TextBox>
+                <asp:TextBox ID="txt_depto" runat="server" MaxLength="2" onkeypress="return soloLetras(event)"  ></asp:TextBox>
                     <br>
     <asp:CheckBox ID="CHK_Country" runat="server"/>
                         <br>

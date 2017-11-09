@@ -1,5 +1,17 @@
 ﻿<%@ Page Title="" Language="vb" AutoEventWireup="false" MasterPageFile="~/General_Electrosystem.Master" CodeBehind="web_Presupuestovalor.aspx.vb" Inherits="ElectroSystem_Web.web_Presupuestovalor" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
+        <script lang="JavaScript">
+     function isNumberKey(evt) {
+         var charCode = (evt.which) ? evt.which : evt.keyCode;
+         if (charCode == 44 && evt.srcElement.value.split(',').length > 1) { return false; };
+         if (charCode != 44 && charCode > 31
+           && (charCode < 48 || charCode > 57))
+             return false;
+         if (charCode == 45) return false;
+         if (charCode == 32) return false;
+         return true;
+     }
+</script>
     <asp:Label ID="lbl_codpresupuesto" runat="server" Text="Label"></asp:Label>
     <asp:DropDownList ID="cmb_presupuesto" runat="server"></asp:DropDownList>
     <asp:Button ID="btn_cargar_presupuesto" runat="server" Text="Button" />
@@ -18,17 +30,17 @@
                 <asp:CheckBox ID="chk_preciosegvida" runat="server" AutoPostBack="True" />
         <br>
                        <asp:Label ID="lbl_precsegvida" runat="server" Text="Label"></asp:Label>
-        <asp:TextBox ID="txt_valorseg" runat="server"></asp:TextBox>
+        <asp:TextBox ID="txt_valorseg" runat="server" onkeypress="return isNumberKey(event)" MaxLength="9"></asp:TextBox>
         <br>
                 <asp:CheckBox ID="chk_viatico" runat="server" AutoPostBack="True" />
         <br>
                        <asp:Label ID="lbl_precviatico" runat="server" Text="Label"></asp:Label>
-        <asp:TextBox ID="txt_valorvia" runat="server"></asp:TextBox>
+        <asp:TextBox ID="txt_valorvia" runat="server" onkeypress="return isNumberKey(event)" MaxLength="9"></asp:TextBox>
          <br>
                 <asp:CheckBox ID="chk_cobroadel" runat="server" AutoPostBack="True" />
         <br>
                        <asp:Label ID="lbl_porcadelanto" runat="server" Text="Label"></asp:Label>
-        <asp:TextBox ID="txt_poradelanto" runat="server"></asp:TextBox>
+        <asp:TextBox ID="txt_poradelanto" runat="server" onkeypress="return isNumberKey(event)" MaxLength="5"></asp:TextBox>
         <br>
         <asp:Button ID="btn_calcvaltot" runat="server" Text="Button" />   
                 <asp:Button ID="btn_guardarpresucom" runat="server" Text="Button" />

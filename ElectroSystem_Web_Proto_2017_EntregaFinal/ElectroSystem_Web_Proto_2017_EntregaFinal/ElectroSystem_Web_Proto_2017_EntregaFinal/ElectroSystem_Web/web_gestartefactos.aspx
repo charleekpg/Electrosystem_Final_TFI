@@ -7,12 +7,30 @@
          if (charCode != 44 && charCode > 31
            && (charCode < 48 || charCode > 57))
              return false;
+         if (charCode == 45) return false;
          return true;
+     }
+     function soloLetras(e) {
+
+         key = e.keyCode || e.which;
+         tecla = String.fromCharCode(key).toLowerCase();
+         letras = " áéíóúabcdefghijklmnñopqrstuvwxyz";
+         especiales = "8-37-39-46-32";
+         tecla_especial = false;
+         for (var i in especiales) {
+             if (key == especiales[i]) {
+                 tecla_especial = true;
+                 break;
+             }
+         }
+         if (letras.indexOf(tecla) == -1 && !tecla_especial) {
+             return false;
+         }
      }
 </script>
 
       <asp:Label ID="lbl_artefacto" runat="server" Text="Label"></asp:Label>
-    <asp:TextBox ID="txt_descripcionartefacto" runat="server" MaxLength="20"></asp:TextBox>
+    <asp:TextBox ID="txt_descripcionartefacto" runat="server" MaxLength="20" onkeypress="return soloLetras(event)"></asp:TextBox>
     <br>
     <asp:RadioButton ID="lbl_relacionboca" runat="server" AutoPostBack="True" />
         <asp:TextBox ID="num_relacionboca" runat="server" onkeypress="return isNumberKey(event)" MaxLength="8" ></asp:TextBox>

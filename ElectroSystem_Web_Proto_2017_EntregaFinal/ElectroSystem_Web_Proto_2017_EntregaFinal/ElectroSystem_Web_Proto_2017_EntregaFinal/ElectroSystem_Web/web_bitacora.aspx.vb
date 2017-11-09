@@ -67,6 +67,24 @@
             Dim bll_Bitacora As New BLL.bll_fichaBitacora
             Dim bll_bita As New BLL.BLL_Bitacora
             Dim lista_Bitacora As List(Of BE.BE_Bitacora)
+            If chk_fechadesde.Checked = True Then
+                If dtp_fechadesde.Text = "" Then
+                    Response.Write(DirectCast(Me.Master, General_Electrosystem).Traductora("msg_faltafecha"))
+                    Exit Sub
+
+                Else
+                    be_ficha.fecha_hora = dtp_fechadesde.Text
+                End If
+            End If
+            If chk_fechahasta.Checked = True Then
+                If dtp_fechahasta.Text = "" Then
+                    Response.Write(DirectCast(Me.Master, General_Electrosystem).Traductora("msg_faltafecha"))
+                    Exit Sub
+
+                Else
+                    be_ficha.fecha_hasta_hora = dtp_fechahasta.Text
+                End If
+            End If
             If chk_nombredeusuario.Checked = True Then
                 Dim lista As List(Of BE.BE_Usuario)
                 lista = Session("lista_usuarios")
@@ -79,18 +97,24 @@
             Else
                 be_ficha.codigo_evento = Nothing
             End If
-            If chk_fechadesde.Checked = True Then
-                be_ficha.fecha_hora = dtp_fechadesde.Text
-            End If
-            If chk_fechahasta.Checked = True Then
-                be_ficha.fecha_hasta_hora = dtp_fechahasta.Text
-            End If
+           
             lista_Bitacora = bll_Bitacora.consultartodos(be_ficha)
             If lista_Bitacora.Count = 0 Then
                 Response.Write(DirectCast(Me.Master, General_Electrosystem).Traductora("msg_sinresultados"))
                 GVGrillaEventos.DataSource = Nothing
                 GVGrillaEventos.DataBind()
                 deshabilitacion_inicial(Me.Controls)
+                cbx_usuario.DataSource = Nothing
+                cbx_usuario.Items.Clear()
+                cbx_usuario.DataBind()
+                cbx_codigoevento.DataSource = Nothing
+                cbx_codigoevento.Items.Clear()
+                cbx_codigoevento.DataBind()
+                dtp_fechadesde.Text = ""
+                dtp_fechahasta.Text = ""
+                chk_fechadesde.Checked = False
+                chk_fechahasta.Checked = False
+
             Else
                 GVGrillaEventos.DataSource = lista_Bitacora
                 GVGrillaEventos.DataBind()
@@ -99,35 +123,6 @@
             be_Bitacora.usuario = Session("Usuario")
             be_Bitacora.codigo_evento = 3001
             bll_bita.alta(be_Bitacora)
-            
-            'Else
-            '    Me.diseño_grilla()
-            '    For Each elemento As BE.BE_Bitacora In lista_Bitacora
-            '        Dim Row As New TableRow
-            '        Dim celda As New TableCell
-            '        celda.Text = elemento.usuario.ip
-            '        Row.Cells.Add(celda)
-            '        celda = New TableCell
-            '        celda.Text = elemento.usuario.Nombre_Usuario
-            '        Row.Cells.Add(celda)
-            '        celda = New TableCell
-            '        celda.Text = elemento.fecha_hora.ToString
-            '        Row.Cells.Add(celda)
-            '        celda = New TableCell
-            '        celda.Text = elemento.codigo_evento
-            '        Row.Cells.Add(celda)
-            '        celda = New TableCell
-            '        celda.Text = elemento.criticidad
-            '        Row.Cells.Add(celda)
-            '        celda = New TableCell
-            '        celda.Text = elemento.descripcion_evento
-            '        Row.Cells.Add(celda)
-            '        celda = New TableCell
-            '        celda.Text = elemento.informacion_adicional
-            '        Row.Cells.Add(celda)
-            '        dtg_busquedaBitacora.Rows.Add(Row)
-            '    Next
-            'End If
         Catch ex As Exception
             Response.Redirect("web_error_inicio.aspx", False)
             End Try
@@ -181,6 +176,7 @@
 
     Protected Sub chk_fechadesde_CheckedChanged(sender As Object, e As EventArgs) Handles chk_fechadesde.CheckedChanged
         Me.habilitar_controles(chk_fechadesde, chk_fechadesde.Checked)
+
     End Sub
 
     Protected Sub chk_fechahasta_CheckedChanged(sender As Object, e As EventArgs) Handles chk_fechahasta.CheckedChanged

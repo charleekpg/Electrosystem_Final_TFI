@@ -7,7 +7,7 @@
          if (charCode != 44 && charCode > 31
            && (charCode < 48 || charCode > 57))
              return false;
-
+         if (charCode == 45) return false;
          return true;
      }
 
@@ -15,6 +15,8 @@
          var charCode = (evt.which) ? evt.which : evt.keyCode;
          if (charCode < 48 || charCode > 57)
              return false;
+         if (charCode == 45) return false;
+
          return true;
      }
 </script>

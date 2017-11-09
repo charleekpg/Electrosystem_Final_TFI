@@ -1,6 +1,15 @@
 ﻿<%@ Page Title="" Language="vb" AutoEventWireup="false" MasterPageFile="~/General_Electrosystem.Master" CodeBehind="web_gestiontecnica.aspx.vb" Inherits="ElectroSystem_Web.web_gestiontecnica" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
-    <asp:Label ID="lbl_codpresupuesto" runat="server" Text="lbl_budgetcode"></asp:Label>
+  <script lang="JavaScript">
+      function isNumberint(evt) {
+          var charCode = (evt.which) ? evt.which : evt.keyCode;
+          if (charCode < 48 || charCode > 57)
+              return false;
+          if (charCode == 45) return false;
+          return true;
+      }
+</script>
+       <asp:Label ID="lbl_codpresupuesto" runat="server" Text="lbl_budgetcode"></asp:Label>
     <asp:DropDownList ID="cmb_presupuesto" runat="server"></asp:DropDownList>
     <asp:Button ID="btn_cargar_presupuesto" runat="server" style="height: 26px" />
   <br>
