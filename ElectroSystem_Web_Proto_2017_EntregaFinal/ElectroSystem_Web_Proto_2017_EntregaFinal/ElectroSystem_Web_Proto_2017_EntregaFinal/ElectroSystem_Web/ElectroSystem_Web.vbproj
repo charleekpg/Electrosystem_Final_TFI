@@ -45,6 +45,7 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\Users\calejandro.INSSIDE\Documents\ASP.NET AJAX Control Toolkit\Bin\AjaxControlToolkit.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.ReportViewer.WebForms, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Deployment" />
@@ -53,6 +54,8 @@
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Management" />
     <Reference Include="System.ServiceProcess" />
+    <Reference Include="System.Web.DataVisualization" />
+    <Reference Include="System.Web.DataVisualization.Design" />
     <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
@@ -130,6 +133,9 @@
     <Content Include="Web_Inicio.aspx" />
     <Content Include="web_permisos.aspx" />
     <Content Include="web_Presupuestovalor.aspx" />
+    <Content Include="web_reportes.aspx" />
+    <Content Include="web_reporte_presupuesto_fisico.aspx" />
+    <Content Include="web_reporte_seleccion.aspx" />
     <Content Include="web_usuario.aspx" />
   </ItemGroup>
   <ItemGroup>
@@ -337,6 +343,27 @@
       <DependentUpon>web_Presupuestovalor.aspx</DependentUpon>
       <SubType>ASPXCodebehind</SubType>
     </Compile>
+    <Compile Include="web_reportes.aspx.designer.vb">
+      <DependentUpon>web_reportes.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="web_reportes.aspx.vb">
+      <DependentUpon>web_reportes.aspx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
+    </Compile>
+    <Compile Include="web_reporte_presupuesto_fisico.aspx.designer.vb">
+      <DependentUpon>web_reporte_presupuesto_fisico.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="web_reporte_presupuesto_fisico.aspx.vb">
+      <DependentUpon>web_reporte_presupuesto_fisico.aspx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
+    </Compile>
+    <Compile Include="web_reporte_seleccion.aspx.designer.vb">
+      <DependentUpon>web_reporte_seleccion.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="web_reporte_seleccion.aspx.vb">
+      <DependentUpon>web_reporte_seleccion.aspx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
+    </Compile>
     <Compile Include="web_usuario.aspx.designer.vb">
       <DependentUpon>web_usuario.aspx</DependentUpon>
     </Compile>
@@ -352,6 +379,8 @@
       <CustomToolNamespace>My.Resources</CustomToolNamespace>
       <SubType>Designer</SubType>
     </EmbeddedResource>
+    <EmbeddedResource Include="Reporte\Reporte_Presupuesto_Persona_Fisica.rdlc" />
+    <EmbeddedResource Include="Reporte\Reporte_Presupuesto_Persona_Juridica.rdlc" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="General_Electrosystem.Master" />
