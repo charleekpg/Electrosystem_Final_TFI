@@ -31,18 +31,20 @@
     End Sub
 
     Private Sub cargar_backup()
-        drp_backups.Items.Clear()
-        drp_backups.DataSource = Nothing
-        Dim listar_backups As List(Of BE.BE_Backup)
+        Dim be_backup As New BE.BE_Backup
         Dim backups As List(Of BE.BE_Backup)
         Dim backup As New BLL.BLL_Backup
+        be_backup.directorio = System.Configuration.ConfigurationManager.AppSettings("PathBackup")
 
-        backups = backup.listar_restore()
+        backups = backup.listar_restore(be_backup)
         If backups.Count = 0 Then
 
         Else
             Application("Backups") = backups
         End If
+        drp_backups.Items.Clear()
+        drp_backups.DataSource = Nothing
+        Dim listar_backups As List(Of BE.BE_Backup)
         listar_backups = Application("Backups")
         drp_backups.DataSource = listar_backups
         drp_backups.DataTextField = "nombre_backup"
@@ -59,18 +61,40 @@
         lista = Application("Backups")
         be_backup = lista.Find(Function(x) x.nombre_backup = drp_backups.SelectedItem.Text)
         If bll_backup.hacerrestore(be_backup) = 6003 Then
-            Response.Write(DirectCast(Me.Master, General_Electrosystem).Traductora("msg_restoreexitoso"))
+            DirectCast(Me.Master, General_Electrosystem).mostrarmodal("msg_restoreexitoso")
             be_bitacora.codigo_evento = 6003
             be_bitacora.usuario = Session("Usuario")
             bll_bitacora.alta(be_bitacora)
+            Me.configuracion_inicial()
             Session.Abandon()
-            Response.Redirect("Web_login.aspx")
+            Response.Redirect("Web_login.aspx", False)
         Else
-            Response.Write(DirectCast(Me.Master, General_Electrosystem).Traductora("msg_restoreerroneo"))
+            DirectCast(Me.Master, General_Electrosystem).mostrarmodal("msg_restoreerroneo")
             be_bitacora.codigo_evento = 6002
             be_bitacora.usuario = Session("Usuario")
             bll_bitacora.alta(be_bitacora)
         End If
+    End Sub
+
+    Private Sub configuracion_inicial()
+        Dim idiomas As List(Of BE.BE_Idioma)
+        Dim idioma As New BLL.BLL_Gestor_Formulario
+        Dim backup As New BLL.BLL_Backup
+        Dim backups As List(Of BE.BE_Backup)
+        Dim partidos As List(Of BE.BE_Partido)
+        Dim bll_partidos As New BLL.bll_partido
+        Dim be_backup As New BE.BE_Backup
+        be_backup.directorio = System.Configuration.ConfigurationManager.AppSettings("PathBackup")
+        idiomas = idioma.consultar_idiomas()
+        If idiomas.Count = 0 Then
+            Response.Redirect("web_error_inicio.aspx", False)
+        Else
+            Application("Idiomas") = idiomas
+        End If
+        partidos = bll_partidos.cargar_partidos()
+        backups = backup.listar_restore(be_backup)
+        Application("Partidos") = partidos
+
     End Sub
 
     Protected Sub btn_hacerbackup_Click(sender As Object, e As EventArgs) Handles btn_hacerbackup.Click
@@ -81,12 +105,12 @@
             Dim backups As List(Of BE.BE_Backup)
             Dim backup As New BLL.BLL_Backup
             If bll_backup.hacerbackup() = 6001 Then
-                Response.Write(DirectCast(Me.Master, General_Electrosystem).Traductora("msg_backupexitoso"))
+                DirectCast(Me.Master, General_Electrosystem).mostrarmodal("msg_backupexitoso")
                 be_bitacora.codigo_evento = 6001
                 be_bitacora.usuario = Session("Usuario")
                 bll_bitacora.alta(be_bitacora)
                 Try
-                    backups = backup.listar_restore()
+                    backups = Application("Backups")
                     If backups.Count = 0 Then
 
                     Else
@@ -101,7 +125,7 @@
                 End Try
 
             Else
-                Response.Write(DirectCast(Me.Master, General_Electrosystem).Traductora("msg_backuperroneo"))
+                DirectCast(Me.Master, General_Electrosystem).mostrarmodal("msg_backuperroneo")
                 be_bitacora.codigo_evento = 6000
                 be_bitacora.usuario = Session("Usuario")
                 bll_bitacora.alta(be_bitacora)

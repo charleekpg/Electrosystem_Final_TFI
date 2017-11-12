@@ -36,8 +36,8 @@ function soloLetras(e) {
     </asp:DropDownList>
     <br>
     <br>
-    <div id="tabla" Class='grilla'>
-    <asp:GridView ID="grilla_carga" runat="server" CellPadding="4" ForeColor="#333333" GridLines="None" AutoGenerateEditButton="True" AutoGenerateColumns="False">
+<div style="width: 70%; padding-right: 90px">
+    <asp:GridView style="width: 100%;" ID="grilla_carga" runat="server" CellPadding="4" ForeColor="#333333" GridLines="None" AutoGenerateEditButton="True" AutoGenerateColumns="False">
         <AlternatingRowStyle BackColor="White" ForeColor="#284775" />
         <Columns>
             <asp:BoundField FooterText="id_control" HeaderText="id_control" ReadOnly="True" DataField="id_control" />
@@ -54,7 +54,7 @@ function soloLetras(e) {
         <SortedDescendingCellStyle BackColor="#FFFDF8" />
         <SortedDescendingHeaderStyle BackColor="#6F8DAE" />
        
-</asp:GridView>
-         </div>
+    </asp:GridView>
+</div>       
 </asp:Content>
 

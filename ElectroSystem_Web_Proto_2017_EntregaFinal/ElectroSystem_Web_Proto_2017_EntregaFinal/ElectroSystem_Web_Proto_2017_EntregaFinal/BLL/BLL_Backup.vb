@@ -32,10 +32,10 @@ Public Class BLL_Backup
         End Try
     End Function
 
-    Public Function listar_restore() As List(Of BE.BE_Backup)
+    Public Function listar_restore(ByVal unbe As BE.BE_Backup) As List(Of BE.BE_Backup)
         Try
             Dim listar As New DAL.DAL_Backup
-            Return listar.listar_restore()
+            Return listar.listar_restore(unbe)
         Catch ex As Exception
 
         End Try

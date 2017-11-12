@@ -173,7 +173,7 @@
                 be_persona_fisica.identificador = txt_dnicuit.Text
                 lista_persona_fisica = bll_persona_fisica.consultar(be_persona_fisica)
                 If lista_persona_fisica.Count = 0 Then
-                    Response.Write(DirectCast(Me.Master, General_Electrosystem).Traductora("msg_sinresultados"))
+                    DirectCast(Me.Master, General_Electrosystem).mostrarmodal("msg_sinresultados")
                     formato_inicial()
                 Else
                     For Each persona As BE.BE_Personafisica In lista_persona_fisica
@@ -193,7 +193,7 @@
                     btn_guardarpresu.Enabled = True
                     lista_dibujos = bll_dibujos.consultartodos()
                     Session("Lista_Dibujos") = Nothing
-                    Session("Lista_dibujos") = lista_dibujos
+                    Session("Lista_Dibujos") = lista_dibujos
                     drp_dibujo.Items.Clear()
                     drp_dibujo.Items.Add("N/A")
                     drp_dibujo.Enabled = True
@@ -220,7 +220,7 @@
                 btn_guardarpresu.Enabled = True
                 lista_dibujos = bll_dibujos.consultartodos()
                 Session("Lista_Dibujos") = Nothing
-                Session("Lista_dibujos") = lista_dibujos
+                Session("Lista_Dibujos") = lista_dibujos
                 drp_dibujo.Items.Clear()
                 drp_dibujo.Items.Add("N/A")
                 drp_dibujo.Enabled = True
@@ -247,19 +247,19 @@
             If Session("Entero_Flag") = 1 Then
                 usuario = Session("Busqueda_cliente")
                 If usuario Is Nothing Then
-                    Response.Write(DirectCast(Me.Master, General_Electrosystem).Traductora("msg_cargarcliente"))
+                    DirectCast(Me.Master, General_Electrosystem).mostrarmodal("msg_cargarcliente")
                     GoTo 0
                 Else
                     If cbx_parti.SelectedItem Is Nothing Then
-                        Response.Write(DirectCast(Me.Master, General_Electrosystem).Traductora("msg_faltapartido"))
+                        DirectCast(Me.Master, General_Electrosystem).mostrarmodal("msg_faltapartido")
                         GoTo 0
                     Else
                         If cbx_localidad.SelectedItem Is Nothing Then
-                            Response.Write(DirectCast(Me.Master, General_Electrosystem).Traductora("msg_faltalocalidad"))
+                            DirectCast(Me.Master, General_Electrosystem).mostrarmodal("msg_faltalocalidad")
                             GoTo 0
                         Else
                             If Len(Trim(txt_calle.Text)) = 0 OrElse Len(Trim(txt_altura.Text)) = 0 Then
-                                Response.Write(DirectCast(Me.Master, General_Electrosystem).Traductora("msg_camposincompletos"))
+                                DirectCast(Me.Master, General_Electrosystem).mostrarmodal("msg_camposincompletos")
                                 GoTo 0
                             Else
                                 Dim be_presupuesto As New BE.BE_Presupuesto
@@ -279,7 +279,7 @@
                                 End If
                                 be_domicilio.country = chk_country.Checked
                                 If Not drp_dibujo.SelectedValue = "N/A" Then
-                                    be_presupuesto.dibujotecnico = CType(Session("Lista_dibujos"), List(Of BE.BE_DibujoTecnico)).Find(Function(x) x.id = drp_dibujo.SelectedItem.Text)
+                                    be_presupuesto.dibujotecnico = CType(Session("Lista_Dibujos"), List(Of BE.BE_DibujoTecnico)).Find(Function(x) x.id = drp_dibujo.SelectedItem.Text)
                                 Else
                                     be_presupuesto.dibujotecnico = Nothing
                                 End If
@@ -296,7 +296,7 @@
                                         be_bitacora.codigo_evento = 5002
                                         be_bitacora.usuario = Session("Usuario")
                                         bll_bitacora.alta(be_bitacora)
-                                        Response.Write(DirectCast(Me.Master, General_Electrosystem).Traductora("msg_altapresuOK") & " " & be_presupuesto.id)
+                                        DirectCast(Me.Master, General_Electrosystem).mostrarmodal("msg_altapresuOK", be_presupuesto.id)
                                         formato_inicial()
                                     Case 5003
                                         be_bitacora.codigo_evento = 5003
@@ -312,7 +312,7 @@
                 End If
             ElseIf Session("Entero_Flag") = 2 Then
                 If Len(Trim(txt_calle.Text)) = 0 OrElse Len(Trim(txt_altura.Text)) = 0 Then
-                    Response.Write(DirectCast(Me.Master, General_Electrosystem).Traductora("msg_camposincompletos"))
+                    DirectCast(Me.Master, General_Electrosystem).mostrarmodal("msg_camposincompletos")
                     GoTo 0
                 Else
                     Dim be_presupuesto As BE.BE_Presupuesto
@@ -347,7 +347,7 @@
                             be_bitacora.codigo_evento = 5005
                             be_bitacora.usuario = Session("Usuario")
                             bll_bitacora.alta(be_bitacora)
-                            Response.Write(DirectCast(Me.Master, General_Electrosystem).Traductora("msg_modificaok"))
+                            DirectCast(Me.Master, General_Electrosystem).mostrarmodal("msg_modificaok")
                             formato_inicial()
                         Case 5006
                             be_bitacora.codigo_evento = 5006

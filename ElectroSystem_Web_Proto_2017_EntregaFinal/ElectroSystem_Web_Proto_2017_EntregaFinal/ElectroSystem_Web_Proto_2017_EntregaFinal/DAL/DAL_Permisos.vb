@@ -45,7 +45,7 @@ Public Class DAL_Permisos
             For Each permiso As BE.BE_PermisoBase In unbe.lista_permisos
                 lista_parametros.Clear()
                 ReDim P(1)
-                P(0) = sqlhelper.BuildParameter("@permiso_id", unbe.idpermiso)
+                P(0) = sqlhelper.BuildParameter("@permiso_id", unbe.Descripcion)
                 P(1) = sqlhelper.BuildParameter("@permisohijo_id", permiso.idpermiso)
                 lista_parametros.AddRange(P)
                 mapper_stores.insertar_eliminar_modificar("modifica_permisos_hijo", lista_parametros)

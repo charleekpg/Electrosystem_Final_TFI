@@ -3,5 +3,5 @@
     <asp:Label ID="lbl_idioma" runat="server" Text="Label"></asp:Label>
 <asp:DropDownList ID="drp_idiomas" runat="server">
 </asp:DropDownList>
-<asp:Button ID="btn_cambiaridioma" runat="server" Text="Button" />
+<asp:Button ID="btn_cambiaridioma" runat="server" Text="Button" style="height: 26px" />
 </asp:Content>

@@ -40,7 +40,7 @@
     Protected Sub btn_guardar_Click(sender As Object, e As EventArgs) Handles btn_guardar.Click
         Try
             If String.IsNullOrWhiteSpace(txt_idioma.Text) Then
-                Response.Write(DirectCast(Me.Master, General_Electrosystem).Traductora("msg_formatoinvalido"))
+                DirectCast(Me.Master, General_Electrosystem).mostrarmodal("msg_formatoinvalido")
             Else
                 Dim be_bitacora As New BE.BE_Bitacora
                 Dim bll_bitacora As New BLL.BLL_Bitacora
@@ -67,7 +67,7 @@
                                     be_bitacora.codigo_evento = 7001
                                     be_bitacora.usuario = Session("Usuario")
                                     bll_bitacora.alta(be_bitacora)
-                                    Response.Write(DirectCast(Me.Master, General_Electrosystem).Traductora("msg_idiomaduplicado"))
+                                    DirectCast(Me.Master, General_Electrosystem).mostrarmodal("msg_idiomaduplicado")
                                     formatoinicial()
 
                                 Case 2
@@ -110,7 +110,7 @@
                                     be_bitacora.codigo_evento = 7004
                                     be_bitacora.usuario = Session("Usuario")
                                     bll_bitacora.alta(be_bitacora)
-                                    Response.Write(DirectCast(Me.Master, General_Electrosystem).Traductora("msg_idiomaduplicado"))
+                                    DirectCast(Me.Master, General_Electrosystem).mostrarmodal("msg_idiomaduplicado")
                                     formatoinicial()
 
                                 Case 2
@@ -130,8 +130,20 @@
                                     be_bitacora.codigo_evento = 10163
                                     be_bitacora.usuario = Session("Usuario")
                                     bll_bitacora.alta(be_bitacora)
-                                    Response.Write(DirectCast(Me.Master, General_Electrosystem).Traductora("msg_modificaidiomaok"))
-                                    formatoinicial()
+                                    If drp_idioma.Text = CType(Session("Usuario"), BE.BE_Usuario).Idioma.Idioma Then
+                                        If drp_idioma.Text <> txt_idioma.Text Then
+                                            CType(Session("Usuario"), BE.BE_Usuario).Idioma = lista.Find(Function(x) x.Idioma = txt_idioma.Text)
+                                        Else
+                                            CType(Session("Usuario"), BE.BE_Usuario).Idioma = lista.Find(Function(x) x.Idioma = drp_idioma.Text)
+                                        End If
+                                        formatoinicial()
+                                        DirectCast(Me.Master, General_Electrosystem).mostrarmodalredireccion("msg_modificaidiomaok", "web_inicio.aspx")
+                                        ' Response.Redirect("Web_Inicio.aspx", False)
+                                    Else
+                                        DirectCast(Me.Master, General_Electrosystem).mostrarmodal("msg_modificaidiomaok")
+                                        formatoinicial()
+                                    End If
+
                             End Select
                     End Select
                 Catch ex As Exception
@@ -240,7 +252,7 @@
     Private Sub btn_eliminar_Click(sender As Object, e As EventArgs) Handles btn_eliminar.Click
         Try
             If drp_idioma.SelectedValue = "Español" Or drp_idioma.SelectedValue = "English" Then
-                Response.Write(DirectCast(Me.Master, General_Electrosystem).Traductora("msg_idiomaconusuarios"))
+                DirectCast(Me.Master, General_Electrosystem).mostrarmodal("msg_idiomaconusuarios")
                 formatoinicial()
             Else
                 Dim be_bitacora As New BE.BE_Bitacora
@@ -253,7 +265,7 @@
                         be_bitacora.codigo_evento = 7006
                         be_bitacora.usuario = Session("Usuario")
                         bll_bitacora.alta(be_bitacora)
-                        Response.Write(DirectCast(Me.Master, General_Electrosystem).Traductora("msg_idiomaconusuarios"))
+                        DirectCast(Me.Master, General_Electrosystem).mostrarmodal("msg_idiomaconusuarios")
                         formatoinicial()
                     Case 2
                         be_bitacora.codigo_evento = 7007
@@ -271,7 +283,7 @@
                         be_bitacora.codigo_evento = 7008
                         be_bitacora.usuario = Session("Usuario")
                         bll_bitacora.alta(be_bitacora)
-                        Response.Write(DirectCast(Me.Master, General_Electrosystem).Traductora("msg_bajaidioma"))
+                        DirectCast(Me.Master, General_Electrosystem).mostrarmodal("msg_bajaidioma")
                         formatoinicial()
                 End Select
             End If

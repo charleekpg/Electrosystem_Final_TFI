@@ -116,7 +116,7 @@
     Private Sub lst_users_SelectedIndexChanged(sender As Object, e As EventArgs) Handles lst_users.SelectedIndexChanged
         Try
             If lst_users.SelectedItem.Text = CType(Session("Usuario"), BE.BE_Usuario).Nombre_Usuario Then
-                Response.Write(DirectCast(Me.Master, General_Electrosystem).Traductora("msg_nopuedeseleusu"))
+                DirectCast(Me.Master, General_Electrosystem).mostrarmodal("msg_nopuedeseleusu")
                 Me.formato_inicial()
             Else
                 Session("Cambio") = True
@@ -161,7 +161,7 @@
                     be_bitacora.codigo_evento = 10165
                     be_bitacora.usuario = Session("Usuario")
                     bll_bitacora.alta(be_bitacora)
-                    Response.Write(DirectCast(Me.Master, General_Electrosystem).Traductora("msg_borradook"))
+                    DirectCast(Me.Master, General_Electrosystem).mostrarmodal("msg_borradook")
 
                 Case False
                     be_bitacora.codigo_evento = 10165
@@ -208,18 +208,18 @@
                         be_bitacora.codigo_evento = 2108
                         be_bitacora.usuario = Session("Usuario")
                         bll_bitacora.alta(be_bitacora)
-                        Response.Write(DirectCast(Me.Master, General_Electrosystem).Traductora("msg_formatincuser"))
+                        DirectCast(Me.Master, General_Electrosystem).mostrarmodal("msg_formatincuser")
 
                     Case 2113
                         be_bitacora.codigo_evento = 2113
                         be_bitacora.usuario = Session("Usuario")
                         bll_bitacora.alta(be_bitacora)
-                        Response.Write(DirectCast(Me.Master, General_Electrosystem).Traductora("msg_formatinpass"))
+                        DirectCast(Me.Master, General_Electrosystem).mostrarmodal("msg_formatinpass")
                     Case 2007
                         be_bitacora.codigo_evento = 2007
                         be_bitacora.usuario = Session("Usuario")
                         bll_bitacora.alta(be_bitacora)
-                        Response.Write(DirectCast(Me.Master, General_Electrosystem).Traductora("msg_altaduplica"))
+                        DirectCast(Me.Master, General_Electrosystem).mostrarmodal("msg_altaduplica")
 
                     Case 2000
                         be_bitacora.codigo_evento = 2000
@@ -230,7 +230,7 @@
                         be_bitacora.codigo_evento = 2111
                         be_bitacora.usuario = Session("Usuario")
                         bll_bitacora.alta(be_bitacora)
-                        Response.Write(DirectCast(Me.Master, General_Electrosystem).Traductora("msg_modificacionok"))
+                        DirectCast(Me.Master, General_Electrosystem).mostrarmodal("msg_modificacionok")
                         cargar_lista()
                         formato_inicial()
                     Case 2112
@@ -240,6 +240,12 @@
                         Response.Redirect("web_error_inicio.aspx", False)
                 End Select
             Else
+                For Each elemento As ListItem In lst_users.Items
+                    If elemento.Text = txt_usuario.Text Then
+                        DirectCast(Me.Master, General_Electrosystem).mostrarmodal("msg_altaduplica")
+                        Exit Sub
+                    End If
+                Next
                 Dim be_usuario As New BE.BE_Usuario
                 Dim bll_usuario As New BLL.BLL_Usuario
                 Dim lista_idioma As List(Of BE.BE_Idioma)
@@ -261,17 +267,17 @@
                         be_bitacora.codigo_evento = 2108
                         be_bitacora.usuario = Session("Usuario")
                         bll_bitacora.alta(be_bitacora)
-                        Response.Write(DirectCast(Me.Master, General_Electrosystem).Traductora("msg_formatincuser"))
+                        DirectCast(Me.Master, General_Electrosystem).mostrarmodal("msg_formatincuser")
                     Case 2113
                         be_bitacora.codigo_evento = 2113
                         be_bitacora.usuario = Session("Usuario")
                         bll_bitacora.alta(be_bitacora)
-                        Response.Write(DirectCast(Me.Master, General_Electrosystem).Traductora("msg_formatinpass"))
+                        DirectCast(Me.Master, General_Electrosystem).mostrarmodal("msg_formatinpass")
                     Case 2007
                         be_bitacora.codigo_evento = 2007
                         be_bitacora.usuario = Session("Usuario")
                         bll_bitacora.alta(be_bitacora)
-                        Response.Write(DirectCast(Me.Master, General_Electrosystem).Traductora("msg_altaduplica"))
+                        DirectCast(Me.Master, General_Electrosystem).mostrarmodal("msg_altaduplica")
                     Case 2000
                         be_bitacora.codigo_evento = 2000
                         be_bitacora.usuario = Session("Usuario")
@@ -281,7 +287,7 @@
                         be_bitacora.codigo_evento = 2109
                         be_bitacora.usuario = Session("Usuario")
                         bll_bitacora.alta(be_bitacora)
-                        Response.Write(DirectCast(Me.Master, General_Electrosystem).Traductora("msg_altacorrecta"))
+                        DirectCast(Me.Master, General_Electrosystem).mostrarmodal("msg_altacorrecta")
                         cargar_lista()
                         formato_inicial()
                     Case 2110

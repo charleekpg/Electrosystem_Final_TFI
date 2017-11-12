@@ -315,7 +315,7 @@
             If chk_cobroadel.Checked = True Then
                 If Not String.IsNullOrEmpty(txt_poradelanto.Text) Then
                     If txt_poradelanto.Text > 100 Then
-                        Response.Write(DirectCast(Me.Master, General_Electrosystem).Traductora("msg_porcentajeinvalido"))
+                        DirectCast(Me.Master, General_Electrosystem).mostrarmodal("msg_porcentajeinvalido")
                         Exit Sub
                     Else
                         If txt_poradelanto.Text > 0 Then
@@ -359,6 +359,7 @@
             Dim bll_calculardistancia As New BLL.BLL_Domicilio
             Dim be_domicilio As New BE.BE_Domicilio
             be_domicilio.localidad = CType(Application("Partidos"), List(Of BE.BE_Partido)).Find(Function(x) x.partido = cbx_parti.SelectedItem.Text).localidades.Find(Function(y) y.localidad = cbx_localidad.SelectedItem.Text)
+
             If bll_calculardistancia.calcular_distancia(presupuesto.Domicilio, be_domicilio) > 20 Then
                 presupuesto.masde20km = True
             Else
@@ -410,7 +411,7 @@
                         be_bitacora.codigo_evento = 10153
                         be_bitacora.usuario = Session("Usuario")
                         bll_bitacora.alta(be_bitacora)
-                        Response.Write(DirectCast(Me.Master, General_Electrosystem).Traductora("msg_actrcome"))
+                        DirectCast(Me.Master, General_Electrosystem).mostrarmodal("msg_actrcome")
                         btn_cancelarpres_Click(Nothing, Nothing)
                     Case 10154
                         be_bitacora.codigo_evento = 10154

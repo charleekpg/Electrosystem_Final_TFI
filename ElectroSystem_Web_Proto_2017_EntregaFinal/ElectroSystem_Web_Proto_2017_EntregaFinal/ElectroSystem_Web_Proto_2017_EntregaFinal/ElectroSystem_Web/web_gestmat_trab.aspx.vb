@@ -106,7 +106,7 @@
 
         Try
             If String.IsNullOrWhiteSpace(txt_descripcion.Text) = True Then
-                Response.Write(DirectCast(Me.Master, General_Electrosystem).Traductora("msg_camposincompletos"))
+                DirectCast(Me.Master, General_Electrosystem).mostrarmodal("msg_camposincompletos")
                 cargarmaterial_trabajo()
             Else
                 Dim be_etiqueta As New BE.BE_Etiqueta
@@ -116,13 +116,13 @@
                 Dim bll_bitacora As New BLL.BLL_Bitacora
                 Select Case txt_descripcion.Text
                     Case ""
-                        Response.Write(DirectCast(Me.Master, General_Electrosystem).Traductora("msg_camposincompletos"))
+                        DirectCast(Me.Master, General_Electrosystem).mostrarmodal("msg_camposincompletos")
                         cargarmaterial_trabajo()
                     Case Else
                         If Session("Modificar") = False Then
 
                             If rdb_material.Checked = False And rdb_trabajo.Checked = False Then
-                                Response.Write(DirectCast(Me.Master, General_Electrosystem).Traductora("msg_faltardb"))
+                                DirectCast(Me.Master, General_Electrosystem).mostrarmodal("msg_faltardb")
                                 cargarmaterial_trabajo()
                             Else
 
@@ -132,7 +132,7 @@
                                 be_material_trabajo.Descripcion = txt_descripcion.Text
                                 be_material_trabajo.Precio = num_precio.Text
                                 If num_precio.Text <= 0 Then
-                                    Response.Write(DirectCast(Me.Master, General_Electrosystem).Traductora("msg_valorcero"))
+                                    DirectCast(Me.Master, General_Electrosystem).mostrarmodal("msg_valorcero")
                                     cargarmaterial_trabajo()
                                     GoTo 1
                                 Else
@@ -141,13 +141,13 @@
                                             be_bitacora.codigo_evento = 10110
                                             be_bitacora.usuario = Session("Usuario")
                                             bll_bitacora.alta(be_bitacora)
-                                            Response.Write(DirectCast(Me.Master, General_Electrosystem).Traductora("msg_altacorrecta"))
+                                            DirectCast(Me.Master, General_Electrosystem).mostrarmodal("msg_altacorrecta")
                                             cargarmaterial_trabajo()
                                         Case 10112
                                             be_bitacora.codigo_evento = 10112
                                             be_bitacora.usuario = Session("Usuario")
                                             bll_bitacora.alta(be_bitacora)
-                                            Response.Write(DirectCast(Me.Master, General_Electrosystem).Traductora("msg_material_trabajo_existente"))
+                                            DirectCast(Me.Master, General_Electrosystem).mostrarmodal("msg_material_trabajo_existente")
                                             cargarmaterial_trabajo()
                                         Case 10111
                                             be_bitacora.codigo_evento = 10111
@@ -171,7 +171,7 @@
                             elemento_seleccionado.Descripcion = txt_descripcion.Text
                             elemento_seleccionado.Precio = num_precio.Text
                             If num_precio.Text <= 0 Then
-                                Response.Write(DirectCast(Me.Master, General_Electrosystem).Traductora("msg_valorcero"))
+                                DirectCast(Me.Master, General_Electrosystem).mostrarmodal("msg_valorcero")
                                 cargarmaterial_trabajo()
                                 GoTo 1
                             Else
@@ -180,13 +180,13 @@
                                         be_bitacora.codigo_evento = 10113
                                         be_bitacora.usuario = Session("Usuario")
                                         bll_bitacora.alta(be_bitacora)
-                                        Response.Write(DirectCast(Me.Master, General_Electrosystem).Traductora("msg_modificaok"))
+                                        DirectCast(Me.Master, General_Electrosystem).mostrarmodal("msg_modificaok")
                                         cargarmaterial_trabajo()
                                     Case 10112
                                         be_bitacora.codigo_evento = 10112
                                         be_bitacora.usuario = Session("Usuario")
                                         bll_bitacora.alta(be_bitacora)
-                                        Response.Write(DirectCast(Me.Master, General_Electrosystem).Traductora("msg_material_trabajo_existente"))
+                                        DirectCast(Me.Master, General_Electrosystem).mostrarmodal("msg_material_trabajo_existente")
                                         cargarmaterial_trabajo()
                                     Case 10114
                                         be_bitacora.codigo_evento = 10114

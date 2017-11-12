@@ -28,15 +28,37 @@ function soloLetras(e) {
         }
     }
 </script>
-     <asp:Label ID="lbl_descripcion" runat="server" Text="Label"></asp:Label>
-    <asp:TextBox ID="txt_descripcion" runat="server" MaxLength="15" onkeypress="return soloLetras(event)"></asp:TextBox>
+
+	
+	
+	
+<table style="border-collapse: collapse;   border-spacing: 0;    width: 100%;    border: 0px;">
+    <tr>
+        <td><asp:Label ID="lbl_descripcion" runat="server" Text="Label"></asp:Label></td>
+        <td><asp:TextBox ID="txt_descripcion" runat="server" MaxLength="15" onkeypress="return soloLetras(event)"></asp:TextBox></td>
+        <td style="width: 40%;">&nbsp</td>
+    </tr>
+
+    <tr>
+        <td><asp:Label ID="lbl_precio" runat="server" Text="Label"></asp:Label></td>
+        <td><asp:TextBox ID="num_precio" runat="server" onkeypress="return isNumberKey(event)" MaxLength="9"></asp:TextBox></td>
+        <td style="width: 40%;">&nbsp</td>
+    </tr>
+
+    <tr>
+        <td><asp:RadioButton ID="rdb_material" runat="server" AutoPostBack="True" /></td>
+        <td>&nbsp</td>
+        <td style="width: 40%;">&nbsp</td>
+    </tr>
+
+    <tr>
+        <td><asp:RadioButton ID="rdb_trabajo" runat="server" AutoPostBack="True" /></td>
+        <td>&nbsp</td>
+        <td style="width: 40%;">&nbsp</td>
+    </tr>
+</table>
+
     <br>
-        <asp:Label ID="lbl_precio" runat="server" Text="Label"></asp:Label>
-        <asp:TextBox ID="num_precio" runat="server" onkeypress="return isNumberKey(event)" MaxLength="9"></asp:TextBox>
-        <br>
-    <asp:RadioButton ID="rdb_material" runat="server" AutoPostBack="True" />
-    <asp:RadioButton ID="rdb_trabajo" runat="server" AutoPostBack="True" />
-     <br>
     <asp:GridView ID="dtg_trabajo_material" runat="server" CellPadding="4" ForeColor="#333333" GridLines="None" AutoGenerateColumns="False">
         <AlternatingRowStyle BackColor="White" ForeColor="#284775" />
         <Columns>

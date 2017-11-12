@@ -261,7 +261,7 @@
                 dtg_ambientes.DataSource = lista_grilla
                 dtg_ambientes.DataBind()
             Else
-                Response.Write(DirectCast(Me.Master, General_Electrosystem).Traductora("msg_camposincompletos"))
+                DirectCast(Me.Master, General_Electrosystem).mostrarmodal("msg_camposincompletos")
             End If
 
         Catch ex As Exception
@@ -283,7 +283,7 @@
                 Dim bll_dibujotecnico As New BLL.bll_dibujotecnico
                 bll_dibujotecnico.evaluar_plano(be_dibujotecnico)
                 If be_dibujotecnico.cumple_ambientes = True Then
-                    Response.Write(DirectCast(Me.Master, General_Electrosystem).Traductora("msg_planook"))
+                    DirectCast(Me.Master, General_Electrosystem).mostrarmodal("msg_planook")
                 Else
                     For Each ambiente As BE.Be_Ambiente In be_dibujotecnico.ambiente
                         For Each circuito As BE.BE_Circuito In ambiente.circuitos
@@ -303,13 +303,13 @@
                         resultado = False
                         lbl_ambiente_anotacion.Text = DirectCast(Me.Master, General_Electrosystem).Traductora("msg_dibujoincorrecto") & " " & be_dibujotecnico.descripcion
                     End If
-                    Response.Write(DirectCast(Me.Master, General_Electrosystem).Traductora("msg_planofail"))
+                    DirectCast(Me.Master, General_Electrosystem).mostrarmodal("msg_planofail")
                     dtg_evaluarplano.DataSource = lista_grillaevaluar
                     dtg_evaluarplano.DataBind()
                 End If
                 Session("Evaluado") = True
             Else
-                Response.Write(DirectCast(Me.Master, General_Electrosystem).Traductora("msg_faltaagregarambiente"))
+                DirectCast(Me.Master, General_Electrosystem).mostrarmodal("msg_faltaagregarambiente")
             End If
         Catch ex As Exception
             Response.Redirect("web_error_inicio.aspx", False)
@@ -327,19 +327,19 @@
                 Dim bll_dibujotecnico As New BLL.bll_dibujotecnico
                 Dim entero As Integer = 0
                 entero = bll_dibujotecnico.alta(be_dibujotecnico)
+                be_bitacora.usuario = Session("Usuario")
                 If entero = 0 Then
                     be_bitacora.codigo_evento = 10166
-                    be_bitacora.usuario = Session("Usuario")
                     bll_bitacora.alta(be_bitacora)
+                    Response.Redirect("web_error_inicio.aspx", False)
                 Else
                     be_bitacora.codigo_evento = 10165
-                    be_bitacora.usuario = Session("Usuario")
                     bll_bitacora.alta(be_bitacora)
-                    Response.Write(DirectCast(Me.Master, General_Electrosystem).Traductora("msg_planoguardadook") & entero)
+                    DirectCast(Me.Master, General_Electrosystem).mostrarmodal("msg_planoguardadook", entero)
                     formato_inicial()
                 End If
             Else
-                Response.Write(DirectCast(Me.Master, General_Electrosystem).Traductora("msg_faltaevaluar"))
+                DirectCast(Me.Master, General_Electrosystem).mostrarmodal("msg_faltaevaluar")
 
             End If
         Catch ex As Exception

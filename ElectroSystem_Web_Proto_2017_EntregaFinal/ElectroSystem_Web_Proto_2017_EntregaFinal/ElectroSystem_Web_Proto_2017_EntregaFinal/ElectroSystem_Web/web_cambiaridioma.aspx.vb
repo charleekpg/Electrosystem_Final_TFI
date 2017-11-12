@@ -50,7 +50,7 @@
                     be_bitacora.usuario = Session("Usuario")
                     bll_bitacora.alta(be_bitacora)
                     DirectCast(Me.Master, General_Electrosystem).traductora_controles(Me.Controls)
-                    Response.Write(DirectCast(Me.Master, General_Electrosystem).Traductora("msg_idiomacambiado"))
+                    DirectCast(Me.Master, General_Electrosystem).mostrarmodal("msg_idiomacambiado")
                 Case 10164
                     be_bitacora.codigo_evento = 10164
                     be_bitacora.usuario = Session("Usuario")

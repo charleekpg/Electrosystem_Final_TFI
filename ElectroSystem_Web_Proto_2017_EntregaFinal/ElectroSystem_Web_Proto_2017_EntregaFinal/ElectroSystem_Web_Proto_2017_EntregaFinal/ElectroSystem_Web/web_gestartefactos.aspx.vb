@@ -155,7 +155,7 @@
     Protected Sub btn_guardararte_Click(sender As Object, e As EventArgs) Handles btn_guardararte.Click
         Try
             If String.IsNullOrWhiteSpace(txt_descripcionartefacto.Text) = True Then
-                Response.Write(DirectCast(Me.Master, General_Electrosystem).Traductora("msg_camposincompletos"))
+                DirectCast(Me.Master, General_Electrosystem).mostrarmodal("msg_camposincompletos")
                 cargarartefactoelectrico()
             Else
                 Dim be_etiqueta As New BE.BE_Etiqueta
@@ -165,7 +165,7 @@
                 Dim bll_bitacora As New BLL.BLL_Bitacora
                 Select Case txt_descripcionartefacto.Text
                     Case ""
-                        Response.Write(DirectCast(Me.Master, General_Electrosystem).Traductora("msg_camposincompletos"))
+                        DirectCast(Me.Master, General_Electrosystem).mostrarmodal("msg_camposincompletos")
                         cargarartefactoelectrico()
                     Case Else
                         If Session("Modificar") = False Then
@@ -175,7 +175,7 @@
                                     be_artefactoelectrico.precio = num_precio2.Text
                                     be_artefactoelectrico.relacion_bocamercado = 0
                                 Else
-                                    Response.Write(DirectCast(Me.Master, General_Electrosystem).Traductora("msg_valorcero"))
+                                    DirectCast(Me.Master, General_Electrosystem).mostrarmodal("msg_valorcero")
                                     cargarartefactoelectrico()
                                     GoTo 1
                                 End If
@@ -184,7 +184,7 @@
                                     be_artefactoelectrico.relacion_bocamercado = num_relacionboca.Text
                                     be_artefactoelectrico.precio = 0
                                 Else
-                                    Response.Write(DirectCast(Me.Master, General_Electrosystem).Traductora("msg_valorcero"))
+                                    DirectCast(Me.Master, General_Electrosystem).mostrarmodal("msg_valorcero")
                                     cargarartefactoelectrico()
                                     GoTo 1
                                 End If
@@ -195,13 +195,13 @@
                                     be_bitacora.codigo_evento = 10105
                                     be_bitacora.usuario = Session("Usuario")
                                     bll_bitacora.alta(be_bitacora)
-                                    Response.Write(DirectCast(Me.Master, General_Electrosystem).Traductora("msg_altacorrecta"))
+                                    DirectCast(Me.Master, General_Electrosystem).mostrarmodal("msg_altacorrecta")
                                     cargarartefactoelectrico()
                                 Case 10107
                                     be_bitacora.codigo_evento = 10107
                                     be_bitacora.usuario = Session("Usuario")
                                     bll_bitacora.alta(be_bitacora)
-                                    Response.Write(DirectCast(Me.Master, General_Electrosystem).Traductora("msg_artefactoexistente"))
+                                    DirectCast(Me.Master, General_Electrosystem).mostrarmodal("msg_artefactoexistente")
                                     cargarartefactoelectrico()
                                 Case 10106
                                     be_bitacora.codigo_evento = 10107
@@ -219,7 +219,7 @@
                                     be_artefactoelectrico.precio = num_precio2.Text
                                     be_artefactoelectrico.relacion_bocamercado = 0
                                 Else
-                                    Response.Write(DirectCast(Me.Master, General_Electrosystem).Traductora("msg_valorcero"))
+                                    DirectCast(Me.Master, General_Electrosystem).mostrarmodal("msg_valorcero")
                                     cargarartefactoelectrico()
                                     GoTo 1
                                 End If
@@ -229,7 +229,7 @@
                                     be_artefactoelectrico.precio = 0
 
                                 Else
-                                    Response.Write(DirectCast(Me.Master, General_Electrosystem).Traductora("msg_valorcero"))
+                                    DirectCast(Me.Master, General_Electrosystem).mostrarmodal("msg_valorcero")
                                     cargarartefactoelectrico()
                                     GoTo 1
                                 End If
@@ -240,13 +240,13 @@
                                     be_bitacora.codigo_evento = 10108
                                     be_bitacora.usuario = Session("Usuario")
                                     bll_bitacora.alta(be_bitacora)
-                                    Response.Write(DirectCast(Me.Master, General_Electrosystem).Traductora("msg_modificaok"))
+                                    DirectCast(Me.Master, General_Electrosystem).mostrarmodal("msg_modificaok")
                                     cargarartefactoelectrico()
                                 Case 10107
                                     be_bitacora.codigo_evento = 10107
                                     be_bitacora.usuario = Session("Usuario")
                                     bll_bitacora.alta(be_bitacora)
-                                    Response.Write(DirectCast(Me.Master, General_Electrosystem).Traductora("msg_artefactoexistente"))
+                                    DirectCast(Me.Master, General_Electrosystem).mostrarmodal("msg_artefactoexistente")
                                     cargarartefactoelectrico()
                                 Case 10109
                                     be_bitacora.codigo_evento = 10109

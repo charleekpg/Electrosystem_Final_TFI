@@ -69,7 +69,7 @@
             Dim lista_Bitacora As List(Of BE.BE_Bitacora)
             If chk_fechadesde.Checked = True Then
                 If dtp_fechadesde.Text = "" Then
-                    Response.Write(DirectCast(Me.Master, General_Electrosystem).Traductora("msg_faltafecha"))
+                    DirectCast(Me.Master, General_Electrosystem).mostrarmodal("msg_faltafecha")
                     Exit Sub
 
                 Else
@@ -78,7 +78,7 @@
             End If
             If chk_fechahasta.Checked = True Then
                 If dtp_fechahasta.Text = "" Then
-                    Response.Write(DirectCast(Me.Master, General_Electrosystem).Traductora("msg_faltafecha"))
+                    DirectCast(Me.Master, General_Electrosystem).mostrarmodal("msg_faltafecha")
                     Exit Sub
 
                 Else
@@ -97,10 +97,10 @@
             Else
                 be_ficha.codigo_evento = Nothing
             End If
-           
+
             lista_Bitacora = bll_Bitacora.consultartodos(be_ficha)
             If lista_Bitacora.Count = 0 Then
-                Response.Write(DirectCast(Me.Master, General_Electrosystem).Traductora("msg_sinresultados"))
+                DirectCast(Me.Master, General_Electrosystem).mostrarmodal("msg_sinresultados")
                 GVGrillaEventos.DataSource = Nothing
                 GVGrillaEventos.DataBind()
                 deshabilitacion_inicial(Me.Controls)
@@ -181,6 +181,7 @@
 
     Protected Sub chk_fechahasta_CheckedChanged(sender As Object, e As EventArgs) Handles chk_fechahasta.CheckedChanged
         Me.habilitar_controles(chk_fechahasta, chk_fechahasta.Checked)
+
     End Sub
 
     Protected Sub cbx_usuario_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cbx_usuario.SelectedIndexChanged

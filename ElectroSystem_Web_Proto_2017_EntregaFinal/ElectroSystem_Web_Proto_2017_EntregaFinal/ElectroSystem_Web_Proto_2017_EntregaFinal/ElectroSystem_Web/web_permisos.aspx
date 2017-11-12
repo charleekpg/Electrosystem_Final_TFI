@@ -30,15 +30,33 @@ function soloLetras(e) {
     <asp:Button ID="btn_eliminar" runat="server" Text="Button" />
     <asp:Button ID="btn_cancelar" runat="server" Text="Button" />
     <br>
-        <asp:Label ID="lbl_roles_modificables" runat="server" Text="Label"></asp:Label>
 
-    <asp:ListBox ID="lst_roles_modificables" runat="server" AutoPostBack="True"></asp:ListBox>
-    <br>
-     <br>
-     <br>
-            <asp:Label ID="lbl_patentes" runat="server" Text="Label"></asp:Label>
-    <asp:ListBox ID="lst_patentes" runat="server" SelectionMode="Multiple" AutoPostBack="False"></asp:ListBox>
-     <br>
-               <asp:Label ID="lbl_roles" runat="server" Text="Label"></asp:Label>
-     <asp:ListBox ID="lst_roles" runat="server" SelectionMode="Multiple"></asp:ListBox>
+
+
+
+
+    <table style="border-collapse: collapse;    border-spacing: 0;    width: 100%;    border: 0px;">
+        <tr>
+            <td>
+                <asp:Label ID="lbl_roles_modificables" runat="server" Text="Label"></asp:Label>
+                <br />
+                <asp:ListBox ID="lst_roles_modificables" runat="server" AutoPostBack="True"></asp:ListBox>
+            </td>
+
+            <td>
+                <asp:Label ID="lbl_roles" runat="server" Text="Label"></asp:Label>
+                <br />
+                <asp:ListBox ID="lst_roles" runat="server" SelectionMode="Multiple"></asp:ListBox>
+            </td>
+
+            <td>
+                <asp:Label ID="lbl_patentes" runat="server" Text="Label"></asp:Label>
+                <br />
+                <asp:ListBox ID="lst_patentes" runat="server" SelectionMode="Multiple" AutoPostBack="False"></asp:ListBox>
+            </td>
+
+            <td style="width: 40%;">&nbsp</td>
+        </tr>
+    </table>
+     
 </asp:Content>

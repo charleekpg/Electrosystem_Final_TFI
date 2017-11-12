@@ -194,31 +194,13 @@ Partial Public Class General_Electrosystem
     Protected WithEvents menu_presucomercial As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
-    '''Control menus_gestproyectos.
+    '''Control men_reportes.
     '''</summary>
     '''<remarks>
     '''Campo generado automáticamente.
     '''Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
     '''</remarks>
-    Protected WithEvents menus_gestproyectos As Global.System.Web.UI.HtmlControls.HtmlAnchor
-
-    '''<summary>
-    '''Control menu_gestproyectos.
-    '''</summary>
-    '''<remarks>
-    '''Campo generado automáticamente.
-    '''Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
-    '''</remarks>
-    Protected WithEvents menu_gestproyectos As Global.System.Web.UI.WebControls.Label
-
-    '''<summary>
-    '''Control menus_reportes.
-    '''</summary>
-    '''<remarks>
-    '''Campo generado automáticamente.
-    '''Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
-    '''</remarks>
-    Protected WithEvents menus_reportes As Global.System.Web.UI.HtmlControls.HtmlAnchor
+    Protected WithEvents men_reportes As Global.System.Web.UI.HtmlControls.HtmlAnchor
 
     '''<summary>
     '''Control menu_reportes.
@@ -228,6 +210,42 @@ Partial Public Class General_Electrosystem
     '''Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
     '''</remarks>
     Protected WithEvents menu_reportes As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
+    '''Control menus_reporte_selec.
+    '''</summary>
+    '''<remarks>
+    '''Campo generado automáticamente.
+    '''Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+    '''</remarks>
+    Protected WithEvents menus_reporte_selec As Global.System.Web.UI.HtmlControls.HtmlAnchor
+
+    '''<summary>
+    '''Control menu_reporte_selec.
+    '''</summary>
+    '''<remarks>
+    '''Campo generado automáticamente.
+    '''Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+    '''</remarks>
+    Protected WithEvents menu_reporte_selec As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
+    '''Control menus_reportes_grafico.
+    '''</summary>
+    '''<remarks>
+    '''Campo generado automáticamente.
+    '''Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+    '''</remarks>
+    Protected WithEvents menus_reportes_grafico As Global.System.Web.UI.HtmlControls.HtmlAnchor
+
+    '''<summary>
+    '''Control menu_reportes_grafico.
+    '''</summary>
+    '''<remarks>
+    '''Campo generado automáticamente.
+    '''Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+    '''</remarks>
+    Protected WithEvents menu_reportes_grafico As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
     '''Control men_webmaster.

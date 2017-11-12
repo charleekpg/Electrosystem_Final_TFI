@@ -34,10 +34,9 @@ Public Class DAL_Backup
         Dim mapper_stores As New SEGURIDAD.Mapper_Stored
         Dim lista_parametros As New List(Of SqlParameter)
         Dim string_disco As String = "C:\" & unbe.directorio & "\" & unbe.nombre_backup
-
         Try
             Dim P(0) As SqlParameter
-            P(0) = sqlhelper.BuildParameter("@nombre_backup", string_disco)
+            P(0) = sqlhelper.BuildParameter("@p1", string_disco)
             lista_parametros.AddRange(P)
             If mapper_stores.insertar_eliminar_modificar("hacerrestore", lista_parametros) = True Then
                 Return 6003
@@ -52,10 +51,9 @@ Public Class DAL_Backup
 
     End Function
 
-    Public Function listar_restore() As List(Of BE.BE_Backup)
+    Public Function listar_restore(ByVal unbe As BE.BE_Backup) As List(Of BE.BE_Backup)
         Try
-
-            Dim folder As New DirectoryInfo("C:\Backups")
+            Dim folder As New DirectoryInfo(unbe.directorio)
             Dim lista_backups As New List(Of BE.BE_Backup)
             For Each file As FileInfo In folder.GetFiles()
                 If file.Extension = ".bak" Then

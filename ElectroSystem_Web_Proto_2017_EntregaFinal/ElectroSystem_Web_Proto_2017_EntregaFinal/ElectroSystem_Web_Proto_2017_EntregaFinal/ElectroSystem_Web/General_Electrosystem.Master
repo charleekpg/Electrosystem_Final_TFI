@@ -19,6 +19,10 @@ function eliminar_modal() {
     document.getElementById('modal-box').parentNode.removeChild(elem);
     return false;
 }
+
+function funcion_redirect(url) {
+    window.location.replace(url);
+}
 </script>
 
 <body>
@@ -57,16 +61,21 @@ function eliminar_modal() {
                 <asp:Label ID="menu_gest_dom" runat="server" Text="Atención al Cliente"></asp:Label></a></li>
 				<li><a href="web_gestiontecnica.aspx" id="menus_gest_pres_tec" runat="server">
                     <asp:Label ID="menu_gest_pres_tec" runat="server" Text="Gestión Técnica"></asp:Label></a></li>
-				<li><a href="" id="menus_presucomercial" runat="server">
+				<li><a href="web_Presupuestovalor.aspx" id="menus_presucomercial" runat="server">
                         <asp:Label ID="menu_presucomercial" runat="server" Text="Gestión comercial"></asp:Label></a></li>
 			  </ul>
 			</li>
-              
-			<li><a href="" id="menus_gestproyectos" runat="server">
-                                            <asp:Label ID="menu_gestproyectos" runat="server" Text="Gestión de Proyectos"></asp:Label></a></li>
-            <li><a href="" id="menus_reportes" runat="server">
-                                                <asp:Label ID="menu_reportes" runat="server" Text="Reporting"></asp:Label></a></li>
-		    <li><a href="Web_inicio.aspx">
+            <li><a href="" id="men_reportes" runat="server">
+                                                <asp:Label ID="menu_reportes" runat="server" Text="Reporting"></asp:Label></a>
+                <ul class="submenu">
+							<li><a href="web_reporte_seleccion.aspx" id="menus_reporte_selec" runat="server" >
+                                                    <asp:Label ID="menu_reporte_selec" runat="server" Text="Exportación de Presupuesto"></asp:Label></a></li>
+                    		<li><a href="web_reportes.aspx" id="menus_reportes_grafico" runat="server" >
+                                                                        <asp:Label ID="menu_reportes_grafico" runat="server" Text="Módulo de Reportes"></asp:Label></a></li>
+                      </ul>
+            </li>
+		    
+              <li><a href="Web_inicio.aspx">
 <asp:Label ID="men_webmaster" runat="server" Text="Webmaster" ></asp:Label></a>
 			  <ul class="submenu">
 				<li><a href="web_bitacora.aspx" id="menus_bita" runat="server">

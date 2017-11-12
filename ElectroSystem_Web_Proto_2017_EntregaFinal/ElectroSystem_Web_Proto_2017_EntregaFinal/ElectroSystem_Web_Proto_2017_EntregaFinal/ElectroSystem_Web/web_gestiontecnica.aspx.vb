@@ -238,12 +238,12 @@
             be_artefacto = CType(Session("Lista_Artefactos"), List(Of BE.BE_ArtefactoElectrico)).Find(Function(x) x.descripcion = cbx_arteprtec.SelectedItem.Text)
             Dim cambio As Boolean = False
             If String.IsNullOrWhiteSpace(num_arteprtec.Text) OrElse num_arteprtec.Text = 0 OrElse num_arteprtec.Text = 0 OrElse num_arteprtec.Text = 0 OrElse num_arteprtec.Text = 0 Then
-                Response.Write(DirectCast(Me.Master, General_Electrosystem).Traductora("msg_valor0o>"))
+                DirectCast(Me.Master, General_Electrosystem).mostrarmodal("msg_valor0o>")
                 Exit Sub
             Else
                 For Each elemento As grilla In CType(Session("Grilla"), List(Of grilla))
                     If elemento.col_id = be_artefacto.id AndAlso elemento.col_descripcion = be_artefacto.descripcion AndAlso elemento.col_cantidad = num_arteprtec.Text AndAlso elemento.col_tipo = "Artefacto" Then
-                        Response.Write(DirectCast(Me.Master, General_Electrosystem).Traductora("msg_addartex"))
+                        DirectCast(Me.Master, General_Electrosystem).mostrarmodal("msg_addartex")
                         Exit Sub
                     Else
                         If elemento.col_id = be_artefacto.id AndAlso elemento.col_descripcion = be_artefacto.descripcion AndAlso elemento.col_cantidad <> num_arteprtec.Text AndAlso elemento.col_tipo = "Artefacto" Then
@@ -398,12 +398,12 @@
             be_material = CType(Session("Lista_Materiales"), List(Of BE.BE_Material_TrabajoconPrec)).Find(Function(x) x.Descripcion = cbx_matprtec.SelectedItem.Text)
             Dim cambio As Boolean = False
             If String.IsNullOrWhiteSpace(num_matprtec.Text) OrElse num_matprtec.Text = 0 Then
-                Response.Write(DirectCast(Me.Master, General_Electrosystem).Traductora("msg_valor0o>"))
+                DirectCast(Me.Master, General_Electrosystem).mostrarmodal("msg_valor0o>")
                 Exit Sub
             Else
                 For Each elemento As grilla In CType(Session("Grilla"), List(Of grilla))
                     If elemento.col_id = be_material.id AndAlso elemento.col_descripcion = be_material.Descripcion AndAlso elemento.col_cantidad = num_matprtec.Text AndAlso elemento.col_tipo = "Material" Then
-                        Response.Write(DirectCast(Me.Master, General_Electrosystem).Traductora("msg_addmatex"))
+                        DirectCast(Me.Master, General_Electrosystem).mostrarmodal("msg_addmatex")
                         Exit Sub
                     Else
                         If elemento.col_id = be_material.id AndAlso elemento.col_descripcion = be_material.Descripcion AndAlso elemento.col_cantidad <> num_matprtec.Text AndAlso elemento.col_tipo = "Material" Then
@@ -457,12 +457,12 @@
             be_trabajo = CType(Session("Lista_Trabajos"), List(Of BE.BE_Material_TrabajoconPrec)).Find(Function(x) x.Descripcion = cbx_trabprtec.SelectedItem.Text)
             Dim cambio As Boolean = False
             If String.IsNullOrWhiteSpace(num_trabprtec.Text) OrElse num_trabprtec.Text = 0 Then
-                Response.Write(DirectCast(Me.Master, General_Electrosystem).Traductora("msg_valor0o>"))
+                DirectCast(Me.Master, General_Electrosystem).mostrarmodal("msg_valor0o>")
                 Exit Sub
             Else
                 For Each elemento As grilla In CType(Session("Grilla"), List(Of grilla))
                     If elemento.col_id = be_trabajo.id AndAlso elemento.col_descripcion = be_trabajo.Descripcion AndAlso elemento.col_cantidad = num_trabprtec.Text AndAlso elemento.col_tipo = "Trabajo" Then
-                        Response.Write(DirectCast(Me.Master, General_Electrosystem).Traductora("msg_trabexis"))
+                        DirectCast(Me.Master, General_Electrosystem).mostrarmodal("msg_trabexis")
                         Exit Sub
                     Else
                         If elemento.col_id = be_trabajo.id AndAlso elemento.col_descripcion = be_trabajo.Descripcion AndAlso elemento.col_cantidad <> num_trabprtec.Text AndAlso elemento.col_tipo = "Trabajo" Then
@@ -574,15 +574,15 @@
                 presupuesto = bll_presupuesto.evaluar_presupuestovsdibujo(presupuesto)
                 Select Case presupuesto.observacion.Substring(0, 1)
                     Case "C"
-                        Response.Write(DirectCast(Me.Master, General_Electrosystem).Traductora("Cantidad_Artefactos_OK"))
+                        DirectCast(Me.Master, General_Electrosystem).mostrarmodal("Cantidad_Artefactos_OK")
                         Session("Evaluado") = 1
                         btn_guardarprte.Enabled = True
                     Case "-"
-                        Response.Write(DirectCast(Me.Master, General_Electrosystem).Traductora("Cantidad_BocasDibujoMayor") & " " & presupuesto.observacion.Substring(1, presupuesto.observacion.Length - 1).ToString)
+                        DirectCast(Me.Master, General_Electrosystem).mostrarmodal("Cantidad_BocasDibujoMayor", presupuesto.observacion.Substring(1, presupuesto.observacion.Length - 1).ToString)
                         Session("Evaluado") = 1
                         btn_guardarprte.Enabled = True
                     Case Else
-                        Response.Write(DirectCast(Me.Master, General_Electrosystem).Traductora("Cantidad_BocasDibujoMayor") & " " & presupuesto.observacion.ToString)
+                        DirectCast(Me.Master, General_Electrosystem).mostrarmodal("Cantidad_BocasDibujoMayor", presupuesto.observacion.ToString)
                         Session("Evaluado") = 1
                         btn_guardarprte.Enabled = True
                 End Select
@@ -628,13 +628,13 @@
             be_presupuesto.porcentaje_terminacion = txt_terminaciones.Text
             Select Case bll_presupuesto.actualizacion_responsabletecnico(be_presupuesto)
                 Case 10147
-                    Response.Write(DirectCast(Me.Master, General_Electrosystem).Traductora("msg_total<100"))
+                    DirectCast(Me.Master, General_Electrosystem).mostrarmodal("msg_total<100")
                 Case 10146
-                    Response.Write(DirectCast(Me.Master, General_Electrosystem).Traductora("msg_total<100"))
+                    DirectCast(Me.Master, General_Electrosystem).mostrarmodal("msg_total<100")
                 Case 10149
                     Response.Redirect("web_error_inicio.aspx", False)
                 Case 10150
-                    Response.Write(DirectCast(Me.Master, General_Electrosystem).Traductora("msg_actuaok"))
+                    DirectCast(Me.Master, General_Electrosystem).mostrarmodal("msg_actuaok")
                     btn_cancelarprtec_Click(Nothing, Nothing)
                 Case Else
                     Response.Redirect("web_error_inicio.aspx", False)

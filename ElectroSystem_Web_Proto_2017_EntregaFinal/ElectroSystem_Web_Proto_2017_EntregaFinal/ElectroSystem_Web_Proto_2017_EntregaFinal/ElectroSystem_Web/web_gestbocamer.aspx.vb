@@ -48,21 +48,21 @@
             Dim be_bitacora As New BE.BE_Bitacora
             Dim bll_bitacora As New BLL.BLL_Bitacora
             If num_bocamercado.Text = "0" Or num_bocamercado.Text = "" Then
-                Response.Write(DirectCast(Me.Master, General_Electrosystem).Traductora("msg_bocacero"))
+                DirectCast(Me.Master, General_Electrosystem).mostrarmodal("msg_bocacero")
                 cargarbocamercado()
             Else
                 Dim be_bocamercado As New BE.BE_BocaMercado
                 Dim bll_bocamercado As New BLL.BLL_BocaMercado
                 be_bocamercado.precio_bocamercado = num_bocamercado.Text
                 If be_bocamercado.precio_bocamercado <= 0 Then
-                    Response.Write(DirectCast(Me.Master, General_Electrosystem).Traductora("msg_formato"))
+                    DirectCast(Me.Master, General_Electrosystem).mostrarmodal("msg_formato")
                     cargarbocamercado()
                 Else
                     If bll_bocamercado.modificar(be_bocamercado) = 10101 Then
                         be_bitacora.codigo_evento = 10101
                         be_bitacora.usuario = Session("Usuario")
                         bll_bitacora.alta(be_bitacora)
-                        Response.Write(DirectCast(Me.Master, General_Electrosystem).Traductora("msg_modificarboca"))
+                        DirectCast(Me.Master, General_Electrosystem).mostrarmodal("msg_modificarboca")
                         cargarbocamercado()
                     Else
                         be_bitacora.codigo_evento = 10102

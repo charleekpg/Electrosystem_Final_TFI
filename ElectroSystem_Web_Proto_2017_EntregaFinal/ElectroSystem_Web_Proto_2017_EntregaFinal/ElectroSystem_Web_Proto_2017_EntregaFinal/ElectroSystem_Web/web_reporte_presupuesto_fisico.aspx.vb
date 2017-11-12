@@ -6,8 +6,11 @@ Public Class web_reporte_presupuesto_fisico
 
     Protected Sub Page_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
         Dim reporte As WebForms.LocalReport = ReportViewer1.LocalReport
-        Dim parametros As WebForms.ReportParameterInfoCollection = reporte.GetParameters()
-        Dim datasource As WebForms.ReportDataSourceCollection = reporte.DataSources
+            Dim parametros As WebForms.ReportParameterInfoCollection = reporte.GetParameters()
+            Dim datasource As WebForms.ReportDataSourceCollection = reporte.DataSources
+            traducir_parametros(parametros)
+            cargar_presupuesto_parametros(parametros)
+            cargar_presupuesto_datos(datasource, parametros)
     End Sub
 
     Sub traducir_parametros(parametros As WebForms.ReportParameterInfoCollection)
@@ -22,7 +25,6 @@ Public Class web_reporte_presupuesto_fisico
                     ReportViewer1.LocalReport.SetParameters(New WebForms.ReportParameter() {pr})
                 End If
             Next
-            '        traductor.traducir(Me)
         Catch ex As Exception
             Response.Redirect("web_login.aspx", False)
         End Try
@@ -34,7 +36,7 @@ Public Class web_reporte_presupuesto_fisico
         Try
             Dim lista_trabajo As New List(Of BE.BE_Material_TrabajoconPrec)
             Dim lista_material As New List(Of BE.BE_Material_TrabajoconPrec)
-            For Each TRABAJO In BE_presupuesto.Materiales_trabajo
+            For Each TRABAJO In be_presupuesto.Materiales_trabajo
                 If Not TRABAJO.id = 0 Then
                     If TRABAJO.Material = True Then
                         lista_material.Add(TRABAJO)
@@ -48,10 +50,10 @@ Public Class web_reporte_presupuesto_fisico
             For Each datos In data
                 Select Case datos.Name
                     Case "presupuesto_mano_obra"
-                        If Not BE_presupuesto.Artefacto_electrico Is Nothing Then
+                        If Not be_presupuesto.Artefacto_electrico Is Nothing Then
 0:                          'BE_ArtefactoElectricoBindingSource.DataSource = BE_presupuesto.Artefacto_electrico
                             'For Each arte As BE.BE_ArtefactoElectrico In BE_presupuesto.Artefacto_electrico
-                                datos.Value = be_presupuesto.Artefacto_electrico
+                            datos.Value = be_presupuesto.Artefacto_electrico
                             'Next
                             'BE_ArtefactoElectricoBindingSource.Add(BE_presupuesto.Artefacto_electrico)
                         Else
@@ -68,7 +70,7 @@ Public Class web_reporte_presupuesto_fisico
                         End If
                     Case "presupuesto_trabajos_adicionales"
                         If Not lista_trabajo.Count = 0 Then
-                                datos.Value = lista_trabajo
+                            datos.Value = lista_trabajo
                         Else
                             datos.Value = Nothing
                             For Each par In parametros

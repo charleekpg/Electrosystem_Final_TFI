@@ -139,7 +139,7 @@
                     bll_bitacora.alta(be_bitacora)
                     formato_inicial()
                     Session("Cambio") = False
-                    Response.Write(DirectCast(Me.Master, General_Electrosystem).Traductora("msg_rolconusuario"))
+                    DirectCast(Me.Master, General_Electrosystem).mostrarmodal("msg_rolconusuario")
                 Case 7010
                     be_bitacora.codigo_evento = 7010
                     be_bitacora.usuario = Session("Usuario")
@@ -151,7 +151,7 @@
                     bll_bitacora.alta(be_bitacora)
                     formato_inicial()
                     Session("Cambio") = False
-                    Response.Write(DirectCast(Me.Master, General_Electrosystem).Traductora("msg_borradorolok"))
+                    DirectCast(Me.Master, General_Electrosystem).mostrarmodal("msg_borradorolok")
             End Select
         Catch ex As Exception
             Response.Redirect("web_error_inicio.aspx", False)
@@ -198,6 +198,7 @@
             Next
         Next
         txtpermiso.Text = be_permisocompuesto.Descripcion
+        txtpermiso.Enabled = False
     End Sub
 
     Protected Sub btn_cancelar_Click(sender As Object, e As EventArgs) Handles btn_cancelar.Click
@@ -206,113 +207,142 @@
     End Sub
 
     Protected Sub btn_guardar_Click(sender As Object, e As EventArgs) Handles btn_guardar.Click
-        Dim be_bitacora As New BE.BE_Bitacora
-        Dim bll_bitacora As New BLL.BLL_Bitacora
-        Dim permiso As New BLL.BLL_Permisos
-        If Session("Cambio") = True Then
-            Dim rol As BE.BE_Permisocompuesto
-            Dim LISTA_ROLES As List(Of BE.BE_Permisocompuesto)
-            Dim lista As List(Of BE.BE_Patente)
-            Dim patente As BE.BE_Patente
-            Dim be_permiso_compuesto As BE.BE_Permisocompuesto
-            LISTA_ROLES = Session("Roles_Modificables")
-            rol = LISTA_ROLES.Find(Function(x) x.Descripcion = lst_roles_modificables.SelectedItem.Text)
-            'aca me falta validar lo del texto
-            If txtpermiso.Text <> "" Then
-                rol.Descripcion = txtpermiso.Text
-                rol.lista_permisos.Clear()
-                For Each item As ListItem In lst_patentes.Items
-                    If item.Selected = True Then
-                        lista = Session("Patentes")
-                        patente = lista.Find(Function(x) x.Descripcion = item.Text)
-                        rol.lista_permisos.Add(patente)
+        Try
+            Dim validar_seleccion As Integer = 0
+            For Each item As ListItem In lst_patentes.Items
+                If item.Selected = True Then
+                    validar_seleccion = 1
+                End If
+            Next
+            For Each item As ListItem In lst_roles.Items
+                If item.Selected = True Then
+                    validar_seleccion = 1
+                End If
+            Next
+            If validar_seleccion = 1 Then
+                Dim be_bitacora As New BE.BE_Bitacora
+                Dim bll_bitacora As New BLL.BLL_Bitacora
+                Dim permiso As New BLL.BLL_Permisos
+                If Session("Cambio") = True Then
+                    Dim rol As BE.BE_Permisocompuesto
+                    Dim LISTA_ROLES As List(Of BE.BE_Permisocompuesto)
+                    Dim lista As List(Of BE.BE_Patente)
+                    Dim patente As BE.BE_Patente
+                    Dim be_permiso_compuesto As BE.BE_Permisocompuesto
+                    LISTA_ROLES = Session("Roles_Modificables")
+                    rol = LISTA_ROLES.Find(Function(x) x.Descripcion = lst_roles_modificables.SelectedItem.Text)
+                    If rol.idpermiso = CType(Session("Usuario"), BE.BE_Usuario).permiso_usuario.idpermiso Then
+                        DirectCast(Me.Master, General_Electrosystem).mostrarmodal("msg_mismopermiso")
+                        Exit Sub
                     End If
-                Next
-                For Each item As ListItem In lst_roles.Items
-                    If item.Selected = True Then
-                        LISTA_ROLES = Session("Roles")
-                        be_permiso_compuesto = LISTA_ROLES.Find(Function(x) x.Descripcion = item.Text)
-                        rol.lista_permisos.Add(be_permiso_compuesto)
+                    'aca me falta validar lo del texto
+                    If txtpermiso.Text <> "" Then
+                        rol.Descripcion = txtpermiso.Text
+                        rol.lista_permisos.Clear()
+                        For Each item As ListItem In lst_patentes.Items
+                            If item.Selected = True Then
+                                lista = Session("Patentes")
+                                patente = lista.Find(Function(x) x.Descripcion = item.Text)
+                                rol.lista_permisos.Add(patente)
+                            End If
+                        Next
+                        For Each item As ListItem In lst_roles.Items
+                            If item.Selected = True Then
+                                If item.Text = txtpermiso.Text Then
+                                Else
+                                    LISTA_ROLES = Session("Roles")
+                                    be_permiso_compuesto = LISTA_ROLES.Find(Function(x) x.Descripcion = item.Text)
+                                    rol.lista_permisos.Add(be_permiso_compuesto)
+                                End If
+                            End If
+                        Next
+                        Select Case permiso.modificar(rol)
+                            Case 1999
+                                be_bitacora.codigo_evento = 1999
+                                be_bitacora.usuario = Session("Usuario")
+                                bll_bitacora.alta(be_bitacora)
+                                Response.Redirect("web_error_inicio.aspx", False)
+                            Case 1998
+                                be_bitacora.codigo_evento = 1998
+                                be_bitacora.usuario = Session("Usuario")
+                                bll_bitacora.alta(be_bitacora)
+                                DirectCast(Me.Master, General_Electrosystem).mostrarmodal("msg_familiaduplica")
+                            Case 1990
+                                be_bitacora.codigo_evento = 1990
+                                be_bitacora.usuario = Session("Usuario")
+                                bll_bitacora.alta(be_bitacora)
+                                formato_inicial()
+
+                                DirectCast(Me.Master, General_Electrosystem).mostrarmodal("msg_modificaok")
+
+                            Case 1989
+                                be_bitacora.codigo_evento = 1989
+                                be_bitacora.usuario = Session("Usuario")
+                                bll_bitacora.alta(be_bitacora)
+                                Response.Redirect("web_error_inicio.aspx", False)
+
+                        End Select
                     End If
-                Next
-                Select Case permiso.modificar(rol)
-                    Case 1999
-                        be_bitacora.codigo_evento = 1999
-                        be_bitacora.usuario = Session("Usuario")
-                        bll_bitacora.alta(be_bitacora)
-                        Response.Redirect("web_error_inicio.aspx", False)
-                    Case 1998
-                        be_bitacora.codigo_evento = 1998
-                        be_bitacora.usuario = Session("Usuario")
-                        bll_bitacora.alta(be_bitacora)
-                        Response.Write(DirectCast(Me.Master, General_Electrosystem).Traductora("msg_familiaduplica"))
-                    Case 1990
-                        be_bitacora.codigo_evento = 1990
-                        be_bitacora.usuario = Session("Usuario")
-                        bll_bitacora.alta(be_bitacora)
-                        formato_inicial()
 
-                        Response.Write(DirectCast(Me.Master, General_Electrosystem).Traductora("msg_modificaok"))
+                Else
+                    'aca me falta validar lo del texto
+                    If txtpermiso.Text <> "" Then
+                        Dim rol As New BE.BE_Permisocompuesto
+                        rol.Descripcion = txtpermiso.Text
+                        Dim lista As List(Of BE.BE_Patente)
+                        Dim lista_roles As List(Of BE.BE_Permisocompuesto)
+                        Dim be_permiso_compuesto As BE.BE_Permisocompuesto
+                        Dim patente As BE.BE_Patente
+                        For Each item As ListItem In lst_patentes.Items
+                            If item.Selected = True Then
+                                lista = Session("Patentes")
+                                patente = lista.Find(Function(x) x.Descripcion = item.Text)
+                                rol.lista_permisos.Add(patente)
+                            End If
+                        Next
+                        For Each item As ListItem In lst_roles.Items
+                            If item.Selected = True Then
+                                lista_roles = Session("Roles")
+                                be_permiso_compuesto = lista_roles.Find(Function(x) x.Descripcion = item.Text)
+                                rol.lista_permisos.Add(be_permiso_compuesto)
+                            End If
+                        Next
+                        Select Case permiso.alta(rol)
+                            Case 1999
+                                be_bitacora.codigo_evento = 1999
+                                be_bitacora.usuario = Session("Usuario")
+                                bll_bitacora.alta(be_bitacora)
+                                Response.Redirect("web_error_inicio.aspx", False)
+                            Case 1998
+                                be_bitacora.codigo_evento = 1998
+                                be_bitacora.usuario = Session("Usuario")
+                                bll_bitacora.alta(be_bitacora)
+                                DirectCast(Me.Master, General_Electrosystem).mostrarmodal("msg_familiaduplica")
+                            Case 1997
+                                be_bitacora.codigo_evento = 1997
+                                be_bitacora.usuario = Session("Usuario")
+                                bll_bitacora.alta(be_bitacora)
+                                formato_inicial()
 
-                    Case 1989
-                        be_bitacora.codigo_evento = 1989
-                        be_bitacora.usuario = Session("Usuario")
-                        bll_bitacora.alta(be_bitacora)
-                        Response.Redirect("web_error_inicio.aspx", False)
+                                DirectCast(Me.Master, General_Electrosystem).mostrarmodal("msg_altacorrecta")
 
-                End Select
+                            Case 1996
+                                be_bitacora.codigo_evento = 1996
+                                be_bitacora.usuario = Session("Usuario")
+                                bll_bitacora.alta(be_bitacora)
+                                Response.Redirect("web_error_inicio.aspx", False)
+                        End Select
+                    End If
+                End If
+            Else
+                DirectCast(Me.Master, General_Electrosystem).mostrarmodal("msg_debeseleccionar")
             End If
 
-        Else
-            'aca me falta validar lo del texto
-            If txtpermiso.Text <> "" Then
-                Dim rol As New BE.BE_Permisocompuesto
-                rol.Descripcion = txtpermiso.Text
-                Dim lista As List(Of BE.BE_Patente)
-                Dim lista_roles As List(Of BE.BE_Permisocompuesto)
-                Dim be_permiso_compuesto As BE.BE_Permisocompuesto
-                Dim patente As BE.BE_Patente
-                For Each item As ListItem In lst_patentes.Items
-                    If item.Selected = True Then
-                        lista = Session("Patentes")
-                        patente = lista.Find(Function(x) x.Descripcion = item.Text)
-                        rol.lista_permisos.Add(patente)
-                    End If
-                Next
-                For Each item As ListItem In lst_roles.Items
-                    If item.Selected = True Then
-                        lista_roles = Session("Roles")
-                        be_permiso_compuesto = lista_roles.Find(Function(x) x.Descripcion = item.Text)
-                        rol.lista_permisos.Add(be_permiso_compuesto)
-                    End If
-                Next
-                Select Case permiso.alta(rol)
-                    Case 1999
-                        be_bitacora.codigo_evento = 1999
-                        be_bitacora.usuario = Session("Usuario")
-                        bll_bitacora.alta(be_bitacora)
-                        Response.Redirect("web_error_inicio.aspx", False)
-                    Case 1998
-                        be_bitacora.codigo_evento = 1998
-                        be_bitacora.usuario = Session("Usuario")
-                        bll_bitacora.alta(be_bitacora)
-                        Response.Write(DirectCast(Me.Master, General_Electrosystem).Traductora("msg_familiaduplica"))
-                    Case 1997
-                        be_bitacora.codigo_evento = 1997
-                        be_bitacora.usuario = Session("Usuario")
-                        bll_bitacora.alta(be_bitacora)
-                        formato_inicial()
+        Catch ex As Exception
+            Response.Redirect("web_error_inicio.aspx", False)
 
-                        Response.Write(DirectCast(Me.Master, General_Electrosystem).Traductora("msg_altacorrecta"))
-
-                    Case 1996
-                        be_bitacora.codigo_evento = 1996
-                        be_bitacora.usuario = Session("Usuario")
-                        bll_bitacora.alta(be_bitacora)
-                        Response.Redirect("web_error_inicio.aspx", False)
-                End Select
-            End If
-        End If
+        End Try
+       
 
     End Sub
 

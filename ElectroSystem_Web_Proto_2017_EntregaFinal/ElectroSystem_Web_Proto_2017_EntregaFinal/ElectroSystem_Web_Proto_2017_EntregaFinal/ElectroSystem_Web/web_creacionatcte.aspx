@@ -29,41 +29,148 @@
          }
 
 </script>
-    <asp:Label ID="lbl_codpresupuesto" runat="server" Text="lbl_budgetcode"></asp:Label>
-    <asp:DropDownList ID="cmb_presupuesto" runat="server"></asp:DropDownList>
-                <asp:Button ID="btn_cargar_presupuesto" runat="server" style="height: 26px" />
-    <br>
-    <asp:Label ID="lbl_dnicuit" runat="server"></asp:Label>
-    <asp:TextBox ID="txt_dnicuit" runat="server" TextMode="Search" onkeypress="return isNumberint(event)" MaxLength="11"></asp:TextBox>
-                <asp:Button ID="btn_buscar" runat="server" style="height: 26px" />
-    <asp:HiddenField ID="id" runat="server" />
-    <br>
-    <asp:Label ID="lbl_nombre_razonsocial" runat="server"></asp:Label>
-        <asp:TextBox ID="txt_nombre_razonsocial" runat="server" ReadOnly="True"></asp:TextBox>
-     <br>
-       <asp:Label ID="LBL_Parti" runat="server"></asp:Label>
-    <asp:DropDownList ID="cbx_parti" runat="server" AutoPostBack="True"></asp:DropDownList>
-     <br>
-           <asp:Label ID="LBL_Loca" runat="server"></asp:Label>
-        <asp:DropDownList ID="cbx_localidad" runat="server"></asp:DropDownList>
-         <br>
-               <asp:Label ID="LBL_Calle" runat="server"></asp:Label>
-            <asp:TextBox ID="txt_calle" runat="server" ></asp:TextBox>
-             <br>
-                   <asp:Label ID="LBL_Altura" runat="server"></asp:Label>
-                <asp:TextBox ID="txt_altura" runat="server" onkeypress="return isNumberint(event)" MaxLength="7"></asp:TextBox>
-                 <br>
-                   <asp:Label ID="lbl_piso" runat="server"></asp:Label>
-                <asp:TextBox ID="txt_piso" runat="server" onkeypress="return isNumberint(event)" MaxLength="2" ></asp:TextBox>
-                <br>
-                   <asp:Label ID="lbl_depto" runat="server" Text="LBL_Parti"></asp:Label>
-                <asp:TextBox ID="txt_depto" runat="server" MaxLength="2" onkeypress="return soloLetras(event)"  ></asp:TextBox>
-                    <br>
-    <asp:CheckBox ID="CHK_Country" runat="server"/>
-                        <br>
-                       <asp:Label ID="lbl_dibujotecnico" runat="server"></asp:Label>
-    <asp:DropDownList ID="drp_dibujo" runat="server"></asp:DropDownList>
-        <asp:Button ID="btn_verdibujo" runat="server"/>
+
+
+
+	<table style="border-collapse: collapse;    border-spacing: 0;    width: 100%;    border: 0px;">
+
+    <tr>
+        <td>
+            <asp:Label ID="lbl_codpresupuesto" runat="server" Text="lbl_budgetcode"></asp:Label>
+            <br />
+            <asp:DropDownList ID="cmb_presupuesto" runat="server"></asp:DropDownList>
+            <asp:Button ID="btn_cargar_presupuesto" runat="server" style="height: 26px" />
+        </td>
+        <td>&nbsp</td>
+        <td style="width: 60%;">&nbsp</td>
+    </tr>
+
+    <tr>
+        <td><asp:HiddenField ID="id" runat="server" />&nbsp</td>
+        <td>&nbsp</td>
+        <td style="width: 60%;">&nbsp</td>
+    </tr>
+
+    <tr>
+        <td>
+            <asp:Label ID="lbl_dnicuit" runat="server"></asp:Label>
+            <br />
+            <asp:TextBox ID="txt_dnicuit" runat="server" TextMode="Search" onkeypress="return isNumberint(event)" MaxLength="11"></asp:TextBox>
+            <asp:Button ID="btn_buscar" runat="server" style="height: 26px" />
+        </td>
+        <td>&nbsp</td>
+        <td style="width: 60%;">&nbsp</td>
+    </tr>
+
+    <tr>
+        <td>&nbsp</td>
+        <td>&nbsp</td>
+        <td style="width: 60%;">&nbsp</td>
+    </tr
+    <tr>
+        <td><asp:Label ID="lbl_nombre_razonsocial" runat="server"></asp:Label></td>
+        <td><asp:TextBox ID="txt_nombre_razonsocial" runat="server" ReadOnly="True"></asp:TextBox></td>
+        <td style="width: 60%;">&nbsp</td>
+    </tr>
+
+    <tr>
+        <td>&nbsp</td>
+        <td>&nbsp</td>
+        <td style="width: 60%;">&nbsp</td>
+    </tr
+    <tr>
+        <td><asp:Label ID="LBL_Parti" runat="server"></asp:Label></td>
+        <td><asp:DropDownList style="width:170px;" ID="cbx_parti" runat="server" AutoPostBack="True"></asp:DropDownList></td>
+        <td style="width: 60%;">&nbsp</td>
+    </tr>
+
+           
+        
+    <tr>
+        <td>&nbsp</td>
+        <td>&nbsp</td>
+        <td style="width: 60%;">&nbsp</td>
+    </tr
+    <tr>
+        <td><asp:Label ID="LBL_Loca" runat="server"></asp:Label></td>
+        <td><asp:DropDownList style="width:170px;" ID="cbx_localidad" runat="server"></asp:DropDownList></td>
+        <td style="width: 60%;">&nbsp</td>
+    </tr>   
+    
+    <tr>
+        <td>&nbsp</td>
+        <td>&nbsp</td>
+        <td style="width: 60%;">&nbsp</td>
+    </tr
+    <tr>
+        <td><asp:Label ID="LBL_Calle" runat="server"></asp:Label></td>
+        <td><asp:TextBox ID="txt_calle" runat="server" ></asp:TextBox></td>
+        <td style="width: 60%;">&nbsp</td>
+    </tr>     
+
+    <tr>
+        <td>&nbsp</td>
+        <td>&nbsp</td>
+        <td style="width: 60%;">&nbsp</td>
+    </tr>
+    <tr>
+        <td><asp:Label ID="LBL_Altura" runat="server"></asp:Label></td>
+        <td><asp:TextBox ID="txt_altura" runat="server" onkeypress="return isNumberint(event)" MaxLength="7"></asp:TextBox></td>
+        <td style="width: 60%;">&nbsp</td>
+    </tr>   
+
+    <tr>
+        <td>&nbsp</td>
+        <td>&nbsp</td>
+        <td style="width: 60%;">&nbsp</td>
+    </tr>
+    <tr>
+        <td><asp:Label ID="lbl_piso" runat="server"></asp:Label></td>
+        <td><asp:TextBox ID="txt_piso" runat="server" onkeypress="return isNumberint(event)" MaxLength="2" ></asp:TextBox></td>
+        <td style="width: 60%;">&nbsp</td>
+    </tr> 
+
+    <tr>
+        <td>&nbsp</td>
+        <td>&nbsp</td>
+        <td style="width: 60%;">&nbsp</td>
+    </tr>
+    <tr>
+        <td><asp:Label ID="lbl_depto" runat="server" Text="LBL_Parti"></asp:Label></td>
+        <td><asp:TextBox ID="txt_depto" runat="server" MaxLength="2" onkeypress="return soloLetras(event)"  ></asp:TextBox></td>
+        <td style="width: 60%;">&nbsp</td>
+    </tr> 
+
+    <tr>
+        <td>&nbsp</td>
+        <td>&nbsp</td>
+        <td style="width: 60%;">&nbsp</td>
+    </tr>
+    <tr>
+        <td><asp:CheckBox ID="CHK_Country" runat="server"/></td>
+        <td>&nbsp</td>
+        <td style="width: 60%;">&nbsp</td>
+    </tr> 
+
+    <tr>
+        <td>&nbsp</td>
+        <td>&nbsp</td>
+        <td style="width: 60%;">&nbsp</td>
+    </tr>
+    <tr>
+        <td><asp:Label ID="lbl_dibujotecnico" runat="server"></asp:Label></td>
+        <td><asp:DropDownList ID="drp_dibujo" runat="server"></asp:DropDownList><asp:Button ID="btn_verdibujo" runat="server"/></td>
+        <td style="width: 60%;">&nbsp</td>
+    </tr> 
+
+
+
+</table>
+	
+
+
+                       
+
 
                             <br>
     <asp:Button ID="btn_nuevopresu" runat="server"/>

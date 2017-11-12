@@ -3,33 +3,19 @@ Imports System.Data.SqlClient
 
 Public Class SQLHelper
 
-    Private strCon As String = ""
-    Private strMas As String = ""
-    Public Sub New()
-        Dim xmlhelper As New XmlHelper
-        strCon = xmlhelper.ReadFile("strConection")
-        Dim xmlhelper_2 As New XmlHelper
-        strMas = xmlhelper.ReadFile("strConectionMaster")
-    End Sub
-    'Private sqlconnexion As SqlConnection = Nothing
 
-    Private sqlconnexion As New SqlConnection("Data Source=.\SQLEXPRESS;Initial Catalog=ElectroSystem;Integrated Security=True")
-    'Private sqlconexionmaster As New SqlConnection("Data Source=NOTENGO\SQLEXPRESS;Initial Catalog=Master;Integrated Security=True")
-    Private sqlconexionmaster As New SqlConnection
+    Private sqlconnexion As New SqlConnection(System.Configuration.ConfigurationManager.ConnectionStrings("ConexionNegocio").ConnectionString)
+    Private sqlconexionmaster As New SqlConnection(System.Configuration.ConfigurationManager.ConnectionStrings("ConexionMaster").ConnectionString)
+   
 
-
-    Public Function givemeconnection()
-        Return strCon
-    End Function
+  
     Public Function abrirconexion()
 
         If sqlconnexion Is Nothing Then
-            sqlconnexion = New SqlConnection
+            sqlconnexion = New SqlConnection(System.Configuration.ConfigurationManager.ConnectionStrings("ConexionNegocio").ConnectionString)
         End If
         If sqlconnexion.State = ConnectionState.Closed Then
-            ' esto hay que cambiarlo despues... 'con strcon
-            sqlconnexion.ConnectionString = "Data Source=.\SQLEXPRESS;Initial Catalog=ElectroSystem;Integrated Security=True"
-            'sqlconnexion.Open()
+            sqlconnexion.ConnectionString = System.Configuration.ConfigurationManager.ConnectionStrings("ConexionNegocio").ConnectionString
         End If
         Return sqlconnexion
 
@@ -48,11 +34,11 @@ Public Class SQLHelper
     Public Function abrirconexionmaster()
 
         If sqlconnexion Is Nothing Then
-            sqlconnexion = New SqlConnection
+            sqlconnexion = New SqlConnection(System.Configuration.ConfigurationManager.ConnectionStrings("ConexionMaster").ConnectionString)
         End If
         If sqlconnexion.State = ConnectionState.Closed Then
             ' esto hay que cambiarlo despues... 'con strcon
-            sqlconnexion.ConnectionString = "Data Source=.\SQLEXPRESS;Initial Catalog=Master;Integrated Security=True"
+            sqlconnexion.ConnectionString = System.Configuration.ConfigurationManager.ConnectionStrings("ConexionMaster").ConnectionString
             'sqlconnexion.Open()
         End If
         Return sqlconnexion

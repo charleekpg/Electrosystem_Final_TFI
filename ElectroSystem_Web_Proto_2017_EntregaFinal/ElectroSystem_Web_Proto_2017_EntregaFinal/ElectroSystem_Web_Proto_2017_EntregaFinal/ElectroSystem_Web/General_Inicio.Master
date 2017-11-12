@@ -10,6 +10,14 @@
 	<link rel="stylesheet" type="text/css" href="Estilos/contenedor.css">
 	<link rel="stylesheet" type="text/css" href="Estilos/pie.css">
 </head>
+        <script>
+function eliminar_modal() {
+    var elem = document.getElementById('modal-box');
+    elem.parentNode.removeChild(elem);
+    document.getElementById('modal-box').parentNode.removeChild(elem);
+    return false;
+}
+</script>
 <body>
 
 	<div id="header" class='cabecera'>

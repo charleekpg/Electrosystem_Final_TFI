@@ -4,10 +4,6 @@ Imports System.Data.SqlClient
 Public Class DAL_Reporting
 
 
-    Public m_BE_Reporting As BE.BE_Reporting
-
-    ''' 
-    ''' <param name="unbe"></param>
     Public Function clientes_criticos(ByVal unbe As BE.BE_Reporting) As BE.BE_Reporting
         Dim sqlhelper As New SEGURIDAD.SQLHelper
         Dim reporte As New BE.BE_Reporting
@@ -17,7 +13,6 @@ Public Class DAL_Reporting
         Try
             Dim consultagenerica As String = Nothing
             Dim consulta As New SqlCommand
-            Dim sqldatareader As SqlDataReader
             Dim lista_cliente As New List(Of BE.BE_CLIENTE)
             Dim P(2) As SqlParameter
             If unbe.cantidad_clientes = True Then

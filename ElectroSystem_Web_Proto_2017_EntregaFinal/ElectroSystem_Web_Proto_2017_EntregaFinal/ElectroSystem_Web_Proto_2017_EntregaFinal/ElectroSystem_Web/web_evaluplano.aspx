@@ -20,57 +20,98 @@
          return true;
      }
 </script>
+
+
     <asp:Label ID="lbl_numeroambiente" runat="server" Text="Label" Visible="False"></asp:Label>
     <asp:TextBox ID="txt_numeroambiente" runat="server" ReadOnly="true" Visible="False"></asp:TextBox>
+    
+    
     <br>
-        <asp:Label ID="lbl_tipoambiente" runat="server" Text="Label"></asp:Label>
-    <asp:DropDownList ID="drp_ambiente" runat="server"></asp:DropDownList>
-     <br>
-        <asp:Label ID="lbl_m2" runat="server" Text="Label"></asp:Label>
-        <asp:TextBox ID="txt_m2" runat="server" Enabled="False" onkeypress="return isNumberKey(event)" MaxLength="8"></asp:TextBox>
-        <br>
-            <asp:Label ID="lbl_circiluminacion" runat="server" Text="Label"></asp:Label>
-            <asp:TextBox ID="txt_circiluminacion" runat="server" Enabled="False" onkeypress="return isNumberint(event)" MaxLength="3"></asp:TextBox>
-    <asp:CheckBox ID="chk_circiluminacion" runat="server" AutoPostBack="True" />
-      <br>
-                <asp:Label ID="lbl_circtomacorriente" runat="server" Text="Label"></asp:Label>
-            <asp:TextBox ID="txt_circtomacorriente" runat="server" Enabled="False" onkeypress="return isNumberint(event)" MaxLength="3"></asp:TextBox>
-        <asp:CheckBox ID="chk_circtomacorriente" runat="server" AutoPostBack="True" />
 
-      <br>
-                    <asp:Label ID="lbl_circiluminaespecial" runat="server" Text="Label"></asp:Label>
-            <asp:TextBox ID="txt_circiluminaespecial" runat="server" Enabled="False" onkeypress="return isNumberint(event)" MaxLength="3"></asp:TextBox>
-            <asp:CheckBox ID="chk_circiluminaespecial" runat="server" AutoPostBack="True" />
+        <table style="border-collapse: collapse;    border-spacing: 0;    width: 100%;    border: 0px;">
+            <tr>
+                <td><asp:Label ID="lbl_tipoambiente" runat="server" Text="Label"></asp:Label></td>
+                <td><asp:DropDownList ID="drp_ambiente" runat="server"></asp:DropDownList></td>
+                <td style="width: 20%;">&nbsp</td>
+            </tr>
 
-    <br>
-                        <asp:Label ID="lbl_circtomacorrienteespecial" runat="server" Text="Label"></asp:Label>
-            <asp:TextBox ID="txt_circtomacorrienteespecial" runat="server" Enabled="False" onkeypress="return isNumberint(event)" MaxLength="3"></asp:TextBox>
-                <asp:CheckBox ID="chk_circtomacorrienteespecial" runat="server" AutoPostBack="True" />
+            <tr>
+                <td><asp:Label ID="lbl_m2" runat="server" Text="Label"></asp:Label></td>
+                <td><asp:TextBox ID="txt_m2" size="4" runat="server" Enabled="False" onkeypress="return isNumberKey(event)" MaxLength="8"></asp:TextBox></td>
+                <td style="width: 20%;">&nbsp</td>
+            </tr>
 
-    <br>
-            <asp:Label ID="lbl_cantcirciluminacion" runat="server" Text="Label"></asp:Label>
-            <asp:TextBox ID="txt_cantcirciluminacion" runat="server" Enabled="False" onkeypress="return isNumberint(event)" MaxLength="3"></asp:TextBox>
+            <tr>
+                <td><asp:Label ID="lbl_circiluminacion" runat="server" Text="Label"></asp:Label></td>
+                <td>
+                    <asp:TextBox ID="txt_circiluminacion" size="4" runat="server" Enabled="False" onkeypress="return isNumberint(event)" MaxLength="3"></asp:TextBox>
+                    <asp:CheckBox ID="chk_circiluminacion" runat="server" AutoPostBack="True" />
+                </td>
+                <td style="width: 20%;">&nbsp</td>
+            </tr>
 
-      <br>
-                <asp:Label ID="lbl_cantcirctomacorriente" runat="server" Text="Label"></asp:Label>
-            <asp:TextBox ID="txt_cantcirctomacorriente" runat="server" Enabled="False" onkeypress="return isNumberint(event)" MaxLength="3"></asp:TextBox>
+            <tr>
+                <td><asp:Label ID="lbl_circtomacorriente" runat="server" Text="Label"></asp:Label></td>
+                <td>
+                    <asp:TextBox ID="txt_circtomacorriente" size="4" runat="server" Enabled="False" onkeypress="return isNumberint(event)" MaxLength="3"></asp:TextBox>
+                    <asp:CheckBox ID="chk_circtomacorriente" runat="server" AutoPostBack="True" />
+                </td>
+                <td style="width: 20%;">&nbsp</td>
+            </tr>
+            <tr>
+                <td><asp:Label ID="lbl_circiluminaespecial" runat="server" Text="Label"></asp:Label></td>
+                <td>
+                    <asp:TextBox ID="txt_circiluminaespecial" size="4" runat="server" Enabled="False" onkeypress="return isNumberint(event)" MaxLength="3"></asp:TextBox>
+                    <asp:CheckBox ID="chk_circiluminaespecial" runat="server" AutoPostBack="True" />
+                </td>
+                <td style="width: 20%;">&nbsp</td>
+            </tr>
 
-      <br>
-                    <asp:Label ID="lbl_cantcirciluminaespecial" runat="server" Text="Label"></asp:Label>
-            <asp:TextBox ID="txt_cantcirciluminaespecial" runat="server" Enabled="False" onkeypress="return isNumberint(event)" MaxLength="3"></asp:TextBox>
-    <br>
-                        <asp:Label ID="lbl_cantcirctomacorrienteespecial" runat="server" Text="Label"></asp:Label>
-            <asp:TextBox ID="txt_cantcirctomacorrienteespecial" runat="server" Enabled="False" onkeypress="return isNumberint(event)" MaxLength="3"></asp:TextBox>
-    <br>
-        <asp:Button ID="btn_nuevo" runat="server" Text="Button" />
+            <tr>
+                <td><asp:Label ID="lbl_circtomacorrienteespecial" runat="server" Text="Label"></asp:Label></td>
+                <td>
+                    <asp:TextBox ID="txt_circtomacorrienteespecial" size="4" runat="server" Enabled="False" onkeypress="return isNumberint(event)" MaxLength="3"></asp:TextBox>
+                    <asp:CheckBox ID="chk_circtomacorrienteespecial" runat="server" AutoPostBack="True" />
+                </td>
+                <td style="width: 20%;">&nbsp</td>
+            </tr>
+            <tr>
+                <td><asp:Label ID="lbl_cantcirciluminacion" runat="server" Text="Label"></asp:Label></td>
+                <td><asp:TextBox ID="txt_cantcirciluminacion" size="4" runat="server" Enabled="False" onkeypress="return isNumberint(event)" MaxLength="3"></asp:TextBox></td>
+                <td style="width: 20%;">&nbsp</td>
+            </tr>
 
-    <asp:Button ID="btnambiente_agregar" runat="server" Text="Button" />
-        <asp:Button ID="btn_evaluarplano" runat="server" Text="Button" />
-    <asp:Button ID="btn_guardardibujo" runat="server" Text="Button" />
-            <asp:Button ID="btn_cancelar" runat="server" Text="Button" />
-        <br>
-       <br>
-    <asp:GridView ID="dtg_ambientes" runat="server" AutoGenerateColumns="False" CellPadding="4" ForeColor="#333333" GridLines="None">
+            <tr>
+                <td><asp:Label ID="lbl_cantcirctomacorriente" runat="server" Text="Label"></asp:Label></td>
+                <td><asp:TextBox ID="txt_cantcirctomacorriente" size="4" runat="server" Enabled="False" onkeypress="return isNumberint(event)" MaxLength="3"></asp:TextBox></td>
+                <td style="width: 20%;">&nbsp</td>
+            </tr>
+            <tr>
+                <td><asp:Label ID="lbl_cantcirciluminaespecial" runat="server" Text="Label"></asp:Label></td>
+                <td><asp:TextBox ID="txt_cantcirciluminaespecial" size="4" runat="server" Enabled="False" onkeypress="return isNumberint(event)" MaxLength="3"></asp:TextBox></td>
+                <td style="width: 20%;">&nbsp</td>
+            </tr>
+
+            <tr>
+                <td><asp:Label ID="lbl_cantcirctomacorrienteespecial" runat="server" Text="Label"></asp:Label></td>
+                <td><asp:TextBox ID="txt_cantcirctomacorrienteespecial" size="4" runat="server" Enabled="False" onkeypress="return isNumberint(event)" MaxLength="3"></asp:TextBox></td>
+                <td style="width: 20%;">&nbsp</td>
+            </tr>
+        </table>
+
+<asp:Button ID="btn_nuevo" runat="server" Text="Button" />
+<asp:Button ID="btnambiente_agregar" runat="server" Text="Button" />
+<asp:Button ID="btn_evaluarplano" runat="server" Text="Button" />
+<asp:Button ID="btn_guardardibujo" runat="server" Text="Button" />
+<asp:Button ID="btn_cancelar" runat="server" Text="Button" />
+
+<br>
+<br>
+
+         
+
+<div style="width: 60%; padding-right: 90px">
+    <asp:GridView style="width: 100%;"  ID="dtg_ambientes" runat="server" AutoGenerateColumns="False" CellPadding="4" ForeColor="#333333" GridLines="None">
         <AlternatingRowStyle BackColor="White" ForeColor="#284775" />
         <Columns>
             <asp:BoundField DataField="tipo" FooterText="tipo" HeaderText="tipo" />
@@ -94,7 +135,11 @@
         <SortedAscendingHeaderStyle BackColor="#506C8C" />
         <SortedDescendingCellStyle BackColor="#FFFDF8" />
         <SortedDescendingHeaderStyle BackColor="#6F8DAE" />
-        </asp:GridView>
+    </asp:GridView>
+</div>
+    
+    
+    
        <br>
     <br>
     <asp:Label ID="lbl_ambiente_anotacion" runat="server" Text=""></asp:Label>

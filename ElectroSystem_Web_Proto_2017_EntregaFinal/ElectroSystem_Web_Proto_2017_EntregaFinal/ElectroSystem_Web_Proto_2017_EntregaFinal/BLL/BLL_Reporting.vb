@@ -16,14 +16,8 @@ Public Class BLL_Reporting
             reporte = dal_reporte.clientes_criticos(UNBE)
             Select Case reporte.fallo
                 Case False
-                    Bitacora.codigo_evento = 10155
-                    Bitacora.usuario = BE.BE_Usuario.usuariologueado
-                    bll_Bitacora.alta(Bitacora)
                     Return reporte
                 Case True
-                    Bitacora.codigo_evento = 10156
-                    Bitacora.usuario = BE.BE_Usuario.usuariologueado
-                    bll_Bitacora.alta(Bitacora)
                     Return reporte
             End Select
         Catch ex As Exception
@@ -84,14 +78,8 @@ Public Class BLL_Reporting
             be_reporte = dal_reporting.top5_material()
             Select Case be_reporte.fallo
                 Case True
-                    Bitacora.codigo_evento = 10161
-                    Bitacora.usuario = BE.BE_Usuario.usuariologueado
-                    bll_Bitacora.alta(Bitacora)
                     Return be_reporte
                 Case False
-                    Bitacora.codigo_evento = 10162
-                    Bitacora.usuario = BE.BE_Usuario.usuariologueado
-                    bll_Bitacora.alta(Bitacora)
                     Return be_reporte
             End Select
         Catch ex As Exception
@@ -107,14 +95,8 @@ Public Class BLL_Reporting
             be_reporte = dal_reporting.top5_trabajos()
             Select Case be_reporte.fallo
                 Case True
-                    Bitacora.codigo_evento = 10159
-                    Bitacora.usuario = BE.BE_Usuario.usuariologueado
-                    bll_Bitacora.alta(Bitacora)
                     Return be_reporte
                 Case False
-                    Bitacora.codigo_evento = 10160
-                    Bitacora.usuario = BE.BE_Usuario.usuariologueado
-                    bll_Bitacora.alta(Bitacora)
                     Return be_reporte
             End Select
         Catch ex As Exception

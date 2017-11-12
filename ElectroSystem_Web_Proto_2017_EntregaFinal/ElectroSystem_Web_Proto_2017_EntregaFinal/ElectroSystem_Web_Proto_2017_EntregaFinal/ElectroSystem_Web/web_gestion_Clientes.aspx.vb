@@ -247,7 +247,7 @@
                     be_bitacora.codigo_evento = 10129
                     be_bitacora.usuario = Session("Usuario")
                     bll_bitacora.alta(be_bitacora)
-                    Response.Write(DirectCast(Me.Master, General_Electrosystem).Traductora("msg_sinresultado"))
+                    DirectCast(Me.Master, General_Electrosystem).mostrarmodal("msg_sinresultado")
                 End If
             ElseIf rdb_personaJuridica.Checked = True Then
                 Dim be_personajuridica As New BE.BE_Personajuridica
@@ -309,7 +309,7 @@
                     be_bitacora.codigo_evento = 10129
                     be_bitacora.usuario = Session("Usuario")
                     bll_bitacora.alta(be_bitacora)
-                    Response.Write(DirectCast(Me.Master, General_Electrosystem).Traductora("msg_sinresultado"))
+                    DirectCast(Me.Master, General_Electrosystem).mostrarmodal("msg_sinresultado")
                 End If
             End If
         Catch ex As Exception
@@ -319,7 +319,7 @@
 
     Private Sub btn_agregartel_Click(sender As Object, e As EventArgs) Handles btn_agregartel.Click
         If Len(Trim(txt_telefono.Text)) < 5 Then
-            Response.Write(DirectCast(Me.Master, General_Electrosystem).Traductora("msg_telefonoformato"))
+            DirectCast(Me.Master, General_Electrosystem).mostrarmodal("msg_telefonoformato")
         Else
             Dim repeticion As Boolean = False
             For Each item As ListItem In dtg_telefonos.Items
@@ -359,10 +359,10 @@
         Dim bll_personajuridica As New BLL.BLL_PersonaJuridica
         If RDB_personaFisica.Checked = True Then
             If Len(Trim(txt_dni.Text)) = 0 Or Len(Trim(txt_nombre.Text)) = 0 Or Len(Trim(txt_apellido.Text)) = 0 Or Len(Trim(txt_correoelectronico.Text)) = 0 Or dtg_telefonos.Items.Count = 0 Then
-                Response.Write(DirectCast(Me.Master, General_Electrosystem).Traductora("msg_camposincompletos"))
+                DirectCast(Me.Master, General_Electrosystem).mostrarmodal("msg_camposincompletos")
                 GoTo 1
             ElseIf Len(Trim(txt_dni.Text)) < 8 Then
-                Response.Write(DirectCast(Me.Master, General_Electrosystem).Traductora("msg_dnilength"))
+                DirectCast(Me.Master, General_Electrosystem).mostrarmodal("msg_dnilength")
                 GoTo 1
             ElseIf Session("Entero_flag") = 1 Then
                 Dim be_personafisica As New BE.BE_Personafisica
@@ -386,7 +386,7 @@
                         be_bitacora.codigo_evento = 10119
                         be_bitacora.usuario = Session("Usuario")
                         bll_bitacora.alta(be_bitacora)
-                        Response.Write(DirectCast(Me.Master, General_Electrosystem).Traductora("msg_errorduplicidadcte"))
+                        DirectCast(Me.Master, General_Electrosystem).mostrarmodal("msg_errorduplicidadcte")
                         GoTo 1
                     Case 10120
                         be_bitacora.codigo_evento = 10120
@@ -406,7 +406,7 @@
                         be_bitacora.codigo_evento = 10121
                         be_bitacora.usuario = Session("Usuario")
                         bll_bitacora.alta(be_bitacora)
-                        Response.Write(DirectCast(Me.Master, General_Electrosystem).Traductora("msg_telefonoduplicado"))
+                        DirectCast(Me.Master, General_Electrosystem).mostrarmodal("msg_telefonoduplicado")
                     Case 10122
                         be_bitacora.codigo_evento = 10122
                         be_bitacora.usuario = Session("Usuario")
@@ -425,7 +425,7 @@
                         be_bitacora.codigo_evento = 10123
                         be_bitacora.usuario = Session("Usuario")
                         bll_bitacora.alta(be_bitacora)
-                        Response.Write(DirectCast(Me.Master, General_Electrosystem).Traductora("msg_altacorrecta"))
+                        DirectCast(Me.Master, General_Electrosystem).mostrarmodal("msg_altacorrecta")
                         habilito_controles_principal()
                     Case 10125
                         be_bitacora.codigo_evento = 10125
@@ -476,7 +476,7 @@
                         be_bitacora.codigo_evento = 10133
                         be_bitacora.usuario = Session("Usuario")
                         bll_bitacora.alta(be_bitacora)
-                        Response.Write(DirectCast(Me.Master, General_Electrosystem).Traductora("msg_errorduplicidadcte"))
+                        DirectCast(Me.Master, General_Electrosystem).mostrarmodal("msg_errorduplicidadcte")
                         GoTo 1
                     Case 10120
                         be_bitacora.codigo_evento = 10134
@@ -496,7 +496,7 @@
                         be_bitacora.codigo_evento = 10121
                         be_bitacora.usuario = Session("Usuario")
                         bll_bitacora.alta(be_bitacora)
-                        Response.Write(DirectCast(Me.Master, General_Electrosystem).Traductora("msg_telefonoduplicado"))
+                        DirectCast(Me.Master, General_Electrosystem).mostrarmodal("msg_telefonoduplicado")
                     Case 10122
                         be_bitacora.codigo_evento = 10122
                         be_bitacora.usuario = Session("Usuario")
@@ -515,7 +515,7 @@
                         be_bitacora.codigo_evento = 10135
                         be_bitacora.usuario = Session("Usuario")
                         bll_bitacora.alta(be_bitacora)
-                        Response.Write(DirectCast(Me.Master, General_Electrosystem).Traductora("msg_modificacionok"))
+                        DirectCast(Me.Master, General_Electrosystem).mostrarmodal("msg_modificacionok")
                         habilito_controles_principal()
                     Case 10125
                         be_bitacora.codigo_evento = 10125
@@ -549,13 +549,13 @@
             End If
         Else
             If Len(Trim(txt_cuit.Text)) = 0 Or Len(Trim(txt_razon.Text)) = 0 Or Len(Trim(txt_nombre.Text)) = 0 Or Len(Trim(txt_apellido.Text)) = 0 Or Len(Trim(txt_correoelectronico.Text)) = 0 Or dtg_telefonos.Items.Count = 0 Then
-                Response.Write(DirectCast(Me.Master, General_Electrosystem).Traductora("msg_camposincompletos"))
+                DirectCast(Me.Master, General_Electrosystem).mostrarmodal("msg_camposincompletos")
                 GoTo 1
             ElseIf Len(Trim(txt_cuit.Text)) < 11 Then
-                Response.Write(DirectCast(Me.Master, General_Electrosystem).Traductora("msg_txtcuitlenght"))
+                DirectCast(Me.Master, General_Electrosystem).mostrarmodal("msg_txtcuitlenght")
                 GoTo 1
             ElseIf Me.mkf_validacuit(txt_cuit.Text) = False Then
-                Response.Write(DirectCast(Me.Master, General_Electrosystem).Traductora("msg_cuitinvalido"))
+                DirectCast(Me.Master, General_Electrosystem).mostrarmodal("msg_cuitinvalido")
                 GoTo 1
             Else
                 If Session("Entero_flag") = 1 Then
@@ -582,7 +582,7 @@
                             be_bitacora.codigo_evento = 10119
                             be_bitacora.usuario = Session("Usuario")
                             bll_bitacora.alta(be_bitacora)
-                            Response.Write(DirectCast(Me.Master, General_Electrosystem).Traductora("msg_errorduplicidadcte"))
+                            DirectCast(Me.Master, General_Electrosystem).mostrarmodal("msg_errorduplicidadcte")
                             GoTo 1
                         Case 10120
                             be_bitacora.codigo_evento = 10120
@@ -602,7 +602,7 @@
                             be_bitacora.codigo_evento = 10121
                             be_bitacora.usuario = Session("Usuario")
                             bll_bitacora.alta(be_bitacora)
-                            Response.Write(DirectCast(Me.Master, General_Electrosystem).Traductora("msg_telefonoduplicado"))
+                            DirectCast(Me.Master, General_Electrosystem).mostrarmodal("msg_telefonoduplicado")
                         Case 10122
                             be_bitacora.codigo_evento = 10122
                             be_bitacora.usuario = Session("Usuario")
@@ -621,7 +621,7 @@
                             be_bitacora.codigo_evento = 10124
                             be_bitacora.usuario = Session("Usuario")
                             bll_bitacora.alta(be_bitacora)
-                            Response.Write(DirectCast(Me.Master, General_Electrosystem).Traductora("msg_altacorrecta"))
+                            DirectCast(Me.Master, General_Electrosystem).mostrarmodal("msg_altacorrecta")
                             habilito_controles_principal()
 
                         Case 10126
@@ -675,7 +675,7 @@
                             be_bitacora.codigo_evento = 10119
                             be_bitacora.usuario = Session("Usuario")
                             bll_bitacora.alta(be_bitacora)
-                            Response.Write(DirectCast(Me.Master, General_Electrosystem).Traductora("msg_errorduplicidadcte"))
+                            DirectCast(Me.Master, General_Electrosystem).mostrarmodal("msg_errorduplicidadcte")
                             GoTo 1
                         Case 10120
                             be_bitacora.codigo_evento = 10134
@@ -695,7 +695,7 @@
                             be_bitacora.codigo_evento = 10121
                             be_bitacora.usuario = Session("Usuario")
                             bll_bitacora.alta(be_bitacora)
-                            Response.Write(DirectCast(Me.Master, General_Electrosystem).Traductora("msg_telefonoduplicado"))
+                            DirectCast(Me.Master, General_Electrosystem).mostrarmodal("msg_telefonoduplicado")
                         Case 10122
                             be_bitacora.codigo_evento = 10122
                             be_bitacora.usuario = Session("Usuario")
@@ -714,7 +714,7 @@
                             be_bitacora.codigo_evento = 10136
                             be_bitacora.usuario = Session("Usuario")
                             bll_bitacora.alta(be_bitacora)
-                            Response.Write(DirectCast(Me.Master, General_Electrosystem).Traductora("msg_modificacionok"))
+                            DirectCast(Me.Master, General_Electrosystem).mostrarmodal("msg_modificacionok")
                             Session("Entero_Flag") = 0
                             limpiar_campos()
                             rdb_personaJuridica.Checked = False

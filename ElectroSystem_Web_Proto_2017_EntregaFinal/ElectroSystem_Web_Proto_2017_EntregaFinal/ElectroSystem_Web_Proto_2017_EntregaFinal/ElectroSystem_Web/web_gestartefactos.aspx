@@ -29,19 +29,30 @@
      }
 </script>
 
-      <asp:Label ID="lbl_artefacto" runat="server" Text="Label"></asp:Label>
-    <asp:TextBox ID="txt_descripcionartefacto" runat="server" MaxLength="20" onkeypress="return soloLetras(event)"></asp:TextBox>
+
+<table style="border-collapse: collapse;    border-spacing: 0;    width: 100%;    border: 0px;">
+    <tr>
+        <td><asp:Label ID="lbl_artefacto" runat="server" Text="Label"></asp:Label></td>
+        <td><asp:TextBox ID="txt_descripcionartefacto" runat="server" MaxLength="20" onkeypress="return soloLetras(event)"></asp:TextBox></td>
+        <td style="width: 20%;">&nbsp</td>
+    </tr>
+    <tr>
+        <td><asp:RadioButton ID="lbl_relacionboca" runat="server" AutoPostBack="True" /></td>
+        <td><asp:TextBox ID="num_relacionboca" runat="server" onkeypress="return isNumberKey(event)" MaxLength="8" ></asp:TextBox></td>
+        <td style="width: 20%;">&nbsp</td>
+    </tr>
+    <tr>
+        <td><asp:RadioButton ID="lbl_precio" runat="server" AutoPostBack="True" /></td>
+        <td><asp:TextBox ID="num_precio2" runat="server" onkeypress="return isNumberKey(event)" MaxLength="8"></asp:TextBox></td>
+        <td style="width: 20%;">&nbsp</td>
+    </tr>
+</table>      
+        
     <br>
-    <asp:RadioButton ID="lbl_relacionboca" runat="server" AutoPostBack="True" />
-        <asp:TextBox ID="num_relacionboca" runat="server" onkeypress="return isNumberKey(event)" MaxLength="8" ></asp:TextBox>
-       <br>
-      <asp:RadioButton ID="lbl_precio" runat="server" AutoPostBack="True" />
-        <asp:TextBox ID="num_precio2" runat="server" onkeypress="return isNumberKey(event)" MaxLength="8"></asp:TextBox>
-         <br>
     <asp:Button ID="btn_nuevoarte" runat="server" Text="Button" />
-        <asp:Button ID="btn_guardararte" runat="server" Text="Button" />
-        <asp:Button ID="btn_cancelararte" runat="server" Text="Button" />
-           <br>
+    <asp:Button ID="btn_guardararte" runat="server" Text="Button" />
+    <asp:Button ID="btn_cancelararte" runat="server" Text="Button" />
+    <br><br>
     <asp:GridView ID="dtg_artefacto" runat="server" CellPadding="4" ForeColor="#333333" GridLines="None" AutoGenerateColumns="False">
         <AlternatingRowStyle BackColor="White" ForeColor="#284775" />
         <Columns>

@@ -29,8 +29,9 @@ Public Class BLL_Domicilio
         latitud2 = latitud2_form * (3.141592654 / 180)
         longitud1 = longitud1_form * (3.141592654 / 180)
         longitud2 = longitud1_form * (3.141592654 / 180)
-        Dim DistanciaenKM As Decimal
-        DistanciaenKM = 6371 * Acos(Cos(latitud1) * Cos(latitud2) * Cos(longitud2 - longitud1) + Sin(latitud1) * Sin(latitud2))
+        Dim DistanciaenM As Decimal
+        DistanciaenM = 6371 * Acos(Cos(latitud1) * Cos(latitud2) * Cos(longitud2 - longitud1) + Sin(latitud1) * Sin(latitud2))
+        Dim distanciaenkm As Decimal = DistanciaenM / 1000
         Return DistanciaenKM
     End Function
 

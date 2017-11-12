@@ -4,11 +4,11 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     <asp:panel ID="grp_top5" runat="server">
         <asp:Label ID="lbl_top5" runat="server" Text="Label"></asp:Label>
-        <asp:DropDownList ID="cbx_top5" runat="server"></asp:DropDownList>
+        <asp:DropDownList ID="cbx_top5" runat="server" AutoPostBack="True"></asp:DropDownList>
          <br>
         <asp:Chart ID="chart_top5" runat="server">
             <Series>
-                <asp:Series Name="Series1"></asp:Series>
+                <asp:Series Name="Series1" ChartType="Pie"></asp:Series>
             </Series>
             <ChartAreas>
                 <asp:ChartArea Name="ChartArea1"></asp:ChartArea>
@@ -24,8 +24,8 @@
         <asp:CheckBox ID="chk_fechahasta" runat="server" />
                    <asp:TextBox ID="dtp_fechahasta" runat="server" TextMode="Date"></asp:TextBox>
         <br>
-        <asp:RadioButton ID="rdb_valor" runat="server" />
-        <asp:RadioButton ID="rdb_cantidadpre" runat="server" />
+        <asp:RadioButton ID="rdb_valor" runat="server" AutoPostBack="True" />
+        <asp:RadioButton ID="rdb_cantidadpre" runat="server" AutoPostBack="True" />
         <br>
         <asp:Button ID="btn_clientecrit" runat="server" Text="Button" />
         <br> 
