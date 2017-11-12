@@ -59,15 +59,6 @@ Partial Public Class Login
     Protected WithEvents txt_contraseña As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
-    '''Control btn_ingresar.
-    '''</summary>
-    '''<remarks>
-    '''Campo generado automáticamente.
-    '''Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
-    '''</remarks>
-    Protected WithEvents btn_ingresar As Global.System.Web.UI.WebControls.Button
-
-    '''<summary>
     '''Control lbl_idioma.
     '''</summary>
     '''<remarks>
@@ -84,4 +75,13 @@ Partial Public Class Login
     '''Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
     '''</remarks>
     Protected WithEvents cmb_idioma As Global.System.Web.UI.WebControls.DropDownList
+
+    '''<summary>
+    '''Control btn_ingresar.
+    '''</summary>
+    '''<remarks>
+    '''Campo generado automáticamente.
+    '''Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+    '''</remarks>
+    Protected WithEvents btn_ingresar As Global.System.Web.UI.WebControls.Button
 End Class

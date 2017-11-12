@@ -4,6 +4,7 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     <asp:panel ID="grp_top5" runat="server">
         <asp:Label ID="lbl_top5" runat="server" Text="Label"></asp:Label>
+              <br>
         <asp:DropDownList ID="cbx_top5" runat="server" AutoPostBack="True"></asp:DropDownList>
          <br>
         <asp:Chart ID="chart_top5" runat="server">
@@ -19,10 +20,12 @@
     </asp:Panel>
     <asp:Panel ID="grp_clicritico" runat="server">
        <asp:CheckBox ID="chk_fechadesde" runat="server" AutoPostBack="True" />
+              <br>
                    <asp:TextBox ID="dtp_fechadesde" runat="server" TextMode="Date"></asp:TextBox>
         <br>
         <asp:CheckBox ID="chk_fechahasta" runat="server" />
-                   <asp:TextBox ID="dtp_fechahasta" runat="server" TextMode="Date"></asp:TextBox>
+              <br>          
+         <asp:TextBox ID="dtp_fechahasta" runat="server" TextMode="Date"></asp:TextBox>
         <br>
         <asp:RadioButton ID="rdb_valor" runat="server" AutoPostBack="True" />
         <asp:RadioButton ID="rdb_cantidadpre" runat="server" AutoPostBack="True" />
