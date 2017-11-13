@@ -306,7 +306,7 @@ Public Class DAL_Presupuesto
                 Case "Pendiente de llenado por parte del Responsable Comercial"
                     datatable = mapper_stores.consultar("consultar_presupuestos_estado_comercial", lista_parametros)
                 Case "Cerrado"
-                    datatable = mapper_stores.consultar("consultar_presupuesto_estado_cerrado", lista_parametros)
+                    datatable = mapper_stores.consultar("consultar_presupuestos_estado_cerrado", lista_parametros)
             End Select
             For Each fila As DataRow In datatable.Rows
                 Dim tmppresupuesto As New BE.BE_Presupuesto
@@ -341,9 +341,6 @@ Public Class DAL_Presupuesto
                     tmp_domicilio.id = fila(9)
                     tmp_domicilio.calle = fila(10)
                     tmp_domicilio.altura = fila(11)
-                    If IsDBNull(fila(7)) Then
-
-                    End If
                     If String.IsNullOrWhiteSpace(fila(12)) = True Then
                         tmp_domicilio.departamento = ""
                     Else

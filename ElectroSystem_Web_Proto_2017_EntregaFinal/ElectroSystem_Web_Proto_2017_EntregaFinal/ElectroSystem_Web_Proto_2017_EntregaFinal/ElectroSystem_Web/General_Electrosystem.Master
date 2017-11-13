@@ -39,7 +39,7 @@ function funcion_redirect(url) {
 		  <ul class="mainmenu">
             <li><a href="web_inicio.aspx">
     <asp:Label ID="men_inicio" runat="server" Text="Inicio"></asp:Label></a></li>
-              <li><a href="">
+              <li><a href="web_inicio.aspx">
 <asp:Label ID="men_gestadm" runat="server" Text="Administración"></asp:Label></a>
 			  <ul class="submenu">
 					<li><a href="web_gestion_Clientes.aspx">
@@ -54,7 +54,7 @@ function funcion_redirect(url) {
                                         <asp:Label ID="menu_evaluacionplano" runat="server" Text="Evaluación plano eléctrico"></asp:Label></a></li>
 			  </ul>
 			</li>
-            <li><a href="">
+            <li><a href="web_inicio.aspx">
             <asp:Label ID="men_pre" runat="server" Text="Presupuesto"></asp:Label></a>
 			<ul class="submenu">
 				<li><a href="web_creacionatcte.aspx" id="menus_gest_dom" runat="server" >
@@ -65,7 +65,7 @@ function funcion_redirect(url) {
                         <asp:Label ID="menu_presucomercial" runat="server" Text="Gestión comercial"></asp:Label></a></li>
 			  </ul>
 			</li>
-            <li><a href="" id="men_reportes" runat="server">
+            <li><a href="web_inicio.aspx" id="men_reportes" runat="server">
                                                 <asp:Label ID="menu_reportes" runat="server" Text="Reporting"></asp:Label></a>
                 <ul class="submenu">
 							<li><a href="web_reporte_seleccion.aspx" id="menus_reporte_selec" runat="server" >

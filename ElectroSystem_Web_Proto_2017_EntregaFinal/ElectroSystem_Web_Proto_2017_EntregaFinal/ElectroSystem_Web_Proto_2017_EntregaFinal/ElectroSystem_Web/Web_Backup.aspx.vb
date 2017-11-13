@@ -35,21 +35,28 @@
         Dim backups As List(Of BE.BE_Backup)
         Dim backup As New BLL.BLL_Backup
         be_backup.directorio = System.Configuration.ConfigurationManager.AppSettings("PathBackup")
-
-        backups = backup.listar_restore(be_backup)
-        If backups.Count = 0 Then
-
-        Else
-            Application("Backups") = backups
-        End If
         drp_backups.Items.Clear()
         drp_backups.DataSource = Nothing
-        Dim listar_backups As List(Of BE.BE_Backup)
-        listar_backups = Application("Backups")
-        drp_backups.DataSource = listar_backups
-        drp_backups.DataTextField = "nombre_backup"
-        drp_backups.DataValueField = "nombre_backup"
-        drp_backups.DataBind()
+        backups = backup.listar_restore(be_backup)
+        If backups.Count = 0 Then
+            drp_backups.Items.Add("N/A")
+            drp_backups.DataBind()
+            drp_backups.Enabled = False
+            btn_recupero.Enabled = False
+            btn_hacerbackup.Enabled = True
+        Else
+            Application("Backups") = backups
+            Dim listar_backups As List(Of BE.BE_Backup)
+            listar_backups = Application("Backups")
+            drp_backups.DataSource = listar_backups
+            drp_backups.DataTextField = "nombre_backup"
+            drp_backups.DataValueField = "nombre_backup"
+            drp_backups.DataBind()
+            btn_hacerbackup.Enabled = True
+            btn_recupero.Enabled = True
+        End If
+        
+    
     End Sub
 
     Protected Sub btn_recupero_Click(sender As Object, e As EventArgs) Handles btn_recupero.Click
@@ -61,18 +68,18 @@
         lista = Application("Backups")
         be_backup = lista.Find(Function(x) x.nombre_backup = drp_backups.SelectedItem.Text)
         If bll_backup.hacerrestore(be_backup) = 6003 Then
-            DirectCast(Me.Master, General_Electrosystem).mostrarmodal("msg_restoreexitoso")
             be_bitacora.codigo_evento = 6003
             be_bitacora.usuario = Session("Usuario")
             bll_bitacora.alta(be_bitacora)
             Me.configuracion_inicial()
+            DirectCast(Me.Master, General_Electrosystem).mostrarmodalredireccion("msg_restoreexitoso", "Web_Login.aspx")
             Session.Abandon()
-            Response.Redirect("Web_login.aspx", False)
         Else
-            DirectCast(Me.Master, General_Electrosystem).mostrarmodal("msg_restoreerroneo")
             be_bitacora.codigo_evento = 6002
             be_bitacora.usuario = Session("Usuario")
             bll_bitacora.alta(be_bitacora)
+            DirectCast(Me.Master, General_Electrosystem).mostrarmodal("msg_restoreerroneo")
+
         End If
     End Sub
 
@@ -105,10 +112,11 @@
             Dim backups As List(Of BE.BE_Backup)
             Dim backup As New BLL.BLL_Backup
             If bll_backup.hacerbackup() = 6001 Then
-                DirectCast(Me.Master, General_Electrosystem).mostrarmodal("msg_backupexitoso")
                 be_bitacora.codigo_evento = 6001
                 be_bitacora.usuario = Session("Usuario")
                 bll_bitacora.alta(be_bitacora)
+                DirectCast(Me.Master, General_Electrosystem).mostrarmodal("msg_backupexitoso")
+
                 Try
                     backups = Application("Backups")
                     If backups.Count = 0 Then
@@ -125,10 +133,11 @@
                 End Try
 
             Else
-                DirectCast(Me.Master, General_Electrosystem).mostrarmodal("msg_backuperroneo")
                 be_bitacora.codigo_evento = 6000
                 be_bitacora.usuario = Session("Usuario")
                 bll_bitacora.alta(be_bitacora)
+                DirectCast(Me.Master, General_Electrosystem).mostrarmodal("msg_backuperroneo")
+
             End If
         Catch ex As Exception
             Response.Redirect("web_error_inicio.aspx", False)

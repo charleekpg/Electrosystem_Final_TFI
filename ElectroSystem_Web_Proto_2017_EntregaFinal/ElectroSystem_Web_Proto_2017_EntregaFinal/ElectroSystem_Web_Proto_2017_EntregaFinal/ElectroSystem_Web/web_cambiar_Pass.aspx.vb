@@ -33,8 +33,9 @@
             Dim bll_bitacora As New BLL.BLL_Bitacora
             Dim be_usuario As New BE.BE_Usuario
             If CType(Session("Usuario"), BE.BE_Usuario).Clave = txt_contrasena.Text Then
-                DirectCast(Me.Master, General_Electrosystem).mostrarmodal("msg_claveigual")
                 txt_contrasena.Text = ""
+                DirectCast(Me.Master, General_Electrosystem).mostrarmodal("msg_claveigual")
+
             ElseIf Len(Trim(txt_contrasena.Text)) = 0 Then
                 DirectCast(Me.Master, General_Electrosystem).mostrarmodal("msg_campovacio")
             Else
@@ -50,17 +51,19 @@
                 be_usuario.Clave = txt_contrasena.Text
                 Select Case bll_usuario.cambiar_contraseña(be_usuario)
                     Case 2107
-                        DirectCast(Me.Master, General_Electrosystem).mostrarmodal("msg_formatinpass")
                         be_bitacora.codigo_evento = 2107
                         be_bitacora.usuario = Session("Usuario")
                         bll_bitacora.alta(be_bitacora)
                         txt_contrasena.Text = ""
+                        DirectCast(Me.Master, General_Electrosystem).mostrarmodal("msg_formatinpass")
+
                     Case 2106
-                        DirectCast(Me.Master, General_Electrosystem).mostrarmodal("msg_cambiocorrecto")
                         be_bitacora.codigo_evento = 2106
                         Session("Usuario") = be_usuario
                         be_bitacora.usuario = Session("Usuario")
                         bll_bitacora.alta(be_bitacora)
+                        DirectCast(Me.Master, General_Electrosystem).mostrarmodal("msg_cambiocorrecto")
+
                     Case 2105
                         be_bitacora.codigo_evento = 2105
                         be_bitacora.usuario = Session("Usuario")

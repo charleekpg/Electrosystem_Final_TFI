@@ -18,7 +18,7 @@
             be_permisobase.idpermiso = formulario
             Return bll_permisos.validar_permiso(be_permisobase, Session("Usuario"))
         Catch ex As Exception
-            Response.Redirect("web_error_inicio.aspx")
+            Return False
         End Try
 
     End Function

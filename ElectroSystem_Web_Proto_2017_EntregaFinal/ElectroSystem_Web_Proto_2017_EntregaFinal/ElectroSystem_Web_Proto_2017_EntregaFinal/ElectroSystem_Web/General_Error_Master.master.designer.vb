@@ -11,5 +11,14 @@ Option Strict On
 Option Explicit On
 
 
-Partial Public Class web_error_inicio
+Partial Public Class General_Error_Master
+
+    '''<summary>
+    '''Control ContentPlaceHolder1.
+    '''</summary>
+    '''<remarks>
+    '''Campo generado automáticamente.
+    '''Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+    '''</remarks>
+    Protected WithEvents ContentPlaceHolder1 As Global.System.Web.UI.WebControls.ContentPlaceHolder
 End Class

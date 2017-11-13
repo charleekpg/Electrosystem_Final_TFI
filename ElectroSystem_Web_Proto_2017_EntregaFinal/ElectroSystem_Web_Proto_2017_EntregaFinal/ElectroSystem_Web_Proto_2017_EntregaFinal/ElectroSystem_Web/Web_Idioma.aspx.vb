@@ -22,6 +22,7 @@
                         formatoinicial()
                         Session.Add("Idioma_Modificable", idioma)
                         Session.Add("Idioma_Agregable", idioma_agregable)
+                        btn_cancelar_Click(Nothing, Nothing)
                         ' cargar_grilla(grilla_idioma)
                     Else
                         Response.Redirect("web_login.aspx", False)
@@ -67,8 +68,8 @@
                                     be_bitacora.codigo_evento = 7001
                                     be_bitacora.usuario = Session("Usuario")
                                     bll_bitacora.alta(be_bitacora)
-                                    DirectCast(Me.Master, General_Electrosystem).mostrarmodal("msg_idiomaduplicado")
                                     formatoinicial()
+                                    DirectCast(Me.Master, General_Electrosystem).mostrarmodal("msg_idiomaduplicado")
 
                                 Case 2
                                     be_bitacora.codigo_evento = 7002
@@ -89,8 +90,9 @@
                                     bll_bitacora.alta(be_bitacora)
 
                                     '     Response.Write("<div id='modal-box' style='background-color:red; position: absolute; padding-top: 100px; z-index: 1000;'>" & DirectCast(Me.Master, General_Electrosystem).Traductora("msg_altaidiomaok") & "</div>")
-                                    DirectCast(Me.Master, General_Electrosystem).mostrarmodal("msg_altaidiomaok")
                                     formatoinicial()
+                                    DirectCast(Me.Master, General_Electrosystem).mostrarmodal("msg_altaidiomaok")
+
                             End Select
                         Case 2
                             Dim idioma_seleccionado As BE.BE_Idioma
@@ -110,8 +112,8 @@
                                     be_bitacora.codigo_evento = 7004
                                     be_bitacora.usuario = Session("Usuario")
                                     bll_bitacora.alta(be_bitacora)
-                                    DirectCast(Me.Master, General_Electrosystem).mostrarmodal("msg_idiomaduplicado")
                                     formatoinicial()
+                                    DirectCast(Me.Master, General_Electrosystem).mostrarmodal("msg_idiomaduplicado")
 
                                 Case 2
                                     be_bitacora.codigo_evento = 7005
@@ -140,8 +142,9 @@
                                         DirectCast(Me.Master, General_Electrosystem).mostrarmodalredireccion("msg_modificaidiomaok", "web_inicio.aspx")
                                         ' Response.Redirect("Web_Inicio.aspx", False)
                                     Else
-                                        DirectCast(Me.Master, General_Electrosystem).mostrarmodal("msg_modificaidiomaok")
                                         formatoinicial()
+                                        DirectCast(Me.Master, General_Electrosystem).mostrarmodal("msg_modificaidiomaok")
+
                                     End If
 
                             End Select
@@ -265,8 +268,9 @@
                         be_bitacora.codigo_evento = 7006
                         be_bitacora.usuario = Session("Usuario")
                         bll_bitacora.alta(be_bitacora)
-                        DirectCast(Me.Master, General_Electrosystem).mostrarmodal("msg_idiomaconusuarios")
                         formatoinicial()
+                        DirectCast(Me.Master, General_Electrosystem).mostrarmodal("msg_idiomaconusuarios")
+
                     Case 2
                         be_bitacora.codigo_evento = 7007
                         be_bitacora.usuario = Session("Usuario")
@@ -283,8 +287,9 @@
                         be_bitacora.codigo_evento = 7008
                         be_bitacora.usuario = Session("Usuario")
                         bll_bitacora.alta(be_bitacora)
-                        DirectCast(Me.Master, General_Electrosystem).mostrarmodal("msg_bajaidioma")
                         formatoinicial()
+                        DirectCast(Me.Master, General_Electrosystem).mostrarmodal("msg_bajaidioma")
+
                 End Select
             End If
 

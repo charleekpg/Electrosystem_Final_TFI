@@ -63,13 +63,15 @@
             End If
             Select Case usu_bll.loguear_usuario(usu)
                 Case 2100
-                    DirectCast(Me.Master, General_Inicio).mostrarmodal("msg_usuariopasserronea", idioma)
                     txt_usuario.Text = String.Empty
                     txt_contraseña.Text = String.Empty
+                    DirectCast(Me.Master, General_Inicio).mostrarmodal("msg_usuariopasserronea", idioma)
+
                 Case 2101
-                    DirectCast(Me.Master, General_Inicio).mostrarmodal("msg_usuariopasserronea", idioma)
                     txt_usuario.Text = String.Empty
                     txt_contraseña.Text = String.Empty
+                    DirectCast(Me.Master, General_Inicio).mostrarmodal("msg_usuariopasserronea", idioma)
+
                 Case 2102
                     DirectCast(Me.Master, General_Inicio).mostrarmodal("msg_usuariobloqueado", idioma)
                 Case 2103

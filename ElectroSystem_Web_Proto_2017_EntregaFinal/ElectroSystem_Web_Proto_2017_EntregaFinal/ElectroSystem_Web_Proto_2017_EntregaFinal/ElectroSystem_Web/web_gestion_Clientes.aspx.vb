@@ -17,6 +17,7 @@
                         DirectCast(Me.Master, General_Electrosystem).Deshabilitar_Controles(Me.Controls)
                         Session.Add("Entero_Flag", entero_flag)
                         habilito_controles_principal()
+                        btn_cancelarcte_Click(Nothing, Nothing)
                     Else
                         Response.Redirect("web_login.aspx", False)
                     End If
@@ -425,8 +426,9 @@
                         be_bitacora.codigo_evento = 10123
                         be_bitacora.usuario = Session("Usuario")
                         bll_bitacora.alta(be_bitacora)
-                        DirectCast(Me.Master, General_Electrosystem).mostrarmodal("msg_altacorrecta")
                         habilito_controles_principal()
+                        DirectCast(Me.Master, General_Electrosystem).mostrarmodal("msg_altacorrecta")
+
                     Case 10125
                         be_bitacora.codigo_evento = 10125
                         be_bitacora.usuario = Session("Usuario")
@@ -515,8 +517,9 @@
                         be_bitacora.codigo_evento = 10135
                         be_bitacora.usuario = Session("Usuario")
                         bll_bitacora.alta(be_bitacora)
-                        DirectCast(Me.Master, General_Electrosystem).mostrarmodal("msg_modificacionok")
                         habilito_controles_principal()
+                        DirectCast(Me.Master, General_Electrosystem).mostrarmodal("msg_modificacionok")
+
                     Case 10125
                         be_bitacora.codigo_evento = 10125
                         be_bitacora.usuario = Session("Usuario")
@@ -621,8 +624,8 @@
                             be_bitacora.codigo_evento = 10124
                             be_bitacora.usuario = Session("Usuario")
                             bll_bitacora.alta(be_bitacora)
-                            DirectCast(Me.Master, General_Electrosystem).mostrarmodal("msg_altacorrecta")
                             habilito_controles_principal()
+                            DirectCast(Me.Master, General_Electrosystem).mostrarmodal("msg_altacorrecta")
 
                         Case 10126
                             be_bitacora.codigo_evento = 10126
@@ -714,7 +717,6 @@
                             be_bitacora.codigo_evento = 10136
                             be_bitacora.usuario = Session("Usuario")
                             bll_bitacora.alta(be_bitacora)
-                            DirectCast(Me.Master, General_Electrosystem).mostrarmodal("msg_modificacionok")
                             Session("Entero_Flag") = 0
                             limpiar_campos()
                             rdb_personaJuridica.Checked = False
@@ -725,6 +727,7 @@
                             btn_guardarcte.Enabled = False
                             btn_agregartel.Enabled = False
                             habilito_controles_principal()
+                            DirectCast(Me.Master, General_Electrosystem).mostrarmodal("msg_modificacionok")
 
                         Case 10126
                             be_bitacora.codigo_evento = 10126

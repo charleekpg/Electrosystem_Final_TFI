@@ -21,6 +21,7 @@
                         Session.Add("Listado", listado)
                         DirectCast(Me.Master, General_Electrosystem).traducir_grilla(dtg_artefacto)
                         cargarartefactoelectrico()
+                        btn_cancelararte_Click(Nothing, Nothing)
                     Else
                         Response.Redirect("web_login.aspx", False)
                     End If
@@ -35,11 +36,9 @@
 
     Sub cargarartefactoelectrico()
         Try
+            dtg_artefacto.SelectedIndex = -1
             Dim bll_artefactoelectrico As New BLL.BLL_ArtefactoElectrico
-            Dim listados As List(Of BE.BE_ArtefactoElectrico)
-            Session("Listado") = Nothing
-            Session.Add("Listado", listado)
-            listados = Session("Listado")
+            Dim listados As New List(Of BE.BE_ArtefactoElectrico)
             dtg_artefacto.DataSource = Nothing
             dtg_artefacto.DataBind()
             Dim lista As List(Of BE.BE_ArtefactoElectrico) = bll_artefactoelectrico.consultartodos()
@@ -48,7 +47,6 @@
                 listados.Add(elemento)
             Next
             Session("Listado") = listados
-
             If lista.Count > 0 Then
                 dtg_artefacto.DataSource = listados
                 dtg_artefacto.DataBind()
@@ -165,8 +163,9 @@
                 Dim bll_bitacora As New BLL.BLL_Bitacora
                 Select Case txt_descripcionartefacto.Text
                     Case ""
-                        DirectCast(Me.Master, General_Electrosystem).mostrarmodal("msg_camposincompletos")
                         cargarartefactoelectrico()
+                        DirectCast(Me.Master, General_Electrosystem).mostrarmodal("msg_camposincompletos")
+
                     Case Else
                         If Session("Modificar") = False Then
                             Dim be_artefactoelectrico As New BE.BE_ArtefactoElectrico
@@ -175,8 +174,9 @@
                                     be_artefactoelectrico.precio = num_precio2.Text
                                     be_artefactoelectrico.relacion_bocamercado = 0
                                 Else
-                                    DirectCast(Me.Master, General_Electrosystem).mostrarmodal("msg_valorcero")
                                     cargarartefactoelectrico()
+                                    DirectCast(Me.Master, General_Electrosystem).mostrarmodal("msg_valorcero")
+
                                     GoTo 1
                                 End If
                             Else
@@ -184,8 +184,9 @@
                                     be_artefactoelectrico.relacion_bocamercado = num_relacionboca.Text
                                     be_artefactoelectrico.precio = 0
                                 Else
-                                    DirectCast(Me.Master, General_Electrosystem).mostrarmodal("msg_valorcero")
                                     cargarartefactoelectrico()
+                                    DirectCast(Me.Master, General_Electrosystem).mostrarmodal("msg_valorcero")
+
                                     GoTo 1
                                 End If
                             End If
@@ -195,14 +196,16 @@
                                     be_bitacora.codigo_evento = 10105
                                     be_bitacora.usuario = Session("Usuario")
                                     bll_bitacora.alta(be_bitacora)
-                                    DirectCast(Me.Master, General_Electrosystem).mostrarmodal("msg_altacorrecta")
                                     cargarartefactoelectrico()
+                                    DirectCast(Me.Master, General_Electrosystem).mostrarmodal("msg_altacorrecta")
+
                                 Case 10107
                                     be_bitacora.codigo_evento = 10107
                                     be_bitacora.usuario = Session("Usuario")
                                     bll_bitacora.alta(be_bitacora)
-                                    DirectCast(Me.Master, General_Electrosystem).mostrarmodal("msg_artefactoexistente")
                                     cargarartefactoelectrico()
+                                    DirectCast(Me.Master, General_Electrosystem).mostrarmodal("msg_artefactoexistente")
+
                                 Case 10106
                                     be_bitacora.codigo_evento = 10107
                                     be_bitacora.usuario = Session("Usuario")
@@ -219,8 +222,9 @@
                                     be_artefactoelectrico.precio = num_precio2.Text
                                     be_artefactoelectrico.relacion_bocamercado = 0
                                 Else
-                                    DirectCast(Me.Master, General_Electrosystem).mostrarmodal("msg_valorcero")
                                     cargarartefactoelectrico()
+                                    DirectCast(Me.Master, General_Electrosystem).mostrarmodal("msg_valorcero")
+
                                     GoTo 1
                                 End If
                             Else
@@ -229,8 +233,9 @@
                                     be_artefactoelectrico.precio = 0
 
                                 Else
-                                    DirectCast(Me.Master, General_Electrosystem).mostrarmodal("msg_valorcero")
                                     cargarartefactoelectrico()
+                                    DirectCast(Me.Master, General_Electrosystem).mostrarmodal("msg_valorcero")
+
                                     GoTo 1
                                 End If
                             End If
@@ -240,14 +245,16 @@
                                     be_bitacora.codigo_evento = 10108
                                     be_bitacora.usuario = Session("Usuario")
                                     bll_bitacora.alta(be_bitacora)
-                                    DirectCast(Me.Master, General_Electrosystem).mostrarmodal("msg_modificaok")
                                     cargarartefactoelectrico()
+                                    DirectCast(Me.Master, General_Electrosystem).mostrarmodal("msg_modificaok")
+
                                 Case 10107
                                     be_bitacora.codigo_evento = 10107
                                     be_bitacora.usuario = Session("Usuario")
                                     bll_bitacora.alta(be_bitacora)
-                                    DirectCast(Me.Master, General_Electrosystem).mostrarmodal("msg_artefactoexistente")
                                     cargarartefactoelectrico()
+                                    DirectCast(Me.Master, General_Electrosystem).mostrarmodal("msg_artefactoexistente")
+
                                 Case 10109
                                     be_bitacora.codigo_evento = 10109
                                     be_bitacora.usuario = Session("Usuario")
@@ -263,6 +270,7 @@
     End Sub
 
     Protected Sub btn_cancelararte_Click(sender As Object, e As EventArgs) Handles btn_cancelararte.Click
+        dtg_artefacto.SelectedIndex = -1
         cargarartefactoelectrico()
     End Sub
 End Class

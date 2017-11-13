@@ -1,4 +1,5 @@
 ﻿Imports Microsoft.Reporting
+Imports System.Web.UI.ScriptManager
 
 Public Class web_reporte_presupuesto_juridica
     Inherits System.Web.UI.Page
@@ -10,17 +11,18 @@ Public Class web_reporte_presupuesto_juridica
         traducir_parametros(parametros)
         cargar_presupuesto_parametros(parametros)
         cargar_presupuesto_datos(datasource, parametros)
+        Me.ReportViewer1.DataBind()
     End Sub
 
     Sub traducir_parametros(parametros As WebForms.ReportParameterInfoCollection)
         Try
             Dim traductor As New BLL.BLL_Gestor_Formulario
-            Dim electro As New General_Electrosystem
+            Dim electro As New General_Inicio
             For Each parametro In parametros
                 If LSet(parametro.Name, 3) = "rep" Then
                     Dim pr As New WebForms.ReportParameter
                     pr.Name = parametro.Name
-                    pr.Values.Add(electro.Traductora(parametro.Name))
+                    pr.Values.Add(electro.Traductora(parametro.Name, CType(Session("Usuario"), BE.BE_Usuario).Idioma))
                     ReportViewer1.LocalReport.SetParameters(New WebForms.ReportParameter() {pr})
                 End If
             Next

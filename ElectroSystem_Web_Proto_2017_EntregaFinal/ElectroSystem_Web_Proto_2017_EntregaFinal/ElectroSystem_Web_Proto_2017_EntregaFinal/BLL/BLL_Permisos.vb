@@ -120,24 +120,30 @@ Public Class BLL_Permisos
     ''' 
     ''' <param name="unbe"></param>
     Public Function validar_permiso(ByVal unbe As BE.BE_PermisoBase, usuario As BE.BE_Usuario) As Boolean
-        For Each permiso As BE.BE_PermisoBase In CType(usuario.permiso_usuario, BE.BE_Permisocompuesto).lista_permisos
-            If unbe.idpermiso = permiso.idpermiso Then
-                Return True
-                Exit Function
-            Else
-                If TypeOf (permiso) Is BE.BE_Permisocompuesto Then
-                    Select Case recurrente_permiso(unbe, permiso)
-                        Case True
-                            Return True
-                            Exit Function
-                        Case False
-                            Return False
-                    End Select
+        Try
+            For Each permiso As BE.BE_PermisoBase In CType(usuario.permiso_usuario, BE.BE_Permisocompuesto).lista_permisos
+                If unbe.idpermiso = permiso.idpermiso Then
+                    Return True
+                    Exit Function
+                Else
+                    If TypeOf (permiso) Is BE.BE_Permisocompuesto Then
+                        Select Case recurrente_permiso(unbe, permiso)
+                            Case True
+                                Return True
+                                Exit Function
+                            Case False
+                                Return False
+                        End Select
+                    End If
                 End If
-            End If
-        Next
-        Return False
+            Next
+            Return False
+        Catch ex As Exception
+            Return False
+        End Try
     End Function
+ 
+
 
 
 End Class

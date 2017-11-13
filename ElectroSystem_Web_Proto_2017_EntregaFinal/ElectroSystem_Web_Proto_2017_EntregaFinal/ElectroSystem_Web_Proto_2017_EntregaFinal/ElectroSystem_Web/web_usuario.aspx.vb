@@ -15,13 +15,13 @@
                         usu = Session("Usuario")
                         DirectCast(Me.Master, General_Electrosystem).traductora_controles(Me.Controls)
                         DirectCast(Me.Master, General_Electrosystem).Deshabilitar_Controles(Me.Controls)
-
                         cargar_lista()
                         cargar_idioma()
                         cargar_permisoscompuestos()
                         formato_inicial()
                         cambio = False
                         Session.Add("Cambio", cambio)
+                        btn_cancelarus_Click(Nothing, Nothing)
                     Else
                         Response.Redirect("web_login.aspx", False)
                     End If
@@ -116,8 +116,9 @@
     Private Sub lst_users_SelectedIndexChanged(sender As Object, e As EventArgs) Handles lst_users.SelectedIndexChanged
         Try
             If lst_users.SelectedItem.Text = CType(Session("Usuario"), BE.BE_Usuario).Nombre_Usuario Then
-                DirectCast(Me.Master, General_Electrosystem).mostrarmodal("msg_nopuedeseleusu")
                 Me.formato_inicial()
+                DirectCast(Me.Master, General_Electrosystem).mostrarmodal("msg_nopuedeseleusu")
+
             Else
                 Session("Cambio") = True
                 btn_nuevous.Enabled = False
@@ -230,9 +231,10 @@
                         be_bitacora.codigo_evento = 2111
                         be_bitacora.usuario = Session("Usuario")
                         bll_bitacora.alta(be_bitacora)
-                        DirectCast(Me.Master, General_Electrosystem).mostrarmodal("msg_modificacionok")
                         cargar_lista()
                         formato_inicial()
+                        DirectCast(Me.Master, General_Electrosystem).mostrarmodal("msg_modificacionok")
+
                     Case 2112
                         be_bitacora.codigo_evento = 2112
                         be_bitacora.usuario = Session("Usuario")
@@ -287,9 +289,10 @@
                         be_bitacora.codigo_evento = 2109
                         be_bitacora.usuario = Session("Usuario")
                         bll_bitacora.alta(be_bitacora)
-                        DirectCast(Me.Master, General_Electrosystem).mostrarmodal("msg_altacorrecta")
                         cargar_lista()
                         formato_inicial()
+                        DirectCast(Me.Master, General_Electrosystem).mostrarmodal("msg_altacorrecta")
+
                     Case 2110
                         be_bitacora.codigo_evento = 2110
                         be_bitacora.usuario = Session("Usuario")

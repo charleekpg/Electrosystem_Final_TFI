@@ -35,12 +35,14 @@ function soloLetras(e) {
 <table style="border-collapse: collapse;   border-spacing: 0;    width: 100%;    border: 0px;">
     <tr>
         <td><asp:Label ID="lbl_descripcion" runat="server" Text="Label"></asp:Label></td>
+        <td>&nbsp</td>
         <td><asp:TextBox ID="txt_descripcion" runat="server" MaxLength="15" onkeypress="return soloLetras(event)"></asp:TextBox></td>
         <td style="width: 40%;">&nbsp</td>
     </tr>
 
     <tr>
         <td><asp:Label ID="lbl_precio" runat="server" Text="Label"></asp:Label></td>
+        <td>$</td>
         <td><asp:TextBox ID="num_precio" runat="server" onkeypress="return isNumberKey(event)" MaxLength="9"></asp:TextBox></td>
         <td style="width: 40%;">&nbsp</td>
     </tr>
@@ -64,7 +66,7 @@ function soloLetras(e) {
         <Columns>
             <asp:BoundField FooterText="ID" HeaderText="ID" Visible="False" DataField="id" ReadOnly="True" />
             <asp:BoundField FooterText="Descripcion" HeaderText="Descripcion" DataField="descripcion" />
-            <asp:BoundField FooterText="Precio" HeaderText="Precio" DataField="precio" />
+            <asp:BoundField FooterText="Precio" HeaderText="Precio" DataField="precio" DataFormatString="{0:c}" />
             <asp:BoundField FooterText="Material" HeaderText="Material" DataField="material" Visible="False"/>
             <asp:BoundField FooterText="Trabajoconprecio" HeaderText="Trabajoconprecio" DataField="Trabajoconprecio" Visible="False"/>
             <asp:BoundField FooterText="Cambiodetipo" HeaderText="Cambiodetipo" Visible="False" DataField="Cambiodetipo" />

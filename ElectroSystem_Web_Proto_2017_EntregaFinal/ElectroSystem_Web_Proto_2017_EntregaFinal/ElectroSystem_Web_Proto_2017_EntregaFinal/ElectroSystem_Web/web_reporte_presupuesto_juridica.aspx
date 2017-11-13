@@ -13,10 +13,20 @@
     <form id="form1" runat="server">
     <div>
     
+        <asp:ScriptManager ID="ScriptManager1" runat="server">
+        </asp:ScriptManager>
+    
         <rsweb:ReportViewer ID="ReportViewer1" runat="server" Font-Names="Verdana" Font-Size="8pt" WaitMessageFont-Names="Verdana" WaitMessageFont-Size="14pt">
             <LocalReport ReportPath="Reporte\Reporte_Presupuesto_Persona_Juridica.rdlc">
                 <DataSources>
                     <rsweb:ReportDataSource DataSourceId="" Name="presupuesto_mano_obra" />
+                    <rsweb:ReportDataSource DataSourceId="" Name="presupuesto_trabajos_adicionales" />
+                    <rsweb:ReportDataSource DataSourceId="" Name="presupuesto" />
+                    <rsweb:ReportDataSource DataSourceId="" Name="presupuesto_domicilio" />
+                    <rsweb:ReportDataSource DataSourceId="" Name="presupuesto_cliente" />
+                    <rsweb:ReportDataSource DataSourceId="" Name="presupuesto_localidad" />
+                    <rsweb:ReportDataSource DataSourceId="" Name="presupuesto_partido" />
+                    <rsweb:ReportDataSource DataSourceId="" Name="presupuesto_nombreapellido" />
                 </DataSources>
             </LocalReport>
         </rsweb:ReportViewer>

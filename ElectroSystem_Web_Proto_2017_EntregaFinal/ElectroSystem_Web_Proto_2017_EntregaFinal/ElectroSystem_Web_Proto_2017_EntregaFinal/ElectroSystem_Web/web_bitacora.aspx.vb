@@ -100,7 +100,6 @@
 
             lista_Bitacora = bll_Bitacora.consultartodos(be_ficha)
             If lista_Bitacora.Count = 0 Then
-                DirectCast(Me.Master, General_Electrosystem).mostrarmodal("msg_sinresultados")
                 GVGrillaEventos.DataSource = Nothing
                 GVGrillaEventos.DataBind()
                 deshabilitacion_inicial(Me.Controls)
@@ -114,6 +113,7 @@
                 dtp_fechahasta.Text = ""
                 chk_fechadesde.Checked = False
                 chk_fechahasta.Checked = False
+                DirectCast(Me.Master, General_Electrosystem).mostrarmodal("msg_sinresultados")
 
             Else
                 GVGrillaEventos.DataSource = lista_Bitacora

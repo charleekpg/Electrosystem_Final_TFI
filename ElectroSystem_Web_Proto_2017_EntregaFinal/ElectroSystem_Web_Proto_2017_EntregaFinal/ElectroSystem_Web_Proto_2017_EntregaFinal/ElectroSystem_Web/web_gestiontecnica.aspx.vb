@@ -42,7 +42,7 @@
             presupuesto.estado_presupuesto = "Pendiente de llenado por parte del Responsable Comercial"
             LISTA_PRESUPUESTO = bll_presupuesto.consultar_varios(presupuesto)
 
-            If LISTA_PRESUPUESTO.Count > 0 Then
+            If Not LISTA_PRESUPUESTO Is Nothing Then
                 lista_presupuestos_final = Session("Lista_Presupuestos_1")
                 For Each elemento As BE.BE_Presupuesto In LISTA_PRESUPUESTO
                     lista_presupuestos_final.Add(elemento)
@@ -634,8 +634,9 @@
                 Case 10149
                     Response.Redirect("web_error_inicio.aspx", False)
                 Case 10150
-                    DirectCast(Me.Master, General_Electrosystem).mostrarmodal("msg_actuaok")
                     btn_cancelarprtec_Click(Nothing, Nothing)
+                    DirectCast(Me.Master, General_Electrosystem).mostrarmodal("msg_actuaok")
+
                 Case Else
                     Response.Redirect("web_error_inicio.aspx", False)
             End Select

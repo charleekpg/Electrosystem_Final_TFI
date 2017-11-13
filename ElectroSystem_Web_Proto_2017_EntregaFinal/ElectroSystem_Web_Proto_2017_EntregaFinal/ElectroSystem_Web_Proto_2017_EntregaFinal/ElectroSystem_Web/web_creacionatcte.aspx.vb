@@ -17,8 +17,7 @@
                         DirectCast(Me.Master, General_Electrosystem).traductora_controles(Me.Controls)
                         DirectCast(Me.Master, General_Electrosystem).Deshabilitar_Controles(Me.Controls)
                         Session("Entero_Flag") = entero_flag
-                        formato_inicial()
-                        cargar_partidos()
+                        btn_cancelarpresu_Click(Nothing, Nothing)
                     Else
                         Response.Redirect("web_login.aspx", False)
                     End If
@@ -113,19 +112,32 @@
 
     Sub cargar_presupuestos_estado()
         Try
+            cmb_presupuesto.Items.Clear()
+            cmb_presupuesto.DataSource = Nothing
+            cmb_presupuesto.DataBind()
             Dim bll_presupuesto As New BLL.BLL_Presupuesto
             Dim presupuesto As New BE.BE_Presupuesto
             Session("Lista_Presupuestos_1") = Nothing
             presupuesto.estado_presupuesto = "Pendiente de llenado por Parte del Responsable Técnico"
             Session("Lista_Presupuestos_1") = bll_presupuesto.consultar_varios(presupuesto)
-            cmb_presupuesto.Enabled = True
-            cmb_presupuesto.DataSource = Session("Lista_Presupuestos_1")
-            cmb_presupuesto.DataValueField = "id"
-            cmb_presupuesto.DataBind()
-            If CType(Session("Lista_Presupuestos_1"), List(Of BE.BE_Presupuesto)).Count = 0 Then
+            If Session("Lista_Presupuestos_1") Is Nothing Then
                 btn_cargar_presupuesto.Enabled = False
+                cmb_presupuesto.Enabled = False
+                cmb_presupuesto.Items.Add("N/A")
+                cmb_presupuesto.DataBind()
             Else
-                btn_cargar_presupuesto.Enabled = True
+                If CType(Session("Lista_Presupuestos_1"), List(Of BE.BE_Presupuesto)).Count = 0 Then
+                    btn_cargar_presupuesto.Enabled = False
+                    cmb_presupuesto.Enabled = False
+                    cmb_presupuesto.Items.Add("N/A")
+                    cmb_presupuesto.DataBind()
+                Else
+                    cmb_presupuesto.DataSource = Session("Lista_Presupuestos_1")
+                    cmb_presupuesto.DataValueField = "id"
+                    cmb_presupuesto.DataBind()
+                    btn_cargar_presupuesto.Enabled = True
+                    cmb_presupuesto.Enabled = True
+                End If
             End If
         Catch ex As Exception
             Response.Redirect("web_error_inicio.aspx", False)
@@ -173,8 +185,9 @@
                 be_persona_fisica.identificador = txt_dnicuit.Text
                 lista_persona_fisica = bll_persona_fisica.consultar(be_persona_fisica)
                 If lista_persona_fisica.Count = 0 Then
-                    DirectCast(Me.Master, General_Electrosystem).mostrarmodal("msg_sinresultados")
                     formato_inicial()
+                    DirectCast(Me.Master, General_Electrosystem).mostrarmodal("msg_sinresultados")
+
                 Else
                     For Each persona As BE.BE_Personafisica In lista_persona_fisica
                         Session("Busqueda_cliente") = persona
@@ -296,8 +309,9 @@
                                         be_bitacora.codigo_evento = 5002
                                         be_bitacora.usuario = Session("Usuario")
                                         bll_bitacora.alta(be_bitacora)
-                                        DirectCast(Me.Master, General_Electrosystem).mostrarmodal("msg_altapresuOK", be_presupuesto.id)
                                         formato_inicial()
+                                        DirectCast(Me.Master, General_Electrosystem).mostrarmodal("msg_altapresuOK", be_presupuesto.id)
+
                                     Case 5003
                                         be_bitacora.codigo_evento = 5003
                                         be_bitacora.usuario = Session("Usuario")
@@ -347,8 +361,9 @@
                             be_bitacora.codigo_evento = 5005
                             be_bitacora.usuario = Session("Usuario")
                             bll_bitacora.alta(be_bitacora)
-                            DirectCast(Me.Master, General_Electrosystem).mostrarmodal("msg_modificaok")
                             formato_inicial()
+                            DirectCast(Me.Master, General_Electrosystem).mostrarmodal("msg_modificaok")
+
                         Case 5006
                             be_bitacora.codigo_evento = 5006
                             be_bitacora.usuario = Session("Usuario")

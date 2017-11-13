@@ -24,7 +24,7 @@
 
 	<table style="border-collapse: collapse;    border-spacing: 0;    width: 100%;    border: 0px;">
         <tr>
-            <td><asp:Label ID="LBL_Parti" runat="server" Text="Label"></asp:Label></td>
+            <td><asp:Label ID="lbl_partidoorigen" runat="server" Text="Label"></asp:Label></td>
             <td><asp:DropDownList ID="cbx_parti" runat="server" AutoPostBack="True"></asp:DropDownList></td>
             <td style="width: 60%;">&nbsp</td>
         </tr>
@@ -34,7 +34,7 @@
             <td style="width: 60%;">&nbsp</td>
         </tr>
         <tr>
-            <td><asp:Label ID="LBL_Loca" runat="server" Text="Label"></asp:Label></td>
+            <td><asp:Label ID="lbl_localidadorigen" runat="server" Text="Label"></asp:Label></td>
             <td><asp:DropDownList ID="cbx_localidad" runat="server"></asp:DropDownList></td>
             <td style="width: 60%;">&nbsp</td>
         </tr>
@@ -46,7 +46,7 @@
 
         <tr>
             <td><asp:CheckBox ID="chk_preciosegvida" runat="server" AutoPostBack="True" /></td>
-            <td><asp:Label ID="lbl_precsegvida" runat="server" Text="Label"></asp:Label><br /><asp:TextBox ID="txt_valorseg" runat="server" onkeypress="return isNumberKey(event)" MaxLength="9"></asp:TextBox></td>
+            <td><asp:Label ID="lbl_precsegvida" runat="server" Text="Label"></asp:Label><br />$<asp:TextBox ID="txt_valorseg" runat="server" onkeypress="return isNumberKey(event)" MaxLength="9"></asp:TextBox></td>
             <td style="width: 60%;">&nbsp</td>
         </tr>
                 <tr>
@@ -56,7 +56,7 @@
         </tr>
         <tr>
             <td><asp:CheckBox ID="chk_viatico" runat="server" AutoPostBack="True" /></td>
-            <td><asp:Label ID="lbl_precviatico" runat="server" Text="Label"></asp:Label><br /><asp:TextBox ID="txt_valorvia" runat="server" onkeypress="return isNumberKey(event)" MaxLength="9"></asp:TextBox></td>
+            <td><asp:Label ID="lbl_precviatico" runat="server" Text="Label"></asp:Label><br />$<asp:TextBox ID="txt_valorvia" runat="server" onkeypress="return isNumberKey(event)" MaxLength="9"></asp:TextBox></td>
             <td style="width: 60%;">&nbsp</td>
         </tr>
                 <tr>
@@ -66,7 +66,7 @@
         </tr>
         <tr>
             <td><asp:CheckBox ID="chk_cobroadel" runat="server" AutoPostBack="True" /></td>
-            <td><asp:Label ID="lbl_porcadelanto" runat="server" Text="Label"></asp:Label><br /><asp:TextBox ID="txt_poradelanto" runat="server" onkeypress="return isNumberKey(event)" MaxLength="5"></asp:TextBox></td>
+            <td><asp:Label ID="lbl_porcadelanto" runat="server" Text="Label"></asp:Label><br />%<asp:TextBox ID="txt_poradelanto" runat="server" onkeypress="return isNumberKey(event)" MaxLength="5"></asp:TextBox></td>
             <td style="width: 60%;">&nbsp</td>
         </tr>
                         <tr>
@@ -95,13 +95,13 @@
             <Columns>
                 <asp:BoundField DataField="cod_presupuesto" FooterText="col_codpresupuesto" HeaderText="col_codpresupuesto" />
                 <asp:BoundField DataField="nomb_ape_rs" FooterText="col_nomb_ape_rs" HeaderText="col_nomb_ape_rs" />
-                <asp:BoundField DataField="valor_manoobra" FooterText="col_valormanoobra" HeaderText="col_valormanoobra" />
-                <asp:BoundField DataField="valor_material" FooterText="col_valormaterial" HeaderText="col_valormaterial" />
-                <asp:BoundField DataField="valor_trabajoconprecio" FooterText="col_valortrabajoconprecio" HeaderText="col_valortrabajoconprecio" />
-                            <asp:BoundField DataField="valor_segurovida" FooterText="col_valorsegurovida" HeaderText="col_valorsegurovida" />
+                <asp:BoundField DataField="valor_manoobra" FooterText="col_valormanoobra" HeaderText="col_valormanoobra" DataFormatString="{0:c}" />
+                <asp:BoundField DataField="valor_material" FooterText="col_valormaterial" HeaderText="col_valormaterial" DataFormatString="{0:c}" />
+                <asp:BoundField DataField="valor_trabajoconprecio" FooterText="col_valortrabajoconprecio" HeaderText="col_valortrabajoconprecio" DataFormatString="{0:c}" />
+                            <asp:BoundField DataField="valor_segurovida" FooterText="col_valorsegurovida" HeaderText="col_valorsegurovida" DataFormatString="{0:c}" />
 
-                <asp:BoundField DataField="valor_otros" FooterText="col_valorotros" HeaderText="col_valorotros" />
-                            <asp:BoundField DataField="valor_total" FooterText="col_valortotal" HeaderText="col_valortotal" />
+                <asp:BoundField DataField="valor_otros" FooterText="col_valorotros" HeaderText="col_valorotros" DataFormatString="{0:c}" />
+                            <asp:BoundField DataField="valor_total" FooterText="col_valortotal" HeaderText="col_valortotal" DataFormatString="{0:c}" />
 
             </Columns>
             <EditRowStyle BackColor="#999999" />

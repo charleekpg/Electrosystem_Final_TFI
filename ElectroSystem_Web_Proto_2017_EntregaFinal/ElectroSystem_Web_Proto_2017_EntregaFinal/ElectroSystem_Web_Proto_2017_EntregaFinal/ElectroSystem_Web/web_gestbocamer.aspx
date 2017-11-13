@@ -17,27 +17,31 @@
     <table style="border-collapse: collapse;    border-spacing: 0;    width: 100%;    border: 0px;">
         <tr>
             <td><asp:Label ID="lbl_precioingresado" runat="server" Text="Label"></asp:Label></td>
+            <td>$</td>
             <td><asp:TextBox ID="num_bocamercado" runat="server" onkeypress="return isNumberKey(event)" AutoPostBack="True" MaxLength="6"></asp:TextBox></td>
-            <td style="width: 20%;">&nbsp</td>
+            <td style="width: 50%;">&nbsp</td>
         </tr>
 
         <tr>
             <td><asp:Label ID="lbl_bocamercado" runat="server" Text="Label"></asp:Label></td>
+            <td>$</td>
             <td><asp:TextBox ID="txt_bocamercado" runat="server" readonly="true" BackColor="#CCCCCC"></asp:TextBox></td>
-            <td style="width: 20%;">&nbsp</td>
+            <td style="width: 50%;">&nbsp</td>
         </tr>
 
         <tr>
             <td><asp:Label ID="lbl_bocaempresa" runat="server" Text="Label"></asp:Label></td>
+            <td>$</td>
             <td><asp:TextBox ID="txt_bocaempresa" runat="server" ReadOnly="true" BackColor="#CCCCCC"></asp:TextBox></td>
-            <td style="width: 20%;">&nbsp</td>
+            <td style="width: 50%;">&nbsp</td>
         </tr>
 
         
         <tr>
             <td><asp:Label ID="lbl_bocaextraordinaria" runat="server" Text="Label"></asp:Label></td>
+            <td>$</td>
             <td><asp:TextBox ID="txt_bocaextraordinaria" runat="server" ReadOnly="true" BackColor="#CCCCCC"></asp:TextBox></td>
-            <td style="width: 20%;">&nbsp</td>
+            <td style="width: 50%;">&nbsp</td>
         </tr>
     </table>
 

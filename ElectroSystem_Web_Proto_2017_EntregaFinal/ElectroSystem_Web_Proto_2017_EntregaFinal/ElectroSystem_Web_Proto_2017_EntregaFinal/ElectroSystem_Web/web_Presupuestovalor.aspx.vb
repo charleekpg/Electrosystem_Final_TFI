@@ -17,7 +17,6 @@
                         DirectCast(Me.Master, General_Electrosystem).Deshabilitar_Controles(Me.Controls)
                         Session.Add("Entero_Flag", entero_flag)
                         DirectCast(Me.Master, General_Electrosystem).traducir_grilla(grd_presupuesto_final)
-                        cargar_partidos()
                         btn_cancelarpres_Click(Nothing, Nothing)
                     Else
                         Response.Redirect("web_login.aspx", False)
@@ -174,34 +173,47 @@
         cbx_localidad.Enabled = False
         cbx_parti.Enabled = False
         Session("Calculado") = 0
+        cargar_partidos()
     End Sub
 
     Sub cargar_presupuestos_estado()
         Try
+            cmb_presupuesto.Items.Clear()
+            cmb_presupuesto.DataSource = Nothing
+            cmb_presupuesto.DataBind()
             Dim bll_presupuesto As New BLL.BLL_Presupuesto
             Dim presupuesto As New BE.BE_Presupuesto
-            Dim LISTA_PRESUPUESTO As List(Of BE.BE_Presupuesto)
-            Dim lista_presupuestos_final As List(Of BE.BE_Presupuesto)
+            Dim lista_comercial As List(Of BE.BE_Presupuesto)
+            Dim lista_cerrado As List(Of BE.BE_Presupuesto)
+            Dim lista_presupuestos_final As New List(Of BE.BE_Presupuesto)
             Session("Lista_Presupuestos_1") = Nothing
             presupuesto.estado_presupuesto = "Pendiente de llenado por parte del Responsable Comercial"
-            Session("Lista_Presupuestos_1") = bll_presupuesto.consultar_varios(presupuesto)
+            lista_comercial = bll_presupuesto.consultar_varios(presupuesto)
             presupuesto.estado_presupuesto = "Cerrado"
-            LISTA_PRESUPUESTO = bll_presupuesto.consultar_varios(presupuesto)
-            If LISTA_PRESUPUESTO.Count > 0 Then
-                lista_presupuestos_final = Session("Lista_Presupuestos_1")
-                For Each elemento As BE.BE_Presupuesto In LISTA_PRESUPUESTO
+            lista_cerrado = bll_presupuesto.consultar_varios(presupuesto)
+            If Not lista_comercial Is Nothing Then
+                For Each elemento As BE.BE_Presupuesto In lista_comercial
                     lista_presupuestos_final.Add(elemento)
                 Next
-                lista_presupuestos_final.Sort(Function(x, y) x.id.CompareTo(y.id))
             End If
-            cmb_presupuesto.Enabled = True
-            cmb_presupuesto.DataSource = Session("Lista_Presupuestos_1")
-            cmb_presupuesto.DataValueField = "id"
-            cmb_presupuesto.DataBind()
-            If CType(Session("Lista_Presupuestos_1"), List(Of BE.BE_Presupuesto)).Count = 0 Then
-                btn_cargar_presupuesto.Enabled = False
-            Else
+            If Not lista_cerrado Is Nothing Then
+                For Each elemento As BE.BE_Presupuesto In lista_cerrado
+                    lista_presupuestos_final.Add(elemento)
+                Next
+            End If
+            Session("Lista_Presupuestos_1") = lista_presupuestos_final
+            If lista_presupuestos_final.Count > 0 Then
+                lista_presupuestos_final.Sort(Function(x, y) x.id.CompareTo(y.id))
+                cmb_presupuesto.Enabled = True
+                cmb_presupuesto.DataSource = Session("Lista_Presupuestos_1")
+                cmb_presupuesto.DataValueField = "id"
+                cmb_presupuesto.DataBind()
                 btn_cargar_presupuesto.Enabled = True
+            Else
+                btn_cargar_presupuesto.Enabled = False
+                cmb_presupuesto.Enabled = False
+                cmb_presupuesto.Items.Add("N/A")
+                cmb_presupuesto.DataBind()
             End If
         Catch ex As Exception
             Response.Redirect("web_error_inicio.aspx", False)
@@ -234,15 +246,18 @@
                 If presupuesto.porcentaje_aldarluz > 0 Then
                     chk_cobroadel.Checked = True
                     txt_poradelanto.Text = presupuesto.porcentaje_aldarluz
+                    txt_poradelanto.Enabled = True
                 End If
                 chk_actuaindice.Checked = presupuesto.actualizaicac
                 If presupuesto.valor_seguro_vida > 0 Then
                     chk_preciosegvida.Checked = True
                     txt_valorseg.Text = presupuesto.valor_seguro_vida
+                    txt_valorseg.Enabled = True
                 End If
                 If presupuesto.valor_otros > 0 Then
                     chk_viatico.Checked = True
                     txt_valorvia.Text = presupuesto.valor_otros
+                    txt_valorvia.Enabled = True
                 End If
 
                 Dim grilla As New grilla
@@ -258,7 +273,13 @@
                 grilla.valor_material = presupuesto.valor_material
                 grilla.valor_otros = presupuesto.valor_otros
                 grilla.valor_trabajoconprecio = presupuesto.valor_trabajoconprecio
+                grilla.valor_total = presupuesto.valor_total
+                chk_viatico.Enabled = True
+                chk_actuaindice.Enabled = True
+                chk_preciosegvida.Enabled = True
+                chk_cobroadel.Enabled = True
                 lista_grilla.Add(grilla)
+
                 grd_presupuesto_final.DataSource = lista_grilla
                 grd_presupuesto_final.DataBind()
             End If
@@ -379,6 +400,7 @@
             grilla.valor_material = presupuesto.valor_material
             grilla.valor_otros = presupuesto.valor_otros
             grilla.valor_trabajoconprecio = presupuesto.valor_trabajoconprecio
+            grilla.valor_total = presupuesto.valor_total
             lista_grilla.Add(grilla)
             grd_presupuesto_final.DataSource = lista_grilla
             grd_presupuesto_final.DataBind()
@@ -411,8 +433,9 @@
                         be_bitacora.codigo_evento = 10153
                         be_bitacora.usuario = Session("Usuario")
                         bll_bitacora.alta(be_bitacora)
-                        DirectCast(Me.Master, General_Electrosystem).mostrarmodal("msg_actrcome")
                         btn_cancelarpres_Click(Nothing, Nothing)
+                        DirectCast(Me.Master, General_Electrosystem).mostrarmodal("msg_actrcome")
+
                     Case 10154
                         be_bitacora.codigo_evento = 10154
                         be_bitacora.usuario = Session("Usuario")

@@ -14,12 +14,22 @@ Public Class DAL_Telefono
         Try
             For Each tel As BE.BE_Telefono In unbe.Telefonos
                 If tel.eliminar = False Then
-                    Dim P(0) As SqlParameter
-                    lista_parametros.Clear()
-                    P(0) = sqlhelper.BuildParameter("@P1", tel.numero_telefono)
-                    lista_parametros.AddRange(P)
-                    mapper_stores.insertar_eliminar_modificar("alta_telefonoid", lista_parametros)
+                    If unbe.id > 0 Then
+                        Dim P(1) As SqlParameter
+                        lista_parametros.Clear()
+                        P(0) = sqlhelper.BuildParameter("@P1", tel.numero_telefono)
+                        P(1) = sqlhelper.BuildParameter("@P2", unbe.id)
+                        lista_parametros.AddRange(P)
+                        mapper_stores.insertar_eliminar_modificar("alta_telefonoidpersona", lista_parametros)
+                    Else
+                        Dim P(0) As SqlParameter
+                        lista_parametros.Clear()
+                        P(0) = sqlhelper.BuildParameter("@P1", tel.numero_telefono)
+                        lista_parametros.AddRange(P)
+                        mapper_stores.insertar_eliminar_modificar("alta_telefonoid", lista_parametros)
+                    End If
                 Else
+
                     GoTo 1
                 End If
 1:          Next

@@ -18,6 +18,7 @@
                         DirectCast(Me.Master, General_Electrosystem).traducir_grilla(dtg_evaluarplano)
                         formato_inicial()
                         Session.Add("Entero_Flag", entero_flag)
+                        btn_cancelar_Click(Nothing, Nothing)
                     Else
                         Response.Redirect("web_login.aspx", False)
                     End If
@@ -303,9 +304,10 @@
                         resultado = False
                         lbl_ambiente_anotacion.Text = DirectCast(Me.Master, General_Electrosystem).Traductora("msg_dibujoincorrecto") & " " & be_dibujotecnico.descripcion
                     End If
-                    DirectCast(Me.Master, General_Electrosystem).mostrarmodal("msg_planofail")
                     dtg_evaluarplano.DataSource = lista_grillaevaluar
                     dtg_evaluarplano.DataBind()
+                    DirectCast(Me.Master, General_Electrosystem).mostrarmodal("msg_planofail")
+
                 End If
                 Session("Evaluado") = True
             Else
@@ -335,8 +337,9 @@
                 Else
                     be_bitacora.codigo_evento = 10165
                     bll_bitacora.alta(be_bitacora)
-                    DirectCast(Me.Master, General_Electrosystem).mostrarmodal("msg_planoguardadook", entero)
                     formato_inicial()
+                    DirectCast(Me.Master, General_Electrosystem).mostrarmodal("msg_planoguardadook", entero)
+
                 End If
             Else
                 DirectCast(Me.Master, General_Electrosystem).mostrarmodal("msg_faltaevaluar")

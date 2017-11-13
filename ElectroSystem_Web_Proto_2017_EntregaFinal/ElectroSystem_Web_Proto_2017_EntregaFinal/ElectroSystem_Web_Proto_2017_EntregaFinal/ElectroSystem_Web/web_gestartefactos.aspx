@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="vb" AutoEventWireup="false" MasterPageFile="~/General_Electrosystem.Master" CodeBehind="web_gestartefactos.aspx.vb" Inherits="ElectroSystem_Web.web_gestartefactos" UICulture="en-Us" Culture="en-Us"%>
+﻿<%@ Page Title="" Language="vb" AutoEventWireup="false" MasterPageFile="~/General_Electrosystem.Master" CodeBehind="web_gestartefactos.aspx.vb" Inherits="ElectroSystem_Web.web_gestartefactos"%>
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
   <script lang="JavaScript">
      function isNumberKey(evt) {
@@ -33,18 +33,21 @@
 <table style="border-collapse: collapse;    border-spacing: 0;    width: 100%;    border: 0px;">
     <tr>
         <td><asp:Label ID="lbl_artefacto" runat="server" Text="Label"></asp:Label></td>
+        <td>&nbsp</td>
         <td><asp:TextBox ID="txt_descripcionartefacto" runat="server" MaxLength="20" onkeypress="return soloLetras(event)"></asp:TextBox></td>
-        <td style="width: 20%;">&nbsp</td>
+        <td style="width: 50%;">&nbsp</td>
     </tr>
     <tr>
         <td><asp:RadioButton ID="lbl_relacionboca" runat="server" AutoPostBack="True" /></td>
+        <td>&nbsp;</td>
         <td><asp:TextBox ID="num_relacionboca" runat="server" onkeypress="return isNumberKey(event)" MaxLength="8" ></asp:TextBox></td>
-        <td style="width: 20%;">&nbsp</td>
+        <td style="width: 50%;">&nbsp</td>
     </tr>
     <tr>
         <td><asp:RadioButton ID="lbl_precio" runat="server" AutoPostBack="True" /></td>
+        <td>$</td>
         <td><asp:TextBox ID="num_precio2" runat="server" onkeypress="return isNumberKey(event)" MaxLength="8"></asp:TextBox></td>
-        <td style="width: 20%;">&nbsp</td>
+        <td style="width: 50%;">&nbsp</td>
     </tr>
 </table>      
         

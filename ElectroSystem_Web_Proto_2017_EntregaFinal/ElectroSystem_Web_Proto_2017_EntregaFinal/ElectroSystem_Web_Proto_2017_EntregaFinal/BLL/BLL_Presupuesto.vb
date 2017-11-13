@@ -1,14 +1,6 @@
 
 	Public Class BLL_Presupuesto
 
-
-    Public m_BE_Bitacora As BE.BE_Bitacora
-		Public m_BLL_Bitacora As BLL.BLL_Bitacora
-		Public m_Criptografia As Seguridad.Criptografia
-		Public m_DAL_Presupuesto As DAL.DAL_Presupuesto
-    Public m_BE_Presupuesto As BE.BE_Presupuesto
-
-
     Public Function evaluar_presupuestovsdibujo(unbe As BE.BE_Presupuesto) As BE.BE_Presupuesto
         Dim cantidad_dispositivos_presupuesto As Integer = 0
         cantidad_dispositivos_presupuesto = Me.contar_cantidaddispositivos(unbe)
@@ -129,10 +121,13 @@
 
     Public Sub calcularvalores(ByVal unbe As BE.BE_Presupuesto)
         Dim bll_bocamercado As New BLL_BocaMercado
-        Dim be_bocamercado As BE.BE_BocaMercado
         Dim bocas As List(Of BE.BE_BocaMercado)
         Dim cantidad_bocas As Decimal = 0
         bocas = bll_bocamercado.consultartodos()
+        unbe.valor_trabajoconprecio = 0
+        unbe.valor_material = 0
+        unbe.valor_total = 0
+        unbe.valor_manodeobra = 0
         If Not unbe.Materiales_trabajo Is Nothing Then
             For Each trabajo As BE.BE_Material_TrabajoconPrec In unbe.Materiales_trabajo
                 trabajo.precio_cantidad = trabajo.cantidad * trabajo.Precio
@@ -175,7 +170,7 @@
                 unbe.valor_manodeobra = 0
         End Select
         Me.calculo_valordinamico(unbe)
-        Me.guardar_estado_cliente(unbe)
+        ' Me.guardar_estado_cliente(unbe)
     End Sub
 
     ''' 
@@ -243,25 +238,13 @@
         Dim dal_consultar As New DAL.DAL_Presupuesto
         Return dal_consultar.consultar(unbe)
     End Function
-    'esta función no va a estar!! ya que se va a consultar en base la selección del usuario.
+
     Function consultar_ultimo_comercial(ByVal unbe As BE.BE_Presupuesto) As BE.BE_Presupuesto
         Dim dal_consultar As New DAL.DAL_Presupuesto
         Return dal_consultar.consultar_ultimo_comercial(unbe)
     End Function
     ''' 
-    ''' <param name="unbe"></param>
-    Public Function consultar_trabajo(ByVal unbe As BE.BE_Presupuesto) As BE.BE_Presupuesto
-        consultar_trabajo = Nothing
-    End Function
 
-    ''' 
-    ''' <param name="unbe"></param>
-    Public Function consultar_valortotal(ByVal unbe As BE.BE_Presupuesto) As Integer
-        consultar_valortotal = 0
-    End Function
-
-    ''' 
-    ''' <param name="unbe"></param>
     Public Function consultar_varios(ByVal unbe As BE.BE_Presupuesto) As List(Of BE.BE_Presupuesto)
         Dim dal_presupuesto As New DAL.DAL_Presupuesto
         Dim seguridad As New SEGURIDAD.Criptografia
@@ -274,7 +257,7 @@
             For Each presu As BE.BE_Presupuesto In listadepresupuesto
                 presu.estado_presupuesto = seguridad.descifrar(presu.estado_presupuesto)
                 consulta_dom_plano(presu)
-                If presu.estado_presupuesto = "Pendiente de llenado por parte del Responsable Comercial" Then
+                If presu.estado_presupuesto = "Pendiente de llenado por parte del Responsable Comercial" Or presu.estado_presupuesto = "Cerrado" Then
                     dal_presupuesto.consulta_artefactos_presupuesto(presu)
                     dal_presupuesto.consulta_material_presupuesto(presu)
                     dal_presupuesto.consulta_trabajo_presupuesto(presu)
@@ -285,27 +268,12 @@
 
     End Function
 
-    Public Function consultartodos() As List(Of BE.BE_Presupuesto)
-        consultartodos = Nothing
-    End Function
-
-
-
-    ''' 
-    ''' <param name="unbe"></param>
-    Public Function envio_presupuesto_mail(ByVal unbe As BE.BE_Presupuesto) As Boolean
-        envio_presupuesto_mail = False
-    End Function
-
-    ''' <param name="unbe"></param>
     Public Function generar_solicitudpresupuesto(ByVal unbe As BE.BE_Presupuesto) As Integer
         administrar_estado(unbe)
         Dim dal_presupuesto As New DAL.DAL_Presupuesto
         Return dal_presupuesto.generar_solicitudpresupuesto(unbe)
     End Function
 
-    ''' 
-    ''' <param name="unbe"></param>
     Public Function guardar_estado_cliente(ByVal unbe As BE.BE_Presupuesto) As Integer
         Dim dal_presupuesto As New DAL.DAL_Presupuesto
         Dim cifrado As New SEGURIDAD.Criptografia
@@ -325,8 +293,6 @@
         
     End Function
 
-    ''' 
-    ''' <param name="unbe"></param>
     Public Function modificar(ByVal unbe As BE.BE_Presupuesto) As Integer
         Dim dal_presupuesto As New DAL.DAL_Presupuesto
         Dim Bitacora As New BE.BE_Bitacora
@@ -349,6 +315,6 @@
     End Function
 
 
-End Class ' BLL_Presupuesto
+End Class
 
 

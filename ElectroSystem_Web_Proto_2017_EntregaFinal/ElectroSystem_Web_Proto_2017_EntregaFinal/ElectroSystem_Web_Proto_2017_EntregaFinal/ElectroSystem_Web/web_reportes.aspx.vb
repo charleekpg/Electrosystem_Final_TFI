@@ -18,6 +18,8 @@
                         DirectCast(Me.Master, General_Electrosystem).traductora_controles(Me.Controls)
                         DirectCast(Me.Master, General_Electrosystem).Deshabilitar_Controles(Me.Controls)
                         formato_inicial()
+                        chart_top5.DataBind()
+                        chart_clicritico.DataBind()
                     Else
 
                         Response.Redirect("web_login.aspx", False)
@@ -32,12 +34,67 @@
     End Sub
 
     Private Sub cargar_cbx()
+        Dim indice As Integer = 0
         cbx_top5.Items.Clear()
         cbx_top5.Items.Add(DirectCast(Me.Master, General_Electrosystem).Traductora("top5artefacto"))
         cbx_top5.Items.Add(DirectCast(Me.Master, General_Electrosystem).Traductora("top5trabajos"))
         cbx_top5.Items.Add(DirectCast(Me.Master, General_Electrosystem).Traductora("top5materiales"))
-        cbx_top5.SelectedIndex = 0
         cbx_top5.DataBind()
+        cbx_top5.SelectedIndex = 0
+        Dim be_reporte As New BE.BE_Reporting
+        Dim bll_reporte As New BLL.BLL_Reporting
+        be_reporte.top5artefacto = True
+        be_reporte = bll_reporte.reporte(be_reporte)
+        If Not be_reporte.artefactos Is Nothing Then
+            For Each artefacto As BE.BE_ArtefactoElectrico In be_reporte.artefactos
+                Me.chart_top5.Series(0).Points.AddXY(artefacto.descripcion, artefacto.precio)
+                Me.chart_top5.Series(0).Points(indice).AxisLabel = "$" & artefacto.precio
+                Me.chart_top5.Series(0).Points(indice).LegendText = artefacto.descripcion
+                Me.chart_top5.Series(0).Points(indice).IsVisibleInLegend = True
+                indice = indice + 1
+            Next
+        Else
+            cbx_top5.SelectedIndex = 1
+            be_reporte.top5trabajo = True
+            be_reporte = bll_reporte.reporte(be_reporte)
+            If Not be_reporte.trabajos Is Nothing Then
+                For Each trabajo As BE.BE_Material_TrabajoconPrec In be_reporte.trabajos
+                    Me.chart_top5.Series(0).Points.AddXY(trabajo.Descripcion, trabajo.Precio)
+                    Me.chart_top5.Series(0).Points(indice).AxisLabel = "$" & trabajo.Precio
+                    Me.chart_top5.Series(0).Points(indice).LegendText = trabajo.Descripcion
+                    Me.chart_top5.Series(0).Points(indice).IsVisibleInLegend = True
+                    indice = indice + 1
+                Next
+                cbx_top5.SelectedIndex = 2
+            Else
+                cbx_top5.SelectedIndex = 2
+                be_reporte.top5material = True
+                be_reporte = bll_reporte.reporte(be_reporte)
+                If Not be_reporte.materiales Is Nothing Then
+                    For Each material As BE.BE_Material_TrabajoconPrec In be_reporte.materiales
+                        Me.chart_top5.Series(0).Points.AddXY(material.Descripcion, material.Precio)
+                        Me.chart_top5.Series(0).Points(indice).AxisLabel = "$" & material.Precio
+                        Me.chart_top5.Series(0).Points(indice).LegendText = material.Descripcion
+                        Me.chart_top5.Series(0).Points(indice).IsVisibleInLegend = True
+                        indice = indice + 1
+                    Next
+                Else
+                    Me.chart_top5.Series(0).Points.AddXY("No Data", 100)
+                    Me.chart_top5.Series(0).Points(indice).AxisLabel = "No Data"
+                    Me.chart_top5.Series(0).Points(indice).LegendText = "No Data"
+                    Me.chart_top5.Series(0).Points(indice).IsVisibleInLegend = True
+                    indice = indice + 1
+                End If
+            End If
+        End If
+        chart_top5.DataBind()
+        indice = 0
+        Me.chart_clicritico.Series(0).Points.AddXY("No Data", 100)
+        Me.chart_clicritico.Series(0).Points(indice).LegendText = "No Data"
+        Me.chart_clicritico.Series(0).Points(indice).AxisLabel = "No Data"
+        Me.chart_clicritico.Series(0).Points(indice).IsVisibleInLegend = True
+        chart_clicritico.DataBind()
+
     End Sub
 
 
@@ -90,6 +147,7 @@
     Private Sub cbx_top5_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cbx_top5.SelectedIndexChanged
         Try
             chart_top5.Series(0).Points.Clear()
+            chart_top5.DataBind()
             Dim be_reporte As New BE.BE_Reporting
             Dim bll_reporte As New BLL.BLL_Reporting
             Dim indice As Integer = 0
@@ -134,6 +192,8 @@
                     End If
                 End If
             End If
+            chart_top5.DataBind()
+
         Catch ex As Exception
             Response.Redirect("web_error_inicio.aspx", False)
 
@@ -198,6 +258,7 @@
                     End If
                 Next
             End If
+            chart_clicritico.DataBind()
         Catch ex As Exception
             Response.Redirect("web_error_inicio.aspx", False)
         End Try

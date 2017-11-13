@@ -1,6 +1,6 @@
 ﻿<%@ Page Title="" Language="vb" AutoEventWireup="false" MasterPageFile="~/General_Electrosystem.Master" CodeBehind="web_gestiontecnica.aspx.vb" Inherits="ElectroSystem_Web.web_gestiontecnica" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
-  <script lang="JavaScript">
+    <script lang="JavaScript">
       function isNumberint(evt) {
           var charCode = (evt.which) ? evt.which : evt.keyCode;
           if (charCode < 48 || charCode > 57)
@@ -117,7 +117,7 @@
         <Columns>
             <asp:BoundField DataField="col_descripcion" FooterText="col_descripcion" HeaderText="col_descripcion" />
             <asp:BoundField DataField="col_cantidad" FooterText="col_cantidad" HeaderText="col_cantidad" />
-            <asp:BoundField DataField="col_precio" FooterText="col_preciounit" HeaderText="col_preciounit" />
+            <asp:BoundField DataField="col_precio" FooterText="col_preciounit" HeaderText="col_preciounit" DataFormatString="{0:c}" />
             <asp:BoundField DataField="col_tipo" FooterText="col_tipo" HeaderText="col_tipo" visible="false"/>
             <asp:BoundField DataField="col_id" FooterText="col_id" HeaderText="col_id" Visible="False" />
         </Columns>

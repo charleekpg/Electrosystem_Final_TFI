@@ -21,6 +21,7 @@
                         Session.Add("Entero_Flag", entero_flag)
                         DirectCast(Me.Master, General_Electrosystem).traducir_grilla(dtg_trabajo_material)
                         cargarmaterial_trabajo()
+                        btn_cancelartrab_Click(Nothing, Nothing)
                     Else
                         Response.Redirect("web_login.aspx", False)
                     End If
@@ -35,6 +36,7 @@
 
     Sub cargarmaterial_trabajo()
         Try
+            dtg_trabajo_material.SelectedIndex = -1
             Dim bll_material_trabajo As New BLL.BLL_Material_TrabajoconPrec
             Dim lista As List(Of BE.BE_Material_TrabajoconPrec) = bll_material_trabajo.consultartodos()
             listado.Clear()
@@ -106,8 +108,9 @@
 
         Try
             If String.IsNullOrWhiteSpace(txt_descripcion.Text) = True Then
-                DirectCast(Me.Master, General_Electrosystem).mostrarmodal("msg_camposincompletos")
                 cargarmaterial_trabajo()
+                DirectCast(Me.Master, General_Electrosystem).mostrarmodal("msg_camposincompletos")
+
             Else
                 Dim be_etiqueta As New BE.BE_Etiqueta
                 Dim bll_etiqueta As New BLL.BLL_Etiqueta
@@ -116,14 +119,16 @@
                 Dim bll_bitacora As New BLL.BLL_Bitacora
                 Select Case txt_descripcion.Text
                     Case ""
-                        DirectCast(Me.Master, General_Electrosystem).mostrarmodal("msg_camposincompletos")
                         cargarmaterial_trabajo()
+                        DirectCast(Me.Master, General_Electrosystem).mostrarmodal("msg_camposincompletos")
+
                     Case Else
                         If Session("Modificar") = False Then
 
                             If rdb_material.Checked = False And rdb_trabajo.Checked = False Then
-                                DirectCast(Me.Master, General_Electrosystem).mostrarmodal("msg_faltardb")
                                 cargarmaterial_trabajo()
+                                DirectCast(Me.Master, General_Electrosystem).mostrarmodal("msg_faltardb")
+
                             Else
 
                                 Dim be_material_trabajo As New BE.BE_Material_TrabajoconPrec
@@ -132,8 +137,9 @@
                                 be_material_trabajo.Descripcion = txt_descripcion.Text
                                 be_material_trabajo.Precio = num_precio.Text
                                 If num_precio.Text <= 0 Then
-                                    DirectCast(Me.Master, General_Electrosystem).mostrarmodal("msg_valorcero")
                                     cargarmaterial_trabajo()
+                                    DirectCast(Me.Master, General_Electrosystem).mostrarmodal("msg_valorcero")
+
                                     GoTo 1
                                 Else
                                     Select Case bll_material_trabajo.alta(be_material_trabajo)
@@ -141,14 +147,16 @@
                                             be_bitacora.codigo_evento = 10110
                                             be_bitacora.usuario = Session("Usuario")
                                             bll_bitacora.alta(be_bitacora)
-                                            DirectCast(Me.Master, General_Electrosystem).mostrarmodal("msg_altacorrecta")
                                             cargarmaterial_trabajo()
+                                            DirectCast(Me.Master, General_Electrosystem).mostrarmodal("msg_altacorrecta")
+
                                         Case 10112
                                             be_bitacora.codigo_evento = 10112
                                             be_bitacora.usuario = Session("Usuario")
                                             bll_bitacora.alta(be_bitacora)
-                                            DirectCast(Me.Master, General_Electrosystem).mostrarmodal("msg_material_trabajo_existente")
                                             cargarmaterial_trabajo()
+                                            DirectCast(Me.Master, General_Electrosystem).mostrarmodal("msg_material_trabajo_existente")
+
                                         Case 10111
                                             be_bitacora.codigo_evento = 10111
                                             be_bitacora.usuario = Session("Usuario")
@@ -171,8 +179,9 @@
                             elemento_seleccionado.Descripcion = txt_descripcion.Text
                             elemento_seleccionado.Precio = num_precio.Text
                             If num_precio.Text <= 0 Then
-                                DirectCast(Me.Master, General_Electrosystem).mostrarmodal("msg_valorcero")
                                 cargarmaterial_trabajo()
+                                DirectCast(Me.Master, General_Electrosystem).mostrarmodal("msg_valorcero")
+
                                 GoTo 1
                             Else
                                 Select Case bll_material_trabajo.modificar(elemento_seleccionado)
@@ -180,14 +189,16 @@
                                         be_bitacora.codigo_evento = 10113
                                         be_bitacora.usuario = Session("Usuario")
                                         bll_bitacora.alta(be_bitacora)
-                                        DirectCast(Me.Master, General_Electrosystem).mostrarmodal("msg_modificaok")
                                         cargarmaterial_trabajo()
+                                        DirectCast(Me.Master, General_Electrosystem).mostrarmodal("msg_modificaok")
+
                                     Case 10112
                                         be_bitacora.codigo_evento = 10112
                                         be_bitacora.usuario = Session("Usuario")
                                         bll_bitacora.alta(be_bitacora)
-                                        DirectCast(Me.Master, General_Electrosystem).mostrarmodal("msg_material_trabajo_existente")
                                         cargarmaterial_trabajo()
+                                        DirectCast(Me.Master, General_Electrosystem).mostrarmodal("msg_material_trabajo_existente")
+
                                     Case 10114
                                         be_bitacora.codigo_evento = 10114
                                         be_bitacora.usuario = Session("Usuario")
@@ -224,8 +235,8 @@
                 rdb_trabajo.Checked = True
                 rdb_material.Checked = False
             End If
-            rdb_material.Enabled = True
-            rdb_trabajo.Enabled = True
+            rdb_material.Enabled = False
+            rdb_trabajo.Enabled = False
             btn_nuevotrab.Enabled = False
             btn_cancelartrab.Enabled = True
             btn_guardartrab.Enabled = True

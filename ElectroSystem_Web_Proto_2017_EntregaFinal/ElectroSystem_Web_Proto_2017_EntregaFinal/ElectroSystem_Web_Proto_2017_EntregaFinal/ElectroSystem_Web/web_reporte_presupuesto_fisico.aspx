@@ -13,6 +13,9 @@
     <form id="form1" runat="server">
     <div>
     
+        <asp:ScriptManager ID="ScriptManager1" runat="server">
+        </asp:ScriptManager>
+    
         <rsweb:ReportViewer ID="ReportViewer1" runat="server" Font-Names="Verdana" Font-Size="8pt" WaitMessageFont-Names="Verdana" WaitMessageFont-Size="14pt">
             <LocalReport ReportPath="Reporte\Reporte_Presupuesto_Persona_Fisica.rdlc">
                 <DataSources>

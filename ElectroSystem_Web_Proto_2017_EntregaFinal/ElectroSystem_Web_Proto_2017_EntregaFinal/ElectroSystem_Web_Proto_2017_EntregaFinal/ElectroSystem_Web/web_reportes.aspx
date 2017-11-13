@@ -7,13 +7,18 @@
               <br>
         <asp:DropDownList ID="cbx_top5" runat="server" AutoPostBack="True"></asp:DropDownList>
          <br>
-        <asp:Chart ID="chart_top5" runat="server">
+        <br>
+        <asp:Chart ID="chart_top5" runat="server" BackColor="230, 230, 230" BorderlineColor="Transparent">
             <Series>
-                <asp:Series Name="Series1" ChartType="Pie"></asp:Series>
+                <asp:Series Name="Series1" ChartType="Pie" Legend="Legend1"></asp:Series>
             </Series>
             <ChartAreas>
-                <asp:ChartArea Name="ChartArea1"></asp:ChartArea>
+                <asp:ChartArea Name="ChartArea1" BackColor="230, 230, 230"></asp:ChartArea>
             </ChartAreas>
+            <Legends>
+                <asp:Legend Name="Legend1" BackColor="230, 230, 230">
+                </asp:Legend>
+            </Legends>
         </asp:Chart>
              <br>
         <br>
@@ -32,13 +37,17 @@
         <br>
         <asp:Button ID="btn_clientecrit" runat="server" Text="Button" />
         <br> 
-        <asp:Chart ID="chart_clicritico" runat="server">
+        <asp:Chart ID="chart_clicritico" runat="server" BackColor="230, 230, 230">
             <Series>
-                <asp:Series Name="Series1" IsVisibleInLegend="False" LabelBackColor="224, 224, 224" LabelForeColor="Silver"></asp:Series>
+                <asp:Series Name="Series1" IsVisibleInLegend="False" LabelBackColor="224, 224, 224" LabelForeColor="Silver" Legend="Legend1"></asp:Series>
             </Series>
             <ChartAreas>
-                <asp:ChartArea Name="ChartArea1"></asp:ChartArea>
+                <asp:ChartArea Name="ChartArea1" BackColor="230, 230, 230"></asp:ChartArea>
             </ChartAreas>
+            <Legends>
+                <asp:Legend Name="Legend1" BackColor="230, 230, 230">
+                </asp:Legend>
+            </Legends>
         </asp:Chart>
         <br>
         

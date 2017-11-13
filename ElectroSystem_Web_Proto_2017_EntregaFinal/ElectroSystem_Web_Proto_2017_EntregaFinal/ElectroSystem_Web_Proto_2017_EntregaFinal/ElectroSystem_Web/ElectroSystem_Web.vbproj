@@ -133,7 +133,6 @@
     <Content Include="Web_Inicio.aspx" />
     <Content Include="web_permisos.aspx" />
     <Content Include="web_Presupuestovalor.aspx" />
-    <Content Include="web_prueba.aspx" />
     <Content Include="web_reportes.aspx" />
     <Content Include="web_reporte_presupuesto_fisico.aspx" />
     <Content Include="web_reporte_presupuesto_juridica.aspx" />
@@ -160,6 +159,13 @@
     </Compile>
     <Compile Include="General_Electrosystem.Master.vb">
       <DependentUpon>General_Electrosystem.Master</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="General_Error_Master.master.designer.vb">
+      <DependentUpon>General_Error_Master.master</DependentUpon>
+    </Compile>
+    <Compile Include="General_Error_Master.master.vb">
+      <DependentUpon>General_Error_Master.master</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="General_Inicio.Master.designer.vb">
@@ -345,13 +351,6 @@
       <DependentUpon>web_Presupuestovalor.aspx</DependentUpon>
       <SubType>ASPXCodebehind</SubType>
     </Compile>
-    <Compile Include="web_prueba.aspx.designer.vb">
-      <DependentUpon>web_prueba.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="web_prueba.aspx.vb">
-      <DependentUpon>web_prueba.aspx</DependentUpon>
-      <SubType>ASPXCodebehind</SubType>
-    </Compile>
     <Compile Include="web_reportes.aspx.designer.vb">
       <DependentUpon>web_reportes.aspx</DependentUpon>
     </Compile>
@@ -371,7 +370,7 @@
     </Compile>
     <Compile Include="web_reporte_presupuesto_juridica.aspx.vb">
       <DependentUpon>web_reporte_presupuesto_juridica.aspx</DependentUpon>
-      <SubType>ASPXCodebehind</SubType>
+      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="web_reporte_seleccion.aspx.designer.vb">
       <DependentUpon>web_reporte_seleccion.aspx</DependentUpon>
@@ -401,6 +400,7 @@
   <ItemGroup>
     <Content Include="General_Electrosystem.Master" />
     <Content Include="General_Inicio.Master" />
+    <Content Include="General_Error_Master.master" />
     <None Include="My Project\Application.myapp">
       <Generator>MyApplicationCodeGenerator</Generator>
       <LastGenOutput>Application.Designer.vb</LastGenOutput>

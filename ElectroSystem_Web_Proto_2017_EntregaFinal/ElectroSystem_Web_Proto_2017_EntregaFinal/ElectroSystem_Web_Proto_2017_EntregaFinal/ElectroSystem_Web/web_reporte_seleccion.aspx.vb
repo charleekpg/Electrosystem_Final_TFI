@@ -30,26 +30,36 @@
     Sub cargar_presupuestos_estado()
         Try
             Dim bll_presupuesto As New BLL.BLL_Presupuesto
+            Session("Lista_Presupuestos_1") = Nothing
             Dim presupuesto As New BE.BE_Presupuesto
             Dim LISTA_PRESUPUESTO As List(Of BE.BE_Presupuesto)
-            Dim lista_presupuestos_final As List(Of BE.BE_Presupuesto)
+            Dim lista_presupuestos_final As New List(Of BE.BE_Presupuesto)
             presupuesto.estado_presupuesto = "Cerrado"
             LISTA_PRESUPUESTO = bll_presupuesto.consultar_varios(presupuesto)
-            If LISTA_PRESUPUESTO.Count > 0 Then
-                lista_presupuestos_final = Session("Lista_Presupuestos_1")
-                For Each elemento As BE.BE_Presupuesto In LISTA_PRESUPUESTO
-                    lista_presupuestos_final.Add(elemento)
-                Next
-                lista_presupuestos_final.Sort(Function(x, y) x.id.CompareTo(y.id))
-            End If
-            cmb_presupuesto.Enabled = True
-            cmb_presupuesto.DataSource = Session("Lista_Presupuestos_1")
-            cmb_presupuesto.DataValueField = "id"
-            cmb_presupuesto.DataBind()
-            If CType(Session("Lista_Presupuestos_1"), List(Of BE.BE_Presupuesto)).Count = 0 Then
-                btn_cargar_presupuesto.Enabled = False
+            If Not LISTA_PRESUPUESTO Is Nothing Then
+                If LISTA_PRESUPUESTO.Count > 0 Then
+                    For Each elemento As BE.BE_Presupuesto In LISTA_PRESUPUESTO
+                        lista_presupuestos_final.Add(elemento)
+                    Next
+                    Session("Lista_Presupuestos_1") = lista_presupuestos_final
+
+                    lista_presupuestos_final.Sort(Function(x, y) x.id.CompareTo(y.id))
+                    cmb_presupuesto.Enabled = True
+                    cmb_presupuesto.DataSource = Session("Lista_Presupuestos_1")
+                    cmb_presupuesto.DataValueField = "id"
+                    cmb_presupuesto.DataBind()
+                    btn_cargar_presupuesto.Enabled = True
+                Else
+                    cmb_presupuesto.Enabled = False
+                    cmb_presupuesto.Items.Add("N/A")
+                    cmb_presupuesto.DataBind()
+                    btn_cargar_presupuesto.Enabled = False
+                End If 
             Else
-                btn_cargar_presupuesto.Enabled = True
+                cmb_presupuesto.Enabled = False
+                cmb_presupuesto.Items.Add("N/A")
+                cmb_presupuesto.DataBind()
+                btn_cargar_presupuesto.Enabled = False
             End If
         Catch ex As Exception
             Response.Redirect("web_error_inicio.aspx", False)
@@ -96,11 +106,9 @@
                 .Enabled = False
                 .Checked = False
             End With
-            btn_cargar_presupuesto.Enabled = True
             btn_exportarrep.Enabled = False
             btn_cancelar.Enabled = True
             Session("Presupuesto_Impresion") = Nothing
-            cmb_presupuesto.Enabled = True
         Catch ex As Exception
             Response.Redirect("web_error_inicio.aspx", False)
 
@@ -160,8 +168,7 @@
         Try
             Dim be_presupuesto As BE.BE_Presupuesto
             customizar_presupuesto()
-            be_presupuesto = CType(Session("Lista_Presupuestos_1"), List(Of BE.BE_Presupuesto)).Find(Function(x) x.id = cmb_presupuesto.SelectedItem.Text)
-            Session("Presupuesto_Impresion") = be_presupuesto
+            be_presupuesto = Session("Presupuesto_Impresion")
             If TypeOf (be_presupuesto.Cliente_Persona) Is BE.BE_Personajuridica Then
                 Response.Redirect("web_reporte_presupuesto_juridica.aspx", False)
             Else
@@ -214,6 +221,7 @@
             If Not chk_valortrabajo.Checked Then
                 be_presupuesto.valor_trabajoconprecio = -1
             End If
+            Session("Presupuesto_Impresion") = be_presupuesto
         Catch ex As Exception
             Response.Redirect("web_error_inicio.aspx", False)
         End Try

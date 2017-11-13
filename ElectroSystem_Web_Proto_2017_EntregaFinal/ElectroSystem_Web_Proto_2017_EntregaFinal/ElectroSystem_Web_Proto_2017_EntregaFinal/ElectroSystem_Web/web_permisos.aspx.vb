@@ -16,6 +16,7 @@
                         cambio = False
                         Session.Add("Cambio", cambio)
                         Me.formato_inicial()
+                        btn_cancelar_Click(Nothing, Nothing)
                     Else
                         Response.Redirect("web_login.aspx", False)
                     End If

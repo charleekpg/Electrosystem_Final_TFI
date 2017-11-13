@@ -47,23 +47,25 @@
         Try
             Dim be_bitacora As New BE.BE_Bitacora
             Dim bll_bitacora As New BLL.BLL_Bitacora
-            If num_bocamercado.Text = "0" Or num_bocamercado.Text = "" Then
+            If num_bocamercado.Text = "0" Or num_bocamercado.Text = "" Or String.IsNullOrEmpty(num_bocamercado.Text) = True Then
                 DirectCast(Me.Master, General_Electrosystem).mostrarmodal("msg_bocacero")
-                cargarbocamercado()
+                ' cargarbocamercado()
             Else
                 Dim be_bocamercado As New BE.BE_BocaMercado
                 Dim bll_bocamercado As New BLL.BLL_BocaMercado
                 be_bocamercado.precio_bocamercado = num_bocamercado.Text
                 If be_bocamercado.precio_bocamercado <= 0 Then
-                    DirectCast(Me.Master, General_Electrosystem).mostrarmodal("msg_formato")
                     cargarbocamercado()
+                    DirectCast(Me.Master, General_Electrosystem).mostrarmodal("msg_formato")
+
                 Else
                     If bll_bocamercado.modificar(be_bocamercado) = 10101 Then
                         be_bitacora.codigo_evento = 10101
                         be_bitacora.usuario = Session("Usuario")
                         bll_bitacora.alta(be_bitacora)
-                        DirectCast(Me.Master, General_Electrosystem).mostrarmodal("msg_modificarboca")
                         cargarbocamercado()
+                        DirectCast(Me.Master, General_Electrosystem).mostrarmodal("msg_modificarboca")
+
                     Else
                         be_bitacora.codigo_evento = 10102
                         be_bitacora.usuario = Session("Usuario")
@@ -73,6 +75,7 @@
                 End If
 
             End If
+
         Catch ex As Exception
             Response.Redirect("web_error_inicio.aspx", False)
         End Try

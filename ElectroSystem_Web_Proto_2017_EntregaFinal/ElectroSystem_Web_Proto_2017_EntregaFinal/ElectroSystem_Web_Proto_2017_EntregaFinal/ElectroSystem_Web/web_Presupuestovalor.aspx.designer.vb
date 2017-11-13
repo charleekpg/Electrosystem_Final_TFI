@@ -41,22 +41,13 @@ Partial Public Class web_Presupuestovalor
     Protected WithEvents btn_cargar_presupuesto As Global.System.Web.UI.WebControls.Button
 
     '''<summary>
-    '''Control grp_desdedonde.
+    '''Control lbl_partidoorigen.
     '''</summary>
     '''<remarks>
     '''Campo generado automáticamente.
     '''Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
     '''</remarks>
-    Protected WithEvents grp_desdedonde As Global.System.Web.UI.WebControls.Panel
-
-    '''<summary>
-    '''Control LBL_Parti.
-    '''</summary>
-    '''<remarks>
-    '''Campo generado automáticamente.
-    '''Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
-    '''</remarks>
-    Protected WithEvents LBL_Parti As Global.System.Web.UI.WebControls.Label
+    Protected WithEvents lbl_partidoorigen As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
     '''Control cbx_parti.
@@ -68,13 +59,13 @@ Partial Public Class web_Presupuestovalor
     Protected WithEvents cbx_parti As Global.System.Web.UI.WebControls.DropDownList
 
     '''<summary>
-    '''Control LBL_Loca.
+    '''Control lbl_localidadorigen.
     '''</summary>
     '''<remarks>
     '''Campo generado automáticamente.
     '''Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
     '''</remarks>
-    Protected WithEvents LBL_Loca As Global.System.Web.UI.WebControls.Label
+    Protected WithEvents lbl_localidadorigen As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
     '''Control cbx_localidad.
@@ -84,24 +75,6 @@ Partial Public Class web_Presupuestovalor
     '''Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
     '''</remarks>
     Protected WithEvents cbx_localidad As Global.System.Web.UI.WebControls.DropDownList
-
-    '''<summary>
-    '''Control grp_especificacionesadicionales.
-    '''</summary>
-    '''<remarks>
-    '''Campo generado automáticamente.
-    '''Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
-    '''</remarks>
-    Protected WithEvents grp_especificacionesadicionales As Global.System.Web.UI.WebControls.Panel
-
-    '''<summary>
-    '''Control chk_actuaindice.
-    '''</summary>
-    '''<remarks>
-    '''Campo generado automáticamente.
-    '''Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
-    '''</remarks>
-    Protected WithEvents chk_actuaindice As Global.System.Web.UI.WebControls.CheckBox
 
     '''<summary>
     '''Control chk_preciosegvida.
@@ -183,6 +156,15 @@ Partial Public Class web_Presupuestovalor
     '''Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
     '''</remarks>
     Protected WithEvents txt_poradelanto As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
+    '''Control chk_actuaindice.
+    '''</summary>
+    '''<remarks>
+    '''Campo generado automáticamente.
+    '''Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+    '''</remarks>
+    Protected WithEvents chk_actuaindice As Global.System.Web.UI.WebControls.CheckBox
 
     '''<summary>
     '''Control btn_calcvaltot.
